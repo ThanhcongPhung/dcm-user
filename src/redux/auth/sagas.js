@@ -7,7 +7,7 @@ import actions from '../actions';
 
 function* verifyTokenSaga({ accessToken }) {
   try {
-    const data = yield api.auth.verify(accessToken);
+    const { data } = yield api.auth.verify(accessToken);
     if (!data.status) throw new Error();
     apiConfig.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     yield put(

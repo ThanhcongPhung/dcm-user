@@ -24,7 +24,10 @@ export default function Sidebar({
   const history = useHistory();
 
   const isActiveRoute = (route) => {
-    return matchPath(location.pathname, { path: route, exact: true });
+    let routePath = route;
+    // eslint-disable-next-line prefer-destructuring
+    if (route && route.includes('?')) routePath = route.split('?')[0];
+    return matchPath(location.pathname, { path: routePath, exact: true });
   };
 
   const handleCollapseMenu = (route, index) => {
