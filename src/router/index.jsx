@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
-import Layout from '../containers/Layout';
 import appRoutes from './appRoutes';
 import { getCookie, setCookie } from '../utils/cookie';
 import actions from '../redux/actions';
@@ -15,18 +14,16 @@ const PrivateApp = () => {
   );
 
   return (
-    <Layout>
-      <Switch>
-        {privateRoutes.map((privateRoute) => (
-          <PrivateRoute
-            path={appRoutes[privateRoute].url}
-            component={appRoutes[privateRoute].component}
-            exact
-            key={appRoutes[privateRoute].url}
-          />
-        ))}
-      </Switch>
-    </Layout>
+    <Switch>
+      {privateRoutes.map((privateRoute) => (
+        <PrivateRoute
+          path={appRoutes[privateRoute].url}
+          component={appRoutes[privateRoute].component}
+          exact
+          key={appRoutes[privateRoute].url}
+        />
+      ))}
+    </Switch>
   );
 };
 

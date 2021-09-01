@@ -45,5 +45,16 @@
   "total": "Total",
   "noData": "No data",
   "MY_CAMPAIGN": "Joined",
-  "OTHER_CAMPAIGN": "Not participate"
+  "OTHER_CAMPAIGN": "Not participate",
+  "viewProgress": "View progress",
+  "endSession": "End chat",
+  "answerConfirm": "Answer confirmed",
+  "dropHeartConfirm": "Drop a heart to confirm",
+  "comment": "Comment",
+  "sendMessage": "send Message",
+  "commentMessage": "Comment Message",
+  "actionBot": "Action Bot",
+  "enterComment": "Enter comment",
+  "cancel": "Cancel",
+  "save": "Save"
 }

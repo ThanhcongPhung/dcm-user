@@ -45,6 +45,17 @@
   "total": "Tất cả",
   "noData": "Không có dữ liệu",
   "MY_CAMPAIGN": "Đã tham gia ",
-  "OTHER_CAMPAIGN": "Chưa tham gia"
+  "OTHER_CAMPAIGN": "Chưa tham gia",
+  "viewProgress": "Xem tiến độ",
+  "endSession": "Kết thúc phiên chat",
+  "answerConfirm": "Câu trả lời đã được xác nhận",
+  "dropHeartConfirm": "Thả tim để xác nhận",
+  "comment": "Góp ý cho câu trả lời",
+  "sendMessage": "Gửi tin nhắn",
+  "commentMessage": "Góp ý câu trả lời của bot",
+  "actionBot": "Câu trả lời của bot",
+  "enterComment": "Nhập góp ý",
+  "cancel": "Hủy bỏ",
+  "save": "Lưu"
 }
 
