@@ -13,6 +13,7 @@ import {
   CardContent,
   CardActions,
   Tooltip,
+  Link,
 } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import { getUrlParams } from '../../utils/object';
@@ -156,14 +157,16 @@ export default function CampaignList() {
         {campaigns.map((item) => (
           <Grid item key={item.id} xs={12} sm={6} md={6} lg={4} xl={3}>
             <Card className="card">
-              <CardMedia
-                className="cardMedia"
-                image={
-                  item.image ||
-                  `${process.env.PUBLIC_URL}/images/default-image.jpg`
-                }
-                title={item.name}
-              />
+              <Link href={`/campaigns/${item.id}`}>
+                <CardMedia
+                  className="cardMedia"
+                  image={
+                    item.image ||
+                    `${process.env.PUBLIC_URL}/images/default-image.jpg`
+                  }
+                  title={item.name}
+                />
+              </Link>
               <CardContent>
                 <Tooltip title={item.name}>
                   <Typography
@@ -172,6 +175,7 @@ export default function CampaignList() {
                     noWrap
                     gutterBottom
                     className="campaignName"
+                    onClick={() => history.push(`/campaigns/${item.id}`)}
                   >
                     {item.name}
                   </Typography>

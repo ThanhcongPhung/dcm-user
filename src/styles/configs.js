@@ -20,6 +20,7 @@ const FEATURE_COLOR = {
   mediumPurple: '#9f7aea',
 
   backgroundMenu: '#eee',
+  borderColor: '#c4c4c4',
 };
 
 const AVATAR_COLORS = [
