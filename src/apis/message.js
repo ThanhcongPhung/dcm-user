@@ -5,7 +5,7 @@ export async function getMessages() {
       result: {
         messages: [
           {
-            id: '63ae13c0-0928-4cf1-90fd-25b87155d1d2',
+            messageId: '63ae13c0-0928-4cf1-90fd-25b87155d1d2',
             app: 'bbb0c563-8a65-4c87-a99b-7d88516750f2',
             content: {
               text: 'Hi',
@@ -22,7 +22,7 @@ export async function getMessages() {
             updatedAt: '2021-03-15T07:52:01.627Z',
           },
           {
-            id: '609271e200b9030a0ae4c9b3',
+            messageId: '609271e200b9030a0ae4c9b3',
             app: 'bbb0c563-8a65-4c87-a99b-7d88516750f2',
             content: {
               attachment: {
@@ -59,7 +59,7 @@ export async function getMessages() {
             updatedAt: '2021-03-15T07:52:01.627Z',
           },
           {
-            id: '609271e400b903040de4c9b4',
+            messageId: '609271e400b903040de4c9b4',
             app: 'bbb0c563-8a65-4c87-a99b-7d88516750f2',
             content: {
               text: 'Lựa chọn 1. Kết quả xổ số Lựa chọn ',
@@ -79,7 +79,7 @@ export async function getMessages() {
             updatedAt: '2021-03-04T10:04:54.359Z',
           },
           {
-            id: '15a92735-fa9a-4174-8f4b-aa6ede744a1f',
+            messageId: '15a92735-fa9a-4174-8f4b-aa6ede744a1f',
             app: 'bbb0c563-8a65-4c87-a99b-7d88516750f2',
             content: {
               text: 'Lựa chọn 1',
@@ -96,7 +96,7 @@ export async function getMessages() {
             updatedAt: '2021-03-15T07:52:01.627Z',
           },
           {
-            id: '6092bf08772364402a63d8c6',
+            messageId: '6092bf08772364402a63d8c6',
             app: 'bbb0c563-8a65-4c87-a99b-7d88516750f2',
             content: {
               text: 'Buồn quá trời ;(',
@@ -117,7 +117,7 @@ export async function getMessages() {
           },
         ],
         metadata: {
-          total: 5,
+          total: 20,
         },
       },
     },
@@ -131,7 +131,7 @@ export async function getSkipMessage() {
       result: {
         messages: [
           {
-            id: '63ae13c0-0928-4cf1-90fd-25b87155d1d2',
+            messageId: '63ae13c0-0928-4cf1-90fd-25b87155d1as',
             app: 'bbb0c563-8a65-4c87-a99b-7d88516750f2',
             content: {
               text: 'Hi',
@@ -148,7 +148,7 @@ export async function getSkipMessage() {
             updatedAt: '2021-03-15T07:52:01.627Z',
           },
           {
-            id: '609271e200b9030a0ae4c9b3',
+            messageId: '609271e200b9030a0ae4c9b3adasdasfdf',
             app: 'bbb0c563-8a65-4c87-a99b-7d88516750f2',
             content: {
               attachment: {
@@ -185,7 +185,7 @@ export async function getSkipMessage() {
             updatedAt: '2021-03-15T07:52:01.627Z',
           },
           {
-            id: '609271e400b903040de4c9b4',
+            messageId: '609271e400b903040de4c9b4sfdsgrertyn',
             app: 'bbb0c563-8a65-4c87-a99b-7d88516750f2',
             content: {
               text: 'Lựa chọn 1. Kết quả xổ số Lựa chọn ',
@@ -205,7 +205,7 @@ export async function getSkipMessage() {
             updatedAt: '2021-03-04T10:04:54.359Z',
           },
           {
-            id: '15a92735-fa9a-4174-8f4b-aa6ede744a1f',
+            messageId: '15a92735-fa9a-4174-8f4b-aa6ede744a1frfefreg',
             app: 'bbb0c563-8a65-4c87-a99b-7d88516750f2',
             content: {
               text: 'Lựa chọn 1',
@@ -220,26 +220,6 @@ export async function getSkipMessage() {
             isFirst: false,
             confidence: 1,
             updatedAt: '2021-03-15T07:52:01.627Z',
-          },
-          {
-            id: '6092bf08772364402a63d8c6',
-            app: 'bbb0c563-8a65-4c87-a99b-7d88516750f2',
-            content: {
-              text: 'Buồn quá trời ;(',
-            },
-            createdAt: '2021-03-04T10:04:51.495Z',
-            platform: 'facebook',
-            isFirst: false,
-            confidence: 1,
-            receiver: {
-              user: '3035e617-89e2-4fca-80e1-00bb121eb72c',
-            },
-            sender: {
-              botId: '3035e617-89edddddd1eb72c',
-            },
-            sessionId: '4fb5b466-faeb-442c-be66-e12a3e7dfbd2',
-            status: 'SENT',
-            updatedAt: '2021-03-04T10:04:54.359Z',
           },
         ],
       },

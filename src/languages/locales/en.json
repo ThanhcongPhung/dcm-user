@@ -56,5 +56,10 @@
   "actionBot": "Action Bot",
   "enterComment": "Enter comment",
   "cancel": "Cancel",
-  "save": "Save"
+  "save": "Save",
+  "editIntentInfo": "Edit intent info",
+  "userSay": "UserSay",
+  "edit": "Edit",
+  "editInfo": "Edit Info",
+  "searchIntent": "Search Intent"
 }

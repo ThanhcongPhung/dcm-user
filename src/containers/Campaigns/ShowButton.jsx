@@ -21,10 +21,8 @@ export default function ShowButton({
   const handleContinue = () => {
     switch (campaignType) {
       case CAMPAIGN_TYPE.CHATBOT_USECASE:
-        history.push(`/${campaignId}/chatbot/usecase`);
-        break;
       case CAMPAIGN_TYPE.CHATBOT_INTENT:
-        history.push(`/${campaignId}/chatbot/intent`);
+        history.push(`/campaigns/${campaignId}/chatbot`);
         break;
       default:
     }

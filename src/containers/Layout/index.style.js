@@ -60,7 +60,7 @@ const AppBarStyle = styled(AppBar)`
 const ContentStyled = styled.div`
   position: relative;
   flex-grow: 1;
-  padding: 0 32px 32px 32px;
+  padding: 0 32px 10px 32px;
   margin-top: 128px;
   min-height: calc(100vh - 128px);
   box-sizing: border-box;

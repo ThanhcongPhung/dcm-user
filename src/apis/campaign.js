@@ -82,3 +82,16 @@ export async function getParticipants(campaignId) {
     return error.response;
   }
 }
+
+export async function getIntents(campaignId) {
+  try {
+    const response = await api({
+      method: 'GET',
+      url: `/campaigns/intents`,
+      headers: { 'campaign-id': campaignId },
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}

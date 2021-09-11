@@ -1,26 +1,15 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  TextField,
-  InputAdornment,
-  IconButton,
-  Popover,
-  Tooltip,
-  Icon,
-} from '@material-ui/core';
-import { EmojiEmotions } from '@material-ui/icons';
-import 'emoji-mart/css/emoji-mart.css';
-import { Picker } from 'emoji-mart';
+import { TextField, Tooltip, Icon, IconButton } from '@material-ui/core';
 import { MessageInputStyle } from './index.style';
 
 export default function MessageInput({ sendMessage }) {
   const [text, setText] = useState('');
-  const [anchorEl, setAnchorEl] = useState(null);
 
   const { t } = useTranslation();
 
   const handleSendMessage = async () => {
-    if (!text) return;
+    if (!text.trim()) return;
     sendMessage({ text });
     setText('');
   };
@@ -32,49 +21,26 @@ export default function MessageInput({ sendMessage }) {
     }
   };
 
-  const emojiMart = (
-    <Picker
-      title={t('pickEmoji')}
-      emoji="point_up"
-      color="#000034"
-      onSelect={(emoji) => setText(text + emoji.native)}
-    />
-  );
-
   return (
     <MessageInputStyle>
-      <TextField
-        multiline
-        rowsMax={2}
-        variant="outlined"
-        className="textInput"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        onKeyDown={handleKeyPress}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
-                <EmojiEmotions color="primary" />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-      />
-      <Popover
-        open={Boolean(anchorEl)}
-        anchorEl={anchorEl}
-        onClose={() => setAnchorEl(null)}
-      >
-        {emojiMart}
-      </Popover>
-      <div className="iconWrap">
-        <Tooltip title={t('sendMessage')} placement="top">
-          <Icon className="icon" color="primary" onClick={handleSendMessage}>
+      <div className="inputWrapper">
+        <TextField
+          multiline
+          fullWidth
+          maxRows={3}
+          className="textInput"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          onKeyDown={handleKeyPress}
+        />
+      </div>
+      <Tooltip title={t('sendMessage')} placement="bottom">
+        <IconButton className="iconWrap" onClick={handleSendMessage}>
+          <Icon className="icon" color="primary">
             send
           </Icon>
-        </Tooltip>
-      </div>
+        </IconButton>
+      </Tooltip>
     </MessageInputStyle>
   );
 }

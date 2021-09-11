@@ -7,7 +7,12 @@ export default function ListItemCustom({ message, children }) {
   return (
     <ListItemStyled>
       {message && message.isFirst && (
-        <Typography align="center">
+        <Typography
+          variant="caption"
+          align="center"
+          display="block"
+          className="sessionTime"
+        >
           {message.createdAt &&
             Moment(message.createdAt).format('DD.MM.YYYY HH:mm')}
         </Typography>

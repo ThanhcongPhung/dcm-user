@@ -12,6 +12,7 @@ const FEATURE_COLOR = {
   tertiary: '#91d5ff',
   divider: COLOR.gray[400],
   text: '#4a4a4a',
+  textSecondary: '#8a8d91',
 
   buttercup: '#f6a61f',
   froly: '#f16a73',

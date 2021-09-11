@@ -160,10 +160,7 @@ export default function CampaignList() {
               <Link href={`/campaigns/${item.id}`}>
                 <CardMedia
                   className="cardMedia"
-                  image={
-                    item.image ||
-                    `${process.env.PUBLIC_URL}/images/default-image.jpg`
-                  }
+                  image={item.image || '/images/default-image.jpg'}
                   title={item.name}
                 />
               </Link>

@@ -1,12 +1,22 @@
 /* eslint-disable no-console */
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, Avatar, Menu, MenuItem, Typography } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
+import {
+  Link,
+  Menu,
+  MenuItem,
+  Typography,
+  CardMedia,
+  Tooltip,
+} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+
 import { MessageHeaderStyled } from './index.style';
 
-export default function MessageHeader({ campaign }) {
+export default function MessageHeader({ campaignId, campaign }) {
+  const history = useHistory();
   const [anchorEl, setAnchorEl] = useState(null);
   const { t } = useTranslation();
 
@@ -14,18 +24,26 @@ export default function MessageHeader({ campaign }) {
   const handleClose = () => setAnchorEl(null);
 
   const handleConfirmEndChat = () => {};
+
   return (
     <MessageHeaderStyled>
-      <div className="headerTitle">
-        <Avatar
-          className="image"
-          alt="campaign name"
-          src="https://infofinance.vn/wp-content/uploads/2020/01/cach-huy-dich-vu-sms-chu-dong-cua-vietcombank.png"
+      <Link href={`/campaigns/${campaignId}`} color="inherit" underline="none">
+        <CardMedia
+          className="cardMedia"
+          image={(campaign && campaign.image) || '/images/default-image.jpg'}
+          title={campaign && campaign.name}
         />
-        <Typography variant="h6" noWrap>
-          {campaign && campaign.name && campaign.name}
+      </Link>
+      <Tooltip title={(campaign && campaign.name) || ''} placement="top">
+        <Typography
+          variant="h6"
+          noWrap
+          className="title"
+          onClick={() => history.push(`/campaigns/${campaignId}`)}
+        >
+          {campaign && campaign.name}
         </Typography>
-      </div>
+      </Tooltip>
       <IconButton
         aria-label="more"
         aria-controls="long-menu"
@@ -42,11 +60,7 @@ export default function MessageHeader({ campaign }) {
         onClose={handleClose}
       >
         <MenuItem>
-          <Link
-            href={campaign && campaign.id && `/${campaign.id}/result-user`}
-            color="inherit"
-            underline="none"
-          >
+          <Link href={`/${campaignId}/result`} color="inherit" underline="none">
             {t('viewProgress')}
           </Link>
         </MenuItem>

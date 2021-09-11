@@ -56,6 +56,11 @@
   "actionBot": "Câu trả lời của bot",
   "enterComment": "Nhập góp ý",
   "cancel": "Hủy bỏ",
-  "save": "Lưu"
+  "save": "Lưu",
+  "editIntentInfo": "Chỉnh sửa thông tin ý định",
+  "userSay": "Câu hỏi",
+  "edit": "Chỉnh sửa",
+  "editInfo": "Chỉnh sửa thông tin",
+  "searchIntent": "Tìm kiếm ý định"
 }
 

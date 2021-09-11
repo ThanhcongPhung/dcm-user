@@ -3,18 +3,24 @@ import React, { useState, useEffect, useRef } from 'react';
 import Moment from 'moment';
 import { v4 as uuidV4 } from 'uuid';
 import { useSelector } from 'react-redux';
-import { Card, Divider } from '@material-ui/core';
+import { useParams } from 'react-router-dom';
+import { Divider } from '@material-ui/core';
+import Card from '../../../components/Card';
 import MessageHeader from './MessageHeader';
 import MessageContent from './MessageContent';
 import MessageInput from './MessageInput';
 import apis from '../../../apis';
 
-const MessageChat = ({ campaign }) => {
-  const [messages, setMessages] = useState([]);
+const MessageChat = () => {
+  const { campaignId } = useParams();
+  const [campaign, setCampaign] = useState();
+  const [messages, setMessages] = useState({});
   const [totalMessage, setTotalMessage] = useState(0);
   const [isTopScroll, setIsTopScroll] = useState(false);
   const [endScroll, setEndScroll] = useState(0);
   const [scrollBottom, setScrollBottom] = useState(0);
+  const [intents, setIntents] = useState([]);
+  const [isChangeScroll, setIsChangeScroll] = useState(true);
   const { user } = useSelector((state) => state.auth);
 
   const limit = 20;
@@ -25,39 +31,54 @@ const MessageChat = ({ campaign }) => {
   const fetchMessages = async () => {
     const { data } = await apis.message.getMessages();
     if (data.status) {
-      setMessages(data.result.messages.reverse());
+      const reverseMessages = data.result.messages.reverse();
+      const objectMessages = Object.assign(
+        {},
+        ...reverseMessages.map((item) => ({ [item.messageId]: item })),
+      );
+      setMessages(objectMessages);
       setTotalMessage(data.result.metadata.total);
     }
+  };
+
+  const fetchIntents = async () => {
+    const { data } = await apis.campaign.getIntents(campaignId);
+    if (data.status) setIntents(data.result.intents);
+  };
+
+  const fetchCampaign = async () => {
+    const { data } = await apis.campaign.getCampaign(campaignId);
+    if (data.status) setCampaign(data.result);
   };
 
   const sendMessage = (message) => {
     const msg = {
       appId: currentCampaign.current.appId,
-      message: {
-        ...message,
-        msgId: uuidV4(),
-      },
+      message: { ...message, msgId: uuidV4() },
     };
     const joinMsg = {
-      id: msg.message.msgId,
+      messageId: msg.message.msgId,
       content: { text: msg.message.text },
       sender: { user: user.ssoUserId },
       campaignId: currentCampaign.id,
       isFirst: false,
     };
-    setMessages((prev) => [...prev, joinMsg]);
+    setMessages((prev) => ({ ...prev, [joinMsg.messageId]: joinMsg }));
     setIsTopScroll(false);
     setEndScroll(0);
   };
 
   const scrollMessage = async (element) => {
     const { scrollHeight, scrollTop, clientHeight } = element;
-    setEndScroll(scrollHeight - scrollTop - clientHeight);
-
-    if (scrollTop === 0 && messages.length && messages.length < totalMessage) {
+    if (isChangeScroll) setEndScroll(scrollHeight - scrollTop - clientHeight);
+    if (
+      scrollTop === 0 &&
+      Object.keys(messages).length &&
+      Object.keys(messages).length < totalMessage
+    ) {
       setIsTopScroll(true);
       setScrollBottom(scrollHeight);
-      const messageId = messages[0].id;
+      const { messageId } = Object.keys(messages)[0];
       const { data } = await apis.message.getSkipMessage({
         appId: currentCampaign.current.appId,
         ssoUserId: user.ssoUserId,
@@ -65,8 +86,15 @@ const MessageChat = ({ campaign }) => {
         limit,
         campaignId: currentCampaign.current.id,
       });
-      if (data.status)
-        setMessages(data.result.messages.reverse().concat(messages));
+      if (data.status) {
+        const reverseMessages = data.result.messages.reverse();
+        const objectMessages = Object.assign(
+          {},
+          ...reverseMessages.map((item) => ({ [item.messageId]: item })),
+          messages,
+        );
+        setMessages(objectMessages);
+      }
     } else {
       setIsTopScroll(false);
     }
@@ -91,13 +119,21 @@ const MessageChat = ({ campaign }) => {
   useEffect(() => {
     fetchMessages();
   }, []);
+
+  useEffect(() => {
+    if (campaignId) {
+      fetchCampaign();
+      fetchIntents();
+    }
+  }, []);
+
   useEffect(() => {
     currentCampaign.current = campaign;
   }, [campaign]);
 
   return (
-    <Card padding={16} margin={0} className="message-chat box-shadow-standard">
-      <MessageHeader campaign={campaign} />
+    <Card padding={16} margin={0} className="messageChat">
+      <MessageHeader campaign={campaign} campaignId={campaignId} />
       <Divider />
       <MessageContent
         messages={messages}
@@ -109,6 +145,8 @@ const MessageChat = ({ campaign }) => {
         today={today}
         scrollMessage={scrollMessage}
         sendMessage={sendMessage}
+        intents={intents}
+        setIsChangeScroll={setIsChangeScroll}
       />
       <MessageInput sendMessage={sendMessage} />
     </Card>

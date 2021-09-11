@@ -55,10 +55,7 @@ export default function CampaignDetail({ campaignId }) {
           <Grid item xs={12} sm={6}>
             <CardMedia
               className="cardMedia"
-              image={
-                campaign.image ||
-                `${process.env.PUBLIC_URL}/images/default-image.jpg`
-              }
+              image={campaign.image || '/images/default-image.jpg'}
               title={campaign.name}
             />
           </Grid>
