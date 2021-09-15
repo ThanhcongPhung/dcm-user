@@ -46,13 +46,12 @@ export default function () {
         })
         .reduce((acc, x) => Object.assign(acc, x), {});
       if (ssoToken) {
-        window.open(window.location.pathname, '_self');
         setCookie('accessToken', ssoToken, 1 * 24 * 60 * 60 * 1000);
+        window.open(window.location.pathname, '_self');
         return;
       }
     }
     if (!accessToken) {
-      setCookie('accessToken', 'aaaaa', 1 * 24 * 60 * 60 * 1000);
       const accessTokenFromCookie = getCookie('accessToken');
       if (accessTokenFromCookie) {
         dispatch(actions.auth.verifyToken(accessTokenFromCookie));

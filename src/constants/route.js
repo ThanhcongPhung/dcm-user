@@ -1,3 +1,5 @@
 export default {
-  HOME: '/',
+  CAMPAIGNS: '/',
+  SUB_CAMPAIGN: '/campaigns/sub-campaign/:participantStatus',
+  SEARCH_CAMPAIGN: '/campaigns/search',
 };
