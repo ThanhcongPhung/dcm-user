@@ -3,7 +3,7 @@ import camelCase from 'camelcase-keys';
 import { API_URL } from '../configs';
 
 const axiosClient = axios.create({
-  baseURL: `${API_URL}/api/v1`,
+  baseURL: `${API_URL}/api/base/v1`,
   responseType: 'json',
   timeout: 15 * 1000,
   transformResponse: [(data) => camelCase(data, { deep: true })],
