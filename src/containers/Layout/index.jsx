@@ -1,30 +1,48 @@
+/* eslint-disable prefer-destructuring */
 import React, { useState } from 'react';
+import { useLocation, matchPath } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Content from './Content';
 import { LayoutStyled } from './index.style';
 
+const hideSideBarRoute = [];
+
 export default function Layout({ children }) {
+  const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openSideBar, setOpenSideBar] = useState(true);
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+  const checkIsShowSideBar = () => {
+    let routePath = location.pathname;
+    if (routePath && routePath.includes('?'))
+      routePath = routePath.split('?')[0];
+    return !hideSideBarRoute.some((route) =>
+      matchPath(location.pathname, { path: route, exact: true }),
+    );
   };
 
-  const handleSidebarToggle = () => {
-    setOpenSideBar((open) => !open);
-  };
+  const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+  const handleSidebarToggle = () => setOpenSideBar((open) => !open);
+
+  const isShowSideBar = checkIsShowSideBar();
 
   return (
     <LayoutStyled>
       <Header handleDrawerToggle={handleDrawerToggle} />
-      <Sidebar
-        mobileOpen={mobileOpen}
-        openSideBar={openSideBar}
-        handleDrawerToggle={handleDrawerToggle}
-      />
-      <Content handleSidebarToggle={handleSidebarToggle}>{children}</Content>
+      {isShowSideBar && (
+        <Sidebar
+          mobileOpen={mobileOpen}
+          openSideBar={openSideBar}
+          handleDrawerToggle={handleDrawerToggle}
+        />
+      )}
+      <Content
+        handleSidebarToggle={handleSidebarToggle}
+        isShowSideBar={isShowSideBar}
+      >
+        {children}
+      </Content>
     </LayoutStyled>
   );
 }
