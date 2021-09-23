@@ -57,6 +57,19 @@ export async function joinCampaign(campaignId) {
   }
 }
 
+export async function acceptInvitationCampaign(campaignId) {
+  try {
+    const response = await api({
+      method: 'POST',
+      url: '/campaigns/accept-invitation',
+      headers: { 'campaign-id': campaignId },
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}
+
 export async function leaveCampaign(campaignId) {
   try {
     const response = await api({

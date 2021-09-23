@@ -61,5 +61,8 @@
   "userSay": "UserSay",
   "edit": "Edit",
   "editInfo": "Edit Info",
-  "searchIntent": "Search Intent"
+  "searchIntent": "Search Intent",
+  "acceptInvitation": "Accept Invitation",
+  "acceptInvitationSuccess": "Accept Invitation Success",
+  "acceptInvitationFailure": "Accept Invitation Failure"
 }
