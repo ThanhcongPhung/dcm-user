@@ -1,6 +1,6 @@
 import React from 'react';
-import CardStyle from './index.style';
+import { CardStyled } from './index.style';
 
-export default function Card({ children }) {
-  return <CardStyle>{children}</CardStyle>;
+export default function Card({ children, ...props }) {
+  return <CardStyled {...props}>{children}</CardStyled>;
 }
