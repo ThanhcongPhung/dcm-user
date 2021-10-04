@@ -2,49 +2,64 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Typography, Button } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import { CAMPAIGN_STATUS, CAMPAIGN_TYPE } from '../../constants';
+import { CAMPAIGN_STATUS, PARTICIPATION_STATUS } from '../../constants';
 import { ShowButtonStyled } from './index.style';
 
 export default function ShowButton({
-  campaignId,
-  status,
-  participants,
+  campaign,
   userId,
   handleJoinCampaign,
+  handleAcceptInvitation,
   handleLeaveCampaign,
-  campaignType,
+  handleCollectData,
 }) {
+  const { id: campaignId, status, participants, campaignType } = campaign;
   const history = useHistory();
   const { t } = useTranslation();
   const participantStatus = participants.find((item) => item.userId === userId);
 
-  const handleContinue = () => {
-    switch (campaignType) {
-      case CAMPAIGN_TYPE.CHATBOT_USECASE:
-      case CAMPAIGN_TYPE.CHATBOT_INTENT:
-        history.push(`/campaigns/${campaignId}/chatbot`);
-        break;
-      default:
-    }
-  };
   const handleShowProgress = () => history.push(`/${campaignId}/result`);
 
-  const isNonParticipate = () => {
+  const isShowParticipateButton = () => {
     const campaignStatus = [CAMPAIGN_STATUS.WAITING, CAMPAIGN_STATUS.RUNNING];
     return !participantStatus && campaignStatus.includes(status);
   };
 
-  const NonParticipantButton = () => (
+  const isShowAcceptInvitationButton = () =>
+    participantStatus &&
+    participantStatus.status === PARTICIPATION_STATUS.INVITED;
+
+  const isShowCollectionButton = () =>
+    participantStatus &&
+    participantStatus.status === PARTICIPATION_STATUS.JOINED;
+
+  const ParticipateButton = () => (
     <Button
       variant="contained"
       color="primary"
-      onClick={() => handleJoinCampaign(campaignId, status)}
+      onClick={() => handleJoinCampaign(campaignId, campaignType, status)}
     >
       {t('participate')}
     </Button>
   );
 
-  const ParticipantButton = () => {
+  const AcceptInvitationButton = () => {
+    return (
+      <ShowButtonStyled>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() =>
+            handleAcceptInvitation(campaignId, campaignType, status)
+          }
+        >
+          {t('acceptInvitation')}
+        </Button>
+      </ShowButtonStyled>
+    );
+  };
+
+  const CollectionButton = () => {
     return (
       <ShowButtonStyled>
         {status === CAMPAIGN_STATUS.WAITING && (
@@ -57,7 +72,7 @@ export default function ShowButton({
             <Button
               variant="contained"
               color="primary"
-              onClick={() => handleContinue(campaignId, userId)}
+              onClick={() => handleCollectData({ campaignId, campaignType })}
             >
               {t('continue')}
             </Button>
@@ -85,8 +100,9 @@ export default function ShowButton({
 
   return (
     <>
-      {participantStatus && <ParticipantButton />}
-      {isNonParticipate() && <NonParticipantButton />}
+      {isShowCollectionButton() && <CollectionButton />}
+      {isShowParticipateButton() && <ParticipateButton />}
+      {isShowAcceptInvitationButton() && <AcceptInvitationButton />}
     </>
   );
 }

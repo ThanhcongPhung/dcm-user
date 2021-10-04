@@ -18,7 +18,11 @@ import {
 import Pagination from '@material-ui/lab/Pagination';
 import { getUrlParams } from '../../utils/object';
 import api from '../../apis';
-import { CAMPAIGN_STATUS, PAGINATION_LIMIT } from '../../constants';
+import {
+  CAMPAIGN_STATUS,
+  PAGINATION_LIMIT,
+  CAMPAIGN_TYPE,
+} from '../../constants';
 import ShowButton from './ShowButton';
 import SearchCampaign from './SearchCampaign';
 import { CampaignListStyle } from './index.style';
@@ -94,22 +98,43 @@ export default function CampaignList() {
     return null;
   };
 
-  const handleJoinCampaign = async (campaignId, status) => {
+  const handleCollectData = ({ campaignId, campaignType, status }) => {
+    if (status === CAMPAIGN_STATUS.WAITING) {
+      fetchCampaigns({
+        offset: (pagination.page - 1) * pagination.limit,
+        parStatus: participantStatus,
+      });
+      return;
+    }
+    switch (campaignType) {
+      case CAMPAIGN_TYPE.CHATBOT_USECASE:
+      case CAMPAIGN_TYPE.CHATBOT_INTENT:
+        history.push(`/campaigns/${campaignId}/chatbot`);
+        break;
+      default:
+    }
+  };
+
+  const handleJoinCampaign = async (campaignId, campaignType, status) => {
     const { data } = await api.campaign.joinCampaign(campaignId);
     if (data.status) {
-      if (status === CAMPAIGN_STATUS.WAITING) {
-        fetchCampaigns({
-          offset: (pagination.page - 1) * pagination.limit,
-          parStatus: participantStatus,
-        });
-      } else {
-        // TODO:
-        history.push('/collect-data');
-      }
+      handleCollectData({ campaignId, campaignType, status });
       return enqueueSnackbar(t('joinCampaignSuccess'), { variant: 'success' });
     }
     return enqueueSnackbar(t('joinCampaignFailure'), { variant: 'error' });
   };
+
+  const handleAcceptInvitation = async (campaignId, campaignType, status) => {
+    const { data } = await api.campaign.acceptInvitationCampaign(campaignId);
+    if (data.status) {
+      handleCollectData({ campaignId, campaignType, status });
+      return enqueueSnackbar(t('acceptInvitationSuccess'), {
+        variant: 'success',
+      });
+    }
+    return enqueueSnackbar(t('acceptInvitationFailure'), { variant: 'error' });
+  };
+
   const handleLeaveCampaign = async (campaignId) => {
     const { data } = await api.campaign.leaveCampaign(campaignId);
     if (data.status) {
@@ -153,7 +178,7 @@ export default function CampaignList() {
           handleChangeSearch={handleChangeSearch}
         />
       )}
-      <Grid container spacing={2} className="content">
+      <Grid container spacing={1} className="content">
         {campaigns.map((item) => (
           <Grid item key={item.id} xs={12} sm={6} md={6} lg={4} xl={3}>
             <Card className="card">
@@ -207,12 +232,11 @@ export default function CampaignList() {
               <CardActions className="cardActions">
                 <ShowButton
                   userId={user.userId}
-                  campaignId={item.id}
-                  status={item.status}
-                  participants={item.participants}
+                  campaign={item}
                   handleJoinCampaign={handleJoinCampaign}
+                  handleAcceptInvitation={handleAcceptInvitation}
+                  handleCollectData={handleCollectData}
                   handleLeaveCampaign={handleLeaveCampaign}
-                  campaignType={item.campaignType}
                 />
               </CardActions>
             </Card>
