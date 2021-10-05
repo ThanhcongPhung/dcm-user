@@ -3,9 +3,9 @@ import React from 'react';
 import { Tooltip, Button } from '@material-ui/core';
 import messageTypes from '../../../enums/messageTypes';
 import { convertContent } from '../../../utils/convertContent';
+import { getDateInfo } from '../../../utils/messageTime';
 
 export default function MessageItem({
-  today,
   message,
   type,
   text,
@@ -18,7 +18,10 @@ export default function MessageItem({
     case messageTypes.TEXT:
       return (
         <Tooltip
-          title={today(message.updatedAt).time || today(message.updatedAt).day}
+          title={
+            getDateInfo(message.updatedAt).time ||
+            getDateInfo(message.updatedAt).fullTime
+          }
           placement="right"
         >
           <div
@@ -32,7 +35,8 @@ export default function MessageItem({
         <>
           <Tooltip
             title={
-              today(message.updatedAt).time || today(message.updatedAt).day
+              getDateInfo(message.updatedAt).time ||
+              getDateInfo(message.updatedAt).fullTime
             }
             placement="right"
           >

@@ -26,20 +26,6 @@ const MessageContentStyle = styled.div`
   -webkit-box-flex: 1;
   overflow: hidden auto;
   background: ${backgroundContent};
-  &::-webkit-scrollbar {
-    width: 10px;
-  }
-  &::-webkit-scrollbar-track {
-    box-shadow: rgb(0 0 0 / 30%) 0px 0px 6px inset;
-    border-radius: 10px;
-  }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    box-shadow: rgb(0 0 0 / 30%) 0px 0px 6px inset;
-  }
-  .wrapper {
-    /* padding: 32px 24px; */
-  }
   .avatarWrapper {
     display: flex;
     width: 100%;

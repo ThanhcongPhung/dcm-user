@@ -17,17 +17,19 @@ import ClearOutlinedIcon from '@material-ui/icons/ClearOutlined';
 import { Autocomplete } from '@material-ui/lab';
 import { EditIntentStyled } from './index.style';
 
+const initIntent = { id: '', displayName: '', name: '' };
+
 export default function EditIntentDialog({
   open,
   messageId,
   handleClose,
   onHandleEdit,
   text,
-  intent,
+  intentName,
   intents,
 }) {
   const [userSay, setUserSay] = useState('');
-  const [changeIntent, setChangeIntent] = useState({ id: '', displayName: '' });
+  const [changeIntent, setChangeIntent] = useState(initIntent);
   const [isEdit, setIsEdit] = useState();
 
   const { t } = useTranslation();
@@ -39,9 +41,16 @@ export default function EditIntentDialog({
     }
   };
 
+  const getIntentDetail = () => {
+    if (!intentName) return null;
+    const intent = intents.find((intentItem) => intentItem.name === intentName);
+    return intent || null;
+  };
+
   useEffect(() => {
     if (text) setUserSay(text);
-    if (intent) setChangeIntent(intent);
+    const intentDetail = getIntentDetail();
+    if (intentDetail) setChangeIntent(intentDetail);
   }, []);
 
   return (
