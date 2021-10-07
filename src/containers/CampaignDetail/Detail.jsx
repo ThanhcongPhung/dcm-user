@@ -7,6 +7,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import Card from '../../components/Card';
 import DetailCondition from './ConfirmCondition';
 import api from '../../apis';
+import ShowActions from '../../components/ShowActions';
 import { CampaignDetailStyle } from './index.style';
 
 export default function CampaignDetail({ campaignId }) {
@@ -14,11 +15,6 @@ export default function CampaignDetail({ campaignId }) {
   const [campaignType, setCampaignType] = useState();
   const [detailCampaign, setDetailCampaign] = useState({});
   const { t } = useTranslation();
-
-  const showAction = () =>
-    campaign.actions.map((item, index) =>
-      index + 1 < campaign.actions.length ? `${t(item)}, ` : `${t(item)}`,
-    );
 
   const fetchCampaign = async () => {
     const { data } = await api.campaign.getCampaign(campaignId);
@@ -73,7 +69,7 @@ export default function CampaignDetail({ campaignId }) {
             </Typography>
             <Typography variant="body1" gutterBottom>
               {`${t('campaignAction')}: `}
-              {showAction()}
+              <ShowActions actions={campaign && campaign.actions} />
             </Typography>
             <Typography variant="body1" gutterBottom>
               {`${t('time')}: `}

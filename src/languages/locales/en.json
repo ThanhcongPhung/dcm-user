@@ -85,5 +85,15 @@
   "NOT_REVIEW": "Not review",
   "PASS": "Pass",
   "NOT_PASS": "Not pass",
-  "chooseIntents": "Choose Intents"
+  "chooseIntents": "Choose Intents",
+  "intentReview": "Intent Review",
+  "sessionReview": "Session Review",
+  "session": "Session",
+  "intentCampaign": "The user will collect all user statements related to 1 intent of the bot.",
+  "intentReviewCorrect": "After users make data contributions, you will be the one to approve those data. A data is considered satisfactory if the user's chat profile is acceptable and the intent returned for that chat profile is correct.",
+  "noteIntentReview": "The intent here is the intent returned by the bot and the intent that the user edits (if any).",
+  "note": "Note",
+  "usecaseCampaign": "Users will contribute data related to a bot's scenario through different chat sessions.",
+  "sessionReviewCorrect": "After users make data contributions, you will be the one to approve those data according to chat usecases. A chat session is considered valid if the script flow is acceptable.",
+  "noteSessionReview": "You can pull the user's chat blocks up and down; You can edit some incorrect chat sentences or delete chat sentences in the session to suit the usecase."
 }

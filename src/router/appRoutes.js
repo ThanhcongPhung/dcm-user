@@ -3,6 +3,7 @@ import routes from '../constants/route';
 import CampaignDetail from '../pages/CampaignDetail';
 import Chatbot from '../pages/Chatbot';
 import IntentReview from '../pages/IntentReview';
+import ChatbotReview from '../pages/ChatbotReview';
 
 const appRoutes = {
   campaigns: {
@@ -35,6 +36,11 @@ const appRoutes = {
   chatbotIntentReview: {
     url: routes.CHATBOT_INTENT_REVIEW,
     component: IntentReview,
+    private: true,
+  },
+  chatbotReview: {
+    url: routes.CHATBOT_REVIEW,
+    component: ChatbotReview,
     private: true,
   },
 };
