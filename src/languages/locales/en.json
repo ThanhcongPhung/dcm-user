@@ -64,5 +64,7 @@
   "searchIntent": "Search Intent",
   "acceptInvitation": "Accept Invitation",
   "acceptInvitationSuccess": "Accept Invitation Success",
-  "acceptInvitationFailure": "Accept Invitation Failure"
+  "acceptInvitationFailure": "Accept Invitation Failure",
+  "endSessionSuccess": "End session success",
+  "endSessionFailure": "End session failure"
 }

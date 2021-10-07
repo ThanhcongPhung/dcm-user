@@ -1,7 +1,7 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable react/no-danger */
-import React, { useState, useEffect } from 'react';
-import Moment from 'moment';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   List,
   ListItemText,
@@ -17,21 +17,18 @@ import messageTypes from '../../../enums/messageTypes';
 import { MessageContentStyle } from './index.style';
 import EditIntentDialog from './EditIntentDialog';
 import MessageItem from './MessageItem';
+import api from '../../../apis';
+import { MessageContext } from '../index';
 
 export default function MessageContent({
   intents,
-  messages,
-  onSetMessages,
-  sendMessage,
-  user,
-  today,
   scrollMessage,
-  endScroll,
-  isTopScroll,
   scrollBottom,
   setIsChangeScroll,
 }) {
   const [standardMessages, setStandardMessages] = useState([]);
+  const { messages, onSetMessages, handleSendMessage, isTopScroll, endScroll } =
+    useContext(MessageContext);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -80,16 +77,22 @@ export default function MessageContent({
     }
   };
 
-  const onHandleEditMessage = (messageId, userSay, intentName) => {
+  const onHandleEditMessage = async (messageId, userSay, intentName) => {
     if (messages[messageId]) {
       setIsChangeScroll(true);
       const tempMessages = messages;
       tempMessages[messageId].nlu = {
         ...tempMessages[messageId].nlu,
-        intent: { name: intentName },
+        name: intentName,
       };
       tempMessages[messageId].content = { text: userSay };
+
       tempMessages[messageId].isShowEdit = false;
+      await api.message.updateMessage({
+        messageId,
+        content: { text: userSay },
+        nlu: { name: intentName },
+      });
       onSetMessages({ ...tempMessages });
     }
   };
@@ -109,7 +112,7 @@ export default function MessageContent({
               <Icon
                 className="icon"
                 color="primary"
-                onClick={() => handleShowEditMessage(message.messageId)}
+                onClick={() => handleShowEditMessage(message.id)}
               >
                 edit
               </Icon>
@@ -122,8 +125,7 @@ export default function MessageContent({
                 type={messageType}
                 text={text}
                 url={url}
-                today={today}
-                sendMessage={sendMessage}
+                sendMessage={handleSendMessage}
               />
             }
           />
@@ -138,19 +140,18 @@ export default function MessageContent({
         >
           {`${t('intent')}: `}
           {(message.nlu &&
-            message.nlu.intent &&
-            message.nlu.intent.name &&
-            getIntentDisplayName(message.nlu.intent.name)) ||
+            message.nlu.name &&
+            getIntentDisplayName(message.nlu.name)) ||
             t('noData')}
         </Typography>
       </div>
       <EditIntentDialog
         open={!!message.isShowEdit}
-        messageId={message.messageId}
+        messageId={message.id}
+        intentName={message.nlu && message.nlu.name}
         handleClose={handleCloseEditMessage}
         onHandleEdit={onHandleEditMessage}
         text={text}
-        valueComment={message.textComment}
         intents={intents}
       />
     </>
@@ -160,10 +161,7 @@ export default function MessageContent({
     return (
       <ListItemAvatar className="avatarWrapper bot">
         <>
-          <CustomAvatar
-            avatar="/images/chatbot.jpg"
-            number={Moment(user.createdAt).valueOf()}
-          />
+          <CustomAvatar avatar="/images/chatbot.jpg" />
           <div className="listItemContent">
             <ListItemText
               primary={
@@ -172,8 +170,7 @@ export default function MessageContent({
                   type={messageType}
                   text={text}
                   elements={elements}
-                  today={today}
-                  sendMessage={sendMessage}
+                  sendMessage={handleSendMessage}
                 />
               }
             />
@@ -254,16 +251,13 @@ export default function MessageContent({
   };
 
   return (
-    <MessageContentStyle>
-      <div
-        className="wrapper"
-        id="messageList"
-        onScroll={(e) => scrollMessage(e.target)}
-      >
-        <List className="list">
-          {standardMessages.map((message, index) => getMessage(message, index))}
-        </List>
-      </div>
+    <MessageContentStyle
+      onScroll={(e) => scrollMessage(e.target)}
+      id="messageList"
+    >
+      <List className="list">
+        {standardMessages.map((message, index) => getMessage(message, index))}
+      </List>
     </MessageContentStyle>
   );
 }
