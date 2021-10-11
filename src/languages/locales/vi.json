@@ -66,6 +66,10 @@
   "acceptInvitationSuccess": "Chấp nhận lời mời thành công",
   "acceptInvitationFailure": "Chấp nhận lời mời không thành công",
   "endSessionSuccess": "Kết thúc phiên chat thành công",
-  "endSessionFailure": "Kết thúc phiên chat không thành công"
+  "endSessionFailure": "Kết thúc phiên chat không thành công",
+  "intentDiscussion": "Ý định đã trao đổi",
+  "intentQuestion": "Ý định cần trao đổi",
+  "description": "Mô tả",
+  "totalDiscussionUserSay": "Tổng số câu đã trao đổi"
 }
 
