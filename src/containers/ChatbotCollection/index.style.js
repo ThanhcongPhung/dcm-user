@@ -9,6 +9,7 @@ const ChatbotCollectionStyled = styled(Grid)`
   display: flex;
   flex-direction: row;
   .gridItem {
+    min-width: 300px;
     height: 100%;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
