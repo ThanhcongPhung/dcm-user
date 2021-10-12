@@ -7,6 +7,7 @@ import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
 import { Grid } from '@material-ui/core';
 import MessageChat from './MessageChat';
+import ChatbotInfo from './ChatbotInfo';
 import api from '../../apis';
 import { WS_LIVECHAT_URL } from '../../configs';
 import { chatTypes } from '../../constants/websocket';
@@ -21,21 +22,42 @@ export default function ChatBotCollection() {
   const [messageId, setMessageId] = useState();
   const [isTopScroll, setIsTopScroll] = useState(false);
   const [endScroll, setEndScroll] = useState(0);
+  const [usecase, setUsecase] = useState({});
+  const [intents, setIntents] = useState([]);
   const { user } = useSelector((state) => state.auth);
 
   const rws = useRef(null);
   const currentCampaign = useRef(campaign);
   const currentMessageId = useRef(messageId);
   const currentMessages = useRef(messages);
+  const currentUsecase = useRef(usecase);
 
   const { enqueueSnackbar } = useSnackbar();
   const { t } = useTranslation();
 
   const onSetMessages = (value) => setMessages(value);
 
+  const fetchChatInfo = async () => {
+    const { data } = await api.chatbot.getChatInfo(campaignId);
+    if (data.status) {
+      const { usecase: detailUsecase, intents: detailIntents } = data.result;
+      if (detailUsecase) {
+        setUsecase(detailUsecase);
+        setIntents(detailUsecase.intents || []);
+      }
+      if (detailIntents) setIntents(detailIntents);
+    }
+  };
+
   const fetchCampaign = async () => {
     const { data } = await api.campaign.getCampaign(campaignId);
     if (data.status) setCampaign(data.result);
+  };
+
+  const fetchResultChat = async () => {
+    const usecaseId = usecase && usecase.id;
+    const { data } = await api.chatbot.getResultChat(campaignId, usecaseId);
+    if (data.status) setIntents(data.result);
   };
 
   const createMessage = async (msg) => {
@@ -58,6 +80,7 @@ export default function ChatBotCollection() {
       const tempMessages = currentMessages.current;
       tempMessages[msgId] = data.result;
       onSetMessages({ ...tempMessages });
+      fetchResultChat();
     }
   };
 
@@ -71,6 +94,7 @@ export default function ChatBotCollection() {
       content: { text: msg.message.text },
       sender: { user: user.userId },
       campaignId: campaign.id,
+      usecaseId: currentUsecase.current && currentUsecase.current.id,
     };
     const message = await createMessage(newMessage);
     setIsTopScroll(false);
@@ -101,7 +125,6 @@ export default function ChatBotCollection() {
       rws.current.onmessage = (e) => {
         const responseData = JSON.parse(e.data);
         const { type, status, session_id: sessionId, data } = responseData;
-        console.log('data', data);
         switch (type) {
           case chatTypes.AGENT_INIT:
             break;
@@ -121,11 +144,11 @@ export default function ChatBotCollection() {
               sender: data.sender,
               receiver: { user: user.userId },
               campaignId: currentCampaign.current.id,
-              usecaseId: currentCampaign.current.id || '',
               nlu,
               sessionId,
               isFirst: data.isFirst,
               messageId: data.msg_id,
+              usecaseId: currentUsecase.current && currentUsecase.current.id,
             };
             createMessage(joinMsg);
             setIsTopScroll(false);
@@ -160,12 +183,19 @@ export default function ChatBotCollection() {
   }, []);
 
   useEffect(() => {
-    if (campaignId) fetchCampaign();
+    if (campaignId) {
+      fetchCampaign();
+      fetchChatInfo();
+    }
   }, [campaignId]);
 
   useEffect(() => {
     currentCampaign.current = campaign;
   }, [campaign]);
+
+  useEffect(() => {
+    currentUsecase.current = usecase;
+  }, [usecase]);
 
   useEffect(() => {
     currentMessageId.current = messageId;
@@ -192,6 +222,13 @@ export default function ChatBotCollection() {
       <MessageContext.Provider value={msgContextValue}>
         <Grid item xs={12} sm={12} md={6} ld={6} xl={6} className="gridItem">
           <MessageChat />
+        </Grid>
+        <Grid item xs={12} sm={12} md={6} ld={6} xl={6} className="gridItem">
+          <ChatbotInfo
+            campaignType={campaign && campaign.campaignType}
+            usecase={usecase}
+            intents={intents}
+          />
         </Grid>
       </MessageContext.Provider>
     </ChatbotCollectionStyled>

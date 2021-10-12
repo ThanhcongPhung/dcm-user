@@ -66,5 +66,9 @@
   "acceptInvitationSuccess": "Accept Invitation Success",
   "acceptInvitationFailure": "Accept Invitation Failure",
   "endSessionSuccess": "End session success",
-  "endSessionFailure": "End session failure"
+  "endSessionFailure": "End session failure",
+  "intentDiscussion": "Intent Discussion",
+  "intentQuestion": "Intent Question",
+  "description": "Description",
+  "totalDiscussionUserSay": "Tổng số câu đã trao đổi"
 }
