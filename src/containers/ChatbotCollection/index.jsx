@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useRef, createContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import camelCase from 'camelcase-keys';
 import { v4 as uuidV4 } from 'uuid';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
@@ -113,18 +114,23 @@ export default function ChatBotCollection() {
   useEffect(() => {
     if (campaign && campaign.appId) {
       rws.current = new WebSocket(WS_LIVECHAT_URL);
+      let pingInterval;
       rws.current.onopen = () => {
-        const test = {
-          type: 'INIT',
-          appId: campaign.appId,
-          apiKey: campaign.apiKey,
-          sender: { id: user.userId, name: user.name },
-        };
-        rws.current.send(JSON.stringify(test));
+        pingInterval = setInterval(() => {
+          rws.current.send(JSON.stringify({ type: chatTypes.PING }));
+        }, 10000);
+        rws.current.send(
+          JSON.stringify({
+            type: chatTypes.INIT,
+            appId: campaign.appId,
+            apiKey: campaign.apiKey,
+            sender: { id: user.userId, name: user.name },
+          }),
+        );
       };
       rws.current.onmessage = (e) => {
-        const responseData = JSON.parse(e.data);
-        const { type, status, session_id: sessionId, data } = responseData;
+        const responseData = camelCase(JSON.parse(e.data), { deep: true });
+        const { type, status, sessionId, data } = responseData;
         switch (type) {
           case chatTypes.AGENT_INIT:
             break;
@@ -147,7 +153,7 @@ export default function ChatBotCollection() {
               nlu,
               sessionId,
               isFirst: data.isFirst,
-              messageId: data.msg_id,
+              messageId: data.msgId,
               usecaseId: currentUsecase.current && currentUsecase.current.id,
             };
             createMessage(joinMsg);
@@ -171,16 +177,9 @@ export default function ChatBotCollection() {
             break;
         }
       };
+      rws.current.onclose = () => clearInterval(pingInterval);
     }
   }, [campaign]);
-
-  useEffect(() => {
-    const pingServer = setInterval(() => {
-      const msg = { type: chatTypes.PING };
-      rws.current.send(JSON.stringify(msg));
-    }, 30 * 1000);
-    return () => clearInterval(pingServer);
-  }, []);
 
   useEffect(() => {
     if (campaignId) {
@@ -204,6 +203,10 @@ export default function ChatBotCollection() {
   useEffect(() => {
     currentMessages.current = messages;
   }, [messages]);
+
+  useEffect(() => {
+    return () => rws.current.close();
+  }, []);
 
   const msgContextValue = {
     campaign,
