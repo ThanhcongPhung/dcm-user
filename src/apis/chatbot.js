@@ -27,3 +27,29 @@ export async function getResultChat(campaignId, usecaseId) {
     return error.response;
   }
 }
+
+export async function getUsecases(campaignId) {
+  try {
+    const response = await api({
+      method: 'GET',
+      url: `${CHATBOT_URL}/api/chatbot/v1/usecases`,
+      headers: { 'campaign-id': campaignId },
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}
+
+export async function getUsecase(campaignId, usecaseId) {
+  try {
+    const response = await api({
+      method: 'GET',
+      url: `${CHATBOT_URL}/api/chatbot/v1/usecases/${usecaseId}`,
+      headers: { 'campaign-id': campaignId },
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}

@@ -70,5 +70,6 @@
   "intentDiscussion": "Intent Discussion",
   "intentQuestion": "Intent Question",
   "description": "Description",
-  "totalDiscussionUserSay": "Tổng số câu đã trao đổi"
+  "totalDiscussionUserSay": "Total discussion userSay",
+  "convertUsecase": "Convert Usecase"
 }

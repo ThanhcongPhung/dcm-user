@@ -37,16 +37,18 @@ export default function ChatBotCollection() {
   const { t } = useTranslation();
 
   const onSetMessages = (value) => setMessages(value);
+  const onSetUsecase = (value) => setUsecase(value);
+  const onSetIntents = (value) => setIntents(value);
 
   const fetchChatInfo = async () => {
     const { data } = await api.chatbot.getChatInfo(campaignId);
     if (data.status) {
       const { usecase: detailUsecase, intents: detailIntents } = data.result;
       if (detailUsecase) {
-        setUsecase(detailUsecase);
-        setIntents(detailUsecase.intents || []);
+        onSetUsecase(detailUsecase);
+        onSetIntents(detailUsecase.intents || []);
       }
-      if (detailIntents) setIntents(detailIntents);
+      if (detailIntents) onSetIntents(detailIntents);
     }
   };
 
@@ -56,7 +58,7 @@ export default function ChatBotCollection() {
   };
 
   const fetchResultChat = async () => {
-    const usecaseId = usecase && usecase.id;
+    const usecaseId = currentUsecase.current && currentUsecase.current.id;
     const { data } = await api.chatbot.getResultChat(campaignId, usecaseId);
     if (data.status) setIntents(data.result);
   };
@@ -228,9 +230,12 @@ export default function ChatBotCollection() {
         </Grid>
         <Grid item xs={12} sm={12} md={6} ld={6} xl={6} className="gridItem">
           <ChatbotInfo
+            campaignId={campaignId}
             campaignType={campaign && campaign.campaignType}
             usecase={usecase}
             intents={intents}
+            onSetUsecase={onSetUsecase}
+            onSetIntents={onSetIntents}
           />
         </Grid>
       </MessageContext.Provider>
