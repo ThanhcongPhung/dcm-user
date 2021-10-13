@@ -2,6 +2,7 @@ import Campaigns from '../pages/Campaigns';
 import routes from '../constants/route';
 import CampaignDetail from '../pages/CampaignDetail';
 import Chatbot from '../pages/Chatbot';
+import IntentReview from '../pages/IntentReview';
 
 const appRoutes = {
   campaigns: {
@@ -29,6 +30,11 @@ const appRoutes = {
   campaignDetail: {
     url: routes.CAMPAIGN_DETAIL,
     component: CampaignDetail,
+    private: true,
+  },
+  chatbotIntentReview: {
+    url: routes.CHATBOT_INTENT_REVIEW,
+    component: IntentReview,
     private: true,
   },
 };

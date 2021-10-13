@@ -71,5 +71,19 @@
   "intentQuestion": "Intent Question",
   "description": "Description",
   "totalDiscussionUserSay": "Total discussion userSay",
-  "convertUsecase": "Convert Usecase"
+  "convertUsecase": "Convert Usecase",
+  "dateShouldNotAfterMaximalDate": "Date should not be after maximal date",
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "weekAgo": "Week Ago",
+  "monthAgo": "Month Ago",
+  "campaignReview": "campaign Review",
+  "botIntent": "Intent By Bot",
+  "editIntent": "Edit Intent",
+  "action": "Action",
+  "userSaySearch": "Keyword of usersay",
+  "NOT_REVIEW": "Not review",
+  "PASS": "Pass",
+  "NOT_PASS": "Not pass",
+  "chooseIntents": "Choose Intents"
 }

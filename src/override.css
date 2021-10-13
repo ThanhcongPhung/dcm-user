@@ -1,0 +1,86 @@
+.DateInput_input {
+  padding: 0;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.87);
+  font-family: Vbee;
+  font-size: 16px;
+}
+
+.DateInput_input__focused {
+  border-bottom: 2px solid #000034;
+}
+
+.DateInput_input__disabled {
+  background: #ffffff;
+  font-style: inherit;
+}
+
+.DateInput__small {
+  width: 110px;
+}
+
+.DateRangePicker_picker {
+  z-index: 99;
+}
+
+.DateRangePickerInput__withBorder {
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  padding: 13px 0;
+  border-radius: 10px;
+}
+
+.DateRangePickerInput__disabled {
+  background: #ffffff;
+}
+
+.CalendarDay__selected,
+.CalendarDay__selected:active,
+.CalendarDay__selected:hover,
+.CalendarDay__selected_span:hover {
+  background: #000034;
+  border: 1px double #000034;
+}
+
+.CalendarDay__selected_span {
+  background: #000680;
+  border: 1px double #000680;
+}
+
+.DayPicker,
+.DayPicker-Month {
+  width: 100%;
+}
+
+.DayPicker-Day {
+  padding: 0;
+}
+
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside),
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover,
+.DayPicker:not(.DayPicker--interactionDisabled)
+  .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
+  background: none;
+}
+
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside)
+  .day {
+  background-color: #4991e2;
+}
+
+.DayPicker:not(.DayPicker--interactionDisabled)
+  .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover
+  .day {
+  background-color: #F0F8FF;
+}
+.DateRangePicker {
+  width: 100%;
+  min-width: 200px;
+}
+.DateRangePickerInput {
+  display: flex;
+  justify-content: center;
+  padding: 10px 5px;
+}
+.DateInput {
+  width: auto;
+}

@@ -22,6 +22,7 @@ const FEATURE_COLOR = {
 
   backgroundMenu: '#eee',
   borderColor: '#c4c4c4',
+  checkboxSecondary: '#c41a1a',
 };
 
 const AVATAR_COLORS = [
