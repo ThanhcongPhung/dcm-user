@@ -9,7 +9,7 @@ const ChatbotCollectionStyled = styled(Grid)`
   display: flex;
   flex-direction: row;
   .gridItem {
-    min-width: 300px;
+    min-width: 360px;
     height: 100%;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
@@ -28,6 +28,15 @@ const ChatbotCollectionStyled = styled(Grid)`
     display: flex;
     flex-direction: column;
     height: 100%;
+    .buttonConvertWrapper {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding-right: 10px;
+      .icon {
+        cursor: pointer;
+      }
+    }
   }
   .tabPanel {
     flex: 1;

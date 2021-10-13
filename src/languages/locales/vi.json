@@ -70,6 +70,7 @@
   "intentDiscussion": "Ý định đã trao đổi",
   "intentQuestion": "Ý định cần trao đổi",
   "description": "Mô tả",
-  "totalDiscussionUserSay": "Tổng số câu đã trao đổi"
+  "totalDiscussionUserSay": "Tổng số câu đã trao đổi",
+  "convertUsecase": "chuyển kịch bản"
 }
 
