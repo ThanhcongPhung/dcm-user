@@ -6,10 +6,6 @@ import {
   Badge,
   Divider,
   TablePagination,
-  ListItem,
-  List,
-  ListItemText,
-  ListItemIcon,
 } from '@material-ui/core';
 import MailIcon from '@material-ui/icons/Mail';
 import { MAX_ITEMS_SMALL, RESULT_STATUS } from '../../../constants';
@@ -43,37 +39,28 @@ const Intent = ({ intents }) => {
         <Typography variant="h6" align="center" gutterBottom>
           {`${t('intentDiscussion')} (${progressIntents.length})`}
         </Typography>
-        <List disablePadding>
-          {progressIntents &&
-            progressIntents
-              .slice(
-                progressPage * MAX_ITEMS_SMALL,
-                progressPage * MAX_ITEMS_SMALL + MAX_ITEMS_SMALL,
-              )
-              .map((item, index) => (
-                <ListItem
-                  key={item.displayName}
-                  disablePadding
-                  classes={{ root: 'listItem' }}
-                >
-                  <ListItemText
-                    primary={`${progressPage * MAX_ITEMS_SMALL + index + 1}. ${
-                      item.displayName
-                    }`}
-                  />
-                  <ListItemIcon>
-                    <Tooltip
-                      title={t('totalDiscussionUserSay')}
-                      placement="top"
-                    >
-                      <Badge badgeContent={item.userSayNumber} color="primary">
-                        <MailIcon color="primary" />
-                      </Badge>
-                    </Tooltip>
-                  </ListItemIcon>
-                </ListItem>
-              ))}
-        </List>
+        {progressIntents &&
+          progressIntents
+            .slice(
+              progressPage * MAX_ITEMS_SMALL,
+              progressPage * MAX_ITEMS_SMALL + MAX_ITEMS_SMALL,
+            )
+            .map((item, index) => (
+              <div key={item.name} className="intentItem">
+                <Typography variant="body2" className="displayIntent">
+                  {`${progressPage * MAX_ITEMS_SMALL + index + 1}. ${
+                    item.displayName
+                  }`}
+                </Typography>
+                <div className="numberDetail">
+                  <Tooltip title={t('totalDiscussionUserSay')} placement="top">
+                    <Badge badgeContent={item.userSayNumber} color="primary">
+                      <MailIcon color="primary" />
+                    </Badge>
+                  </Tooltip>
+                </div>
+              </div>
+            ))}
         {progressIntents && progressIntents.length > MAX_ITEMS_SMALL && (
           <TablePagination
             rowsPerPageOptions={[]}
@@ -90,27 +77,21 @@ const Intent = ({ intents }) => {
         <Typography variant="h6" align="center" gutterBottom>
           {`${t('intentQuestion')} (${chatIntents.length})`}
         </Typography>
-        <List disablePadding>
-          {chatIntents &&
-            chatIntents
-              .slice(
-                chatPage * MAX_ITEMS_SMALL,
-                chatPage * MAX_ITEMS_SMALL + MAX_ITEMS_SMALL,
-              )
-              .map((item, index) => (
-                <ListItem
-                  key={item.displayName}
-                  disablePadding
-                  classes={{ root: 'listItem' }}
-                >
-                  <ListItemText
-                    primary={`${progressPage * MAX_ITEMS_SMALL + index + 1}. ${
-                      item.displayName
-                    }`}
-                  />
-                </ListItem>
-              ))}
-        </List>
+        {chatIntents &&
+          chatIntents
+            .slice(
+              chatPage * MAX_ITEMS_SMALL,
+              chatPage * MAX_ITEMS_SMALL + MAX_ITEMS_SMALL,
+            )
+            .map((item, index) => (
+              <div key={item.name} className="intentItem">
+                <Typography variant="body2">
+                  {`${chatPage * MAX_ITEMS_SMALL + index + 1}. ${
+                    item.displayName
+                  }`}
+                </Typography>
+              </div>
+            ))}
         {chatIntents && chatIntents.length > MAX_ITEMS_SMALL && (
           <TablePagination
             rowsPerPageOptions={[]}

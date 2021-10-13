@@ -20,9 +20,13 @@ const UsecaseStyled = styled.div`
 const IntentStyled = styled.div`
   .intentWrap {
     margin-bottom: 8px;
-    .listItem {
-      padding-bottom: 4px;
-      padding-top: 4px;
+  }
+  .intentItem {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    .displayIntent {
+      flex: 1;
     }
   }
   .tablePagination {

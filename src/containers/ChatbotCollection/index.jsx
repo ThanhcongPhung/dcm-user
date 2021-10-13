@@ -25,6 +25,7 @@ export default function ChatBotCollection() {
   const [endScroll, setEndScroll] = useState(0);
   const [usecase, setUsecase] = useState({});
   const [intents, setIntents] = useState([]);
+  const [isChangeResult, setIsChangeResult] = useState(false);
   const { user } = useSelector((state) => state.auth);
 
   const rws = useRef(null);
@@ -58,6 +59,7 @@ export default function ChatBotCollection() {
   };
 
   const fetchResultChat = async () => {
+    setIsChangeResult(false);
     const usecaseId = currentUsecase.current && currentUsecase.current.id;
     const { data } = await api.chatbot.getResultChat(campaignId, usecaseId);
     if (data.status) setIntents(data.result);
@@ -80,10 +82,10 @@ export default function ChatBotCollection() {
       nlu,
     });
     if (data.status) {
+      setIsChangeResult(true);
       const tempMessages = currentMessages.current;
       tempMessages[msgId] = data.result;
       onSetMessages({ ...tempMessages });
-      fetchResultChat();
     }
   };
 
@@ -112,6 +114,10 @@ export default function ChatBotCollection() {
     const msg = { type: chatTypes.END_SESSION };
     rws.current.send(JSON.stringify(msg));
   };
+
+  useEffect(() => {
+    if (isChangeResult) fetchResultChat();
+  }, [isChangeResult]);
 
   useEffect(() => {
     if (campaign && campaign.appId) {
@@ -220,6 +226,9 @@ export default function ChatBotCollection() {
     endScroll,
     setEndScroll,
     handleEndChat,
+    campaignId,
+    usecaseId: currentUsecase.current && currentUsecase.current.id,
+    setIsChangeResult,
   };
 
   return (

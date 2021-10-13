@@ -26,10 +26,28 @@ export default function MessageContent({
   scrollBottom,
   setIsChangeScroll,
 }) {
+  const [editIntents, setEditIntents] = useState([]);
   const [standardMessages, setStandardMessages] = useState([]);
-  const { messages, onSetMessages, handleSendMessage, isTopScroll, endScroll } =
-    useContext(MessageContext);
+  const {
+    messages,
+    onSetMessages,
+    handleSendMessage,
+    isTopScroll,
+    endScroll,
+    campaignId,
+    usecaseId,
+    setIsChangeResult,
+  } = useContext(MessageContext);
   const { t } = useTranslation();
+
+  const fetchIntents = async () => {
+    const { data } = await api.chatbot.getIntents(campaignId, usecaseId);
+    if (data.status) setEditIntents(data.result);
+  };
+
+  useEffect(() => {
+    if (campaignId) fetchIntents();
+  }, [campaignId, usecaseId]);
 
   useEffect(() => {
     if (Object.values(messages).length) {
@@ -78,21 +96,22 @@ export default function MessageContent({
   };
 
   const onHandleEditMessage = async (messageId, userSay, intentName) => {
-    if (messages[messageId]) {
-      setIsChangeScroll(true);
-      const tempMessages = messages;
+    if (!messages[messageId]) return;
+    setIsChangeScroll(true);
+    const tempMessages = messages;
+    tempMessages[messageId].isShowEdit = false;
+    const { data } = await api.chatbot.editOwnerMessage(
+      messageId,
+      userSay,
+      intentName,
+    );
+    if (data.status) {
+      setIsChangeResult(true);
       tempMessages[messageId].nlu = {
         ...tempMessages[messageId].nlu,
         name: intentName,
       };
       tempMessages[messageId].content = { text: userSay };
-
-      tempMessages[messageId].isShowEdit = false;
-      await api.message.updateMessage({
-        messageId,
-        content: { text: userSay },
-        nlu: { name: intentName },
-      });
       onSetMessages({ ...tempMessages });
     }
   };
@@ -152,7 +171,7 @@ export default function MessageContent({
         handleClose={handleCloseEditMessage}
         onHandleEdit={onHandleEditMessage}
         text={text}
-        intents={intents}
+        intents={editIntents}
       />
     </>
   );
