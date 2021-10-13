@@ -17,6 +17,7 @@ export default function EditCommentDialog({
   handleClose,
   onHandleEdit,
   editComment,
+  getIntentDisplayName,
 }) {
   const [comment, setComment] = useState('');
   const { t } = useTranslation();
@@ -33,7 +34,8 @@ export default function EditCommentDialog({
   };
 
   useEffect(() => {
-    if (editComment) setComment(editComment.comment || '');
+    if (editComment)
+      setComment((editComment.review && editComment.review.comment) || '');
   }, [editComment]);
 
   return (
@@ -49,31 +51,35 @@ export default function EditCommentDialog({
             </Grid>
             <Grid item xs={9}>
               <Typography variant="body2">
-                {editComment && editComment.usersay}
+                {editComment && editComment.content && editComment.content.text}
               </Typography>
             </Grid>
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={3} className="gridLabel">
               <Typography variant="body2" className="label">
-                {t('botIntent')}
+                {t('intent')}
               </Typography>
             </Grid>
             <Grid item xs={9}>
               <Typography variant="body2">
-                {(editComment && editComment.botIntent) || t('noData')}
+                {getIntentDisplayName(
+                  editComment && editComment.nlu && editComment.nlu.name,
+                ) || t('noData')}
               </Typography>
             </Grid>
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={3} className="gridLabel">
               <Typography variant="body2" className="label">
-                {t('editIntent')}
+                {t('initialIntent')}
               </Typography>
             </Grid>
             <Grid item xs={9}>
               <Typography variant="body2">
-                {(editComment && editComment.botIntent) || t('noData')}
+                {getIntentDisplayName(
+                  editComment && editComment.nlu && editComment.nlu.botIntent,
+                ) || t('noData')}
               </Typography>
             </Grid>
           </Grid>

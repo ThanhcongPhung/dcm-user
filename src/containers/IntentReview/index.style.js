@@ -44,6 +44,9 @@ const TableStyled = styled.div`
     &:hover {
       background-color: ${FEATURE_COLOR.backgroundMenu};
     }
+    &.notPass {
+      background: ${FEATURE_COLOR.borderColor};
+    }
   }
   .bodyCell {
     padding: 8px;
@@ -65,7 +68,7 @@ const TableStyled = styled.div`
       flex: 1;
     }
     &.checkboxCell {
-      max-width: 80px;
+      width: 85px;
     }
     .checkbox {
       &.noPass {

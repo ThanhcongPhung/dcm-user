@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Table,
@@ -14,12 +14,14 @@ import {
 import { Edit } from '@material-ui/icons';
 import { TableStyled } from './index.style';
 import EditCommentDialog from './EditCommentDialog';
+import { REVIEW_RESULT_STATUS, PAGINATION } from '../../constants';
 
 const tableTitle = [
   'no',
   'userSay',
-  'botIntent',
-  'editIntent',
+  'duplicateNumber',
+  'intent',
+  'initialIntent',
   'status',
   'comment',
 ];
@@ -28,31 +30,58 @@ export default function ReviewTable({
   userSays,
   onSetUserSays,
   isLoading,
-  pagination,
+  page,
+  allIntents,
 }) {
   const [editComment, setEditComment] = useState(null);
 
   const { t } = useTranslation();
+
+  const showUsersays = useMemo(
+    () =>
+      Object.values(userSays).slice(
+        page * PAGINATION.TABLE_REVIEW,
+        page * PAGINATION.TABLE_REVIEW + PAGINATION.TABLE_REVIEW,
+      ),
+    [userSays, page],
+  );
 
   const handleEditComment = (comment) => {
     // TODO: call api edit comment
     const usersayId = editComment && editComment.id;
     if (usersayId && userSays[usersayId]) {
       const tempUsersays = userSays;
-      tempUsersays[usersayId].comment = comment;
+      tempUsersays[usersayId].review = {
+        ...userSays[usersayId].review,
+        comment,
+      };
       onSetUserSays({ ...tempUsersays });
       setEditComment(null);
     }
   };
 
-  const handleReview = (userSayId, value) => {
-    if (userSays[userSayId]) {
+  const handleReview = (usersayId, value) => {
+    if (userSays[usersayId]) {
       // TODO: call api review intent
       const tempUsersays = userSays;
-      tempUsersays[userSayId].status = value;
+      tempUsersays[usersayId].review = {
+        ...userSays[usersayId].review,
+        status: value,
+      };
       onSetUserSays({ ...tempUsersays });
     }
   };
+
+  const getIntentDisplayName = (intentName) => {
+    if (!intentName) return null;
+    const intent = allIntents.find(
+      (intentItem) => intentItem.name === intentName,
+    );
+    return intent ? intent.displayName : null;
+  };
+
+  const isPass = (status) => status === REVIEW_RESULT_STATUS.PASS;
+  const isNotPass = (status) => status === REVIEW_RESULT_STATUS.NOT_PASS;
 
   return (
     <TableStyled>
@@ -68,39 +97,56 @@ export default function ReviewTable({
           </TableRow>
         </TableHead>
         <TableBody>
-          {Object.values(userSays).map((usersayItem, index) => (
+          {showUsersays.map((usersayItem, index) => (
             <TableRow
-              className="bodyRow"
+              className={
+                isNotPass(usersayItem.review && usersayItem.review.status)
+                  ? 'bodyRow notPass'
+                  : 'bodyRow'
+              }
               key={usersayItem.id}
-              onClick={() => handleReview(usersayItem.id, !usersayItem.status)}
+              // onClick={() => handleReview(usersayItem.id, !usersayItem.status)}
             >
               <TableCell align="center" className="bodyCell">
-                {(pagination.page - 1) * pagination.limit + index + 1}
+                {page * PAGINATION.TABLE_REVIEW + index + 1}
               </TableCell>
               <TableCell align="left" className="bodyCell">
-                {usersayItem.usersay}
-              </TableCell>
-              <TableCell align="left" className="bodyCell">
-                {usersayItem.botIntent}
+                {usersayItem.content && usersayItem.content.text}
               </TableCell>
               <TableCell align="center" className="bodyCell">
-                {usersayItem.editIntent}
+                {usersayItem.duplicateNumber}
+              </TableCell>
+              <TableCell align="left" className="bodyCell">
+                {getIntentDisplayName(usersayItem.nlu && usersayItem.nlu.name)}
+              </TableCell>
+              <TableCell align="left" className="bodyCell">
+                {getIntentDisplayName(
+                  usersayItem.nlu && usersayItem.nlu.botIntent,
+                )}
               </TableCell>
               <TableCell className="bodyCell checkboxCell">
                 <Checkbox
                   color="primary"
-                  checked={usersayItem.status}
-                  onChange={() => handleReview(usersayItem.id, true)}
+                  checked={isPass(
+                    usersayItem.review && usersayItem.review.status,
+                  )}
+                  onChange={() =>
+                    handleReview(usersayItem.id, REVIEW_RESULT_STATUS.PASS)
+                  }
                 />
                 <Checkbox
                   className="checkbox noPass"
-                  checked={!usersayItem.status}
-                  onChange={() => handleReview(usersayItem.id, false)}
+                  checked={isNotPass(
+                    usersayItem.review && usersayItem.review.status,
+                  )}
+                  onChange={() =>
+                    handleReview(usersayItem.id, REVIEW_RESULT_STATUS.NOT_PASS)
+                  }
                 />
               </TableCell>
               <TableCell align="center" className="bodyCell reviewComment">
                 <Typography className="textComment">
-                  {usersayItem.comment}
+                  {usersayItem.review && usersayItem.review.comment}
                 </Typography>
                 <Tooltip title={t('edit')} placement="top">
                   <Edit
@@ -126,6 +172,7 @@ export default function ReviewTable({
         handleClose={() => setEditComment(null)}
         onHandleEdit={handleEditComment}
         editComment={editComment}
+        getIntentDisplayName={getIntentDisplayName}
       />
     </TableStyled>
   );
