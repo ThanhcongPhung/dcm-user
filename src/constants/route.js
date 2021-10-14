@@ -4,4 +4,5 @@ export default {
   SEARCH_CAMPAIGN: '/campaigns/search',
   CAMPAIGN_DETAIL: '/campaigns/:campaignId',
   CHATBOT_COLLECT: '/campaigns/:campaignId/chatbot',
+  CHATBOT_INTENT_REVIEW: '/campaigns/:campaignId/chatbot/review/intent',
 };

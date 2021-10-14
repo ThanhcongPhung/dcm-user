@@ -23,6 +23,7 @@ export default function SearchInput({ onHandleSearch, title }) {
   return (
     <SearchInputStyled>
       <TextField
+        fullWidth
         value={search}
         onChange={onHandleSearchFields}
         name="search"

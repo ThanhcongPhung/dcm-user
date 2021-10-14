@@ -71,6 +71,20 @@
   "intentQuestion": "Ý định cần trao đổi",
   "description": "Mô tả",
   "totalDiscussionUserSay": "Tổng số câu đã trao đổi",
-  "convertUsecase": "chuyển kịch bản"
+  "convertUsecase": "chuyển kịch bản",
+  "dateShouldNotAfterMaximalDate": "Ngày không được sau ngày tối đa",
+  "today": "Hôm nay",
+  "yesterday": "Hôm qua",
+  "weekAgo": "1 tuần trước",
+  "monthAgo": "1 tháng trước",
+  "campaignReview": "phê duyệt chiến dịch",
+  "botIntent": "Ý định bot trả về",
+  "editIntent": "Ý định chỉnh sửa",
+  "action": "Hành động",
+  "userSaySearch": "Tìm kiếm theo từ khóa",
+  "NOT_REVIEW": "Chưa phê duyệt",
+  "PASS": "Đạt",
+  "NOT_PASS": "Không đạt",
+  "chooseIntents": "Chọn ý định"
 }
 
