@@ -66,3 +66,31 @@ export async function getIntents(campaignId) {
     return error.response;
   }
 }
+
+export async function getIntents(campaignId, usecaseId) {
+  try {
+    const response = await api({
+      method: 'GET',
+      url: `${CHATBOT_URL}/api/chatbot/v1/intents`,
+      headers: { 'campaign-id': campaignId },
+      params: { usecaseId },
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}
+
+export async function editOwnerMessage(msgId, userSay, intentName) {
+  try {
+    const response = await api({
+      method: 'PUT',
+      url: `${CHATBOT_URL}/api/chatbot/v1/messages/owner`,
+      headers: { 'message-id': msgId },
+      data: { userSay, intentName },
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}
