@@ -4,9 +4,10 @@ import { useLocation, matchPath } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Content from './Content';
+import routes from '../../constants/route';
 import { LayoutStyled } from './index.style';
 
-const hideSideBarRoute = [];
+const hideSideBarRoute = [routes.CHATBOT_REVIEW, routes.CHATBOT_INTENT_REVIEW];
 
 export default function Layout({ children }) {
   const location = useLocation();

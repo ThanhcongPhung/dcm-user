@@ -5,4 +5,5 @@ export default {
   CAMPAIGN_DETAIL: '/campaigns/:campaignId',
   CHATBOT_COLLECT: '/campaigns/:campaignId/chatbot',
   CHATBOT_INTENT_REVIEW: '/campaigns/:campaignId/chatbot/review/intent',
+  CHATBOT_REVIEW: '/campaigns/:campaignId/chatbot/review',
 };

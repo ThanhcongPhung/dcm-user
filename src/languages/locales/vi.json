@@ -85,6 +85,16 @@
   "NOT_REVIEW": "Chưa phê duyệt",
   "PASS": "Đạt",
   "NOT_PASS": "Không đạt",
-  "chooseIntents": "Chọn ý định"
+  "chooseIntents": "Chọn ý định",
+  "intentReview": "Phê duyệt theo ý định",
+  "sessionReview": "Phê duyệt theo phiên",
+  "session": "Phiên",
+  "intentCampaign": "Người dùng sẽ thực hiện thu thập tất cả các câu nói của người dùng liên quan đến 1 ý định của bot.",
+  "intentReviewCorrect": "Sau khi người dùng thực hiện đóng góp dữ liệu xong thì bạn sẽ là người phê duyệt các dữ liệu đó. Một dữ liệu được coi là đạt yêu cầu nếu câu chat của người dùng chấp nhận được và ý định trả về cho câu chat đó đúng.",
+  "noteIntentReview": "Ý định ở đây là ý định của bot trả về và ý định mà người dùng chỉnh sửa (nếu có).",
+  "note": "Chú ý",
+  "usecaseCampaign": "Người dùng sẽ thực hiện đóng góp các dữ liệu liên quan đến một kịch bản của bot thông qua các phiên chat khác nhau.",
+  "sessionReviewCorrect": "Sau khi người dùng thực hiện đóng góp dữ liệu xong thì bạn sẽ là người phê duyệt các dữ liệu đó. Một phiên chat được coi là đúng nếu luồng kịch bản chấp nhận được.",
+  "noteSessionReview": "Bạn có thể thực hiện kéo các block chat của người dùng lên, xuống; có thể chỉnh sửa một số câu chat chưa chính xác hoặc xóa các câu chat trong phiên sao cho phù hợp với các kịch bản."
 }
 

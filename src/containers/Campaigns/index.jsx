@@ -25,6 +25,7 @@ import {
 } from '../../constants';
 import ShowButton from './ShowButton';
 import SearchCampaign from './SearchCampaign';
+import ShowActions from '../../components/ShowActions';
 import { CampaignListStyle } from './index.style';
 
 const searchInit = {
@@ -225,7 +226,8 @@ export default function CampaignList() {
                     {t(getServiceName(item.serviceId))}
                   </Typography>
                   <Typography variant="body1">
-                    {`${t('campaignAction')}: ${t(item.action)}`}
+                    {`${t('campaignAction')}: `}
+                    <ShowActions actions={item.actions} />
                   </Typography>
                 </div>
               </CardContent>
