@@ -44,24 +44,24 @@ export default function EditCommentDialog({
       <DialogContent>
         <EditCommentStyled>
           <Grid container spacing={2}>
-            <Grid item xs={3} className="gridLabel">
+            <Grid item xs={4} className="gridLabel">
               <Typography variant="body2" className="label">
                 {t('userSay')}
               </Typography>
             </Grid>
-            <Grid item xs={9}>
+            <Grid item xs={8}>
               <Typography variant="body2">
                 {editComment && editComment.content && editComment.content.text}
               </Typography>
             </Grid>
           </Grid>
           <Grid container spacing={2}>
-            <Grid item xs={3} className="gridLabel">
+            <Grid item xs={4} className="gridLabel">
               <Typography variant="body2" className="label">
-                {t('intent')}
+                {t('contributorIntent')}
               </Typography>
             </Grid>
-            <Grid item xs={9}>
+            <Grid item xs={8}>
               <Typography variant="body2">
                 {getIntentDisplayName(
                   editComment && editComment.nlu && editComment.nlu.name,
@@ -70,12 +70,12 @@ export default function EditCommentDialog({
             </Grid>
           </Grid>
           <Grid container spacing={2}>
-            <Grid item xs={3} className="gridLabel">
+            <Grid item xs={4} className="gridLabel">
               <Typography variant="body2" className="label">
-                {t('initialIntent')}
+                {t('botIntent')}
               </Typography>
             </Grid>
-            <Grid item xs={9}>
+            <Grid item xs={8}>
               <Typography variant="body2">
                 {getIntentDisplayName(
                   editComment && editComment.nlu && editComment.nlu.botIntent,

@@ -44,6 +44,7 @@ export default function IntentReview() {
       status: status && status !== 'total' ? status : '',
       range,
       sort: 'createdAt_desc',
+      type: 'FILTER',
     });
     setIsLoading(false);
     if (data.status) {
@@ -138,6 +139,7 @@ export default function IntentReview() {
             isLoading={isLoading}
             page={page}
             allIntents={allIntents}
+            campaignId={campaignId}
           />
         </div>
         <div className="pagination">

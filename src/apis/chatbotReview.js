@@ -8,13 +8,33 @@ export async function getUserSays({
   status,
   intentNames,
   range,
+  type,
 }) {
   try {
     const response = await api({
       method: 'POST',
       url: `${CHATBOT_URL}/api/chatbot/v1/usersays`,
       headers: { 'campaign-id': campaignId },
-      params: { search, status, intentNames, range, sort },
+      data: { search, status, intentNames, range, sort, type },
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}
+
+export async function updateReview({
+  campaignId,
+  messageIds,
+  status,
+  comment,
+}) {
+  try {
+    const response = await api({
+      method: 'PUT',
+      url: `${CHATBOT_URL}/api/chatbot/v1/reviews`,
+      headers: { 'campaign-id': campaignId },
+      data: { messageIds, status, comment },
     });
     return response;
   } catch (error) {

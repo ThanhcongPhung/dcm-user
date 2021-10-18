@@ -39,6 +39,10 @@ const TableStyled = styled.div`
     color: ${FEATURE_COLOR.white};
     padding: 8px;
   }
+  .headerCellLevel2 {
+    padding: 8px;
+    font-weight: bold;
+  }
   .bodyRow {
     cursor: pointer;
     &:hover {
@@ -46,6 +50,9 @@ const TableStyled = styled.div`
     }
     &.notPass {
       background: ${FEATURE_COLOR.borderColor};
+    }
+    &.chooseTableRow {
+      background-color: ${FEATURE_COLOR.backgroundMenu};
     }
   }
   .bodyCell {
@@ -76,6 +83,9 @@ const TableStyled = styled.div`
       }
     }
   }
+  .tableCellCollapse {
+    padding: 0;
+  }
 `;
 
 const ReviewSearchStyled = styled.div`
@@ -101,9 +111,29 @@ const EditCommentStyled = styled.div`
   }
 `;
 
+const DetailUsersayStyled = styled.div`
+  .MuiAvatar-root {
+    width: 30px;
+    height: 30px;
+  }
+  .messageItem {
+    border-radius: 10px;
+    padding: 8px;
+    background: ${FEATURE_COLOR.white};
+    border-radius: 1.3em 1.3em 1.3em 4px;
+    color: ${FEATURE_COLOR.text} !important;
+    &.messageClient {
+      margin-left: 5px;
+      background-color: ${FEATURE_COLOR.havelockBlue};
+      color: ${FEATURE_COLOR.white} !important;
+    }
+  }
+`;
+
 export {
   IntentReviewStyled,
   TableStyled,
   ReviewSearchStyled,
   EditCommentStyled,
+  DetailUsersayStyled,
 };
