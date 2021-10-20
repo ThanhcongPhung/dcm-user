@@ -12,6 +12,7 @@ import {
 } from './index.style';
 
 export default function Sidebar({
+  isShowSideBar,
   openSideBar,
   mobileOpen,
   handleDrawerToggle,
@@ -170,7 +171,7 @@ export default function Sidebar({
 
   const renderSidebarMobile = () => {
     return (
-      <Hidden mdUp implementation="css">
+      <Hidden mdUp={!isShowSideBar} implementation="css">
         <Drawer
           variant="temporary"
           anchor="right"
@@ -199,7 +200,7 @@ export default function Sidebar({
   };
   return (
     <>
-      {renderSidebarWindow()}
+      {isShowSideBar && renderSidebarWindow()}
       {renderSidebarMobile()}
     </>
   );

@@ -97,6 +97,8 @@
   "sessionReviewCorrect": "Sau khi người dùng thực hiện đóng góp dữ liệu xong thì bạn sẽ là người phê duyệt các dữ liệu đó. Một phiên chat được coi là đúng nếu luồng kịch bản chấp nhận được.",
   "noteSessionReview": "Bạn có thể thực hiện kéo các block chat của người dùng lên, xuống; có thể chỉnh sửa một số câu chat chưa chính xác hoặc xóa các câu chat trong phiên sao cho phù hợp với các kịch bản.",
   "duplicateNumber": "Số lần lặp",
-  "close": "Đóng"
+  "close": "Đóng",
+  "dataApproval": "Phê duyệt dữ liệu",
+  "viewCollectionResult": "Xem kết qủa thu thập"
 }
 
