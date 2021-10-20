@@ -67,20 +67,6 @@ export async function getIntents(campaignId) {
   }
 }
 
-export async function getIntents(campaignId, usecaseId) {
-  try {
-    const response = await api({
-      method: 'GET',
-      url: `${CHATBOT_URL}/api/chatbot/v1/intents`,
-      headers: { 'campaign-id': campaignId },
-      params: { usecaseId },
-    });
-    return response;
-  } catch (error) {
-    return error.response;
-  }
-}
-
 export async function editOwnerMessage(msgId, userSay, intentName) {
   try {
     const response = await api({

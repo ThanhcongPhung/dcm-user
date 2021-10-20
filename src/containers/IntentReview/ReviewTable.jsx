@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Table,
@@ -7,19 +7,17 @@ import {
   TableHead,
   TableRow,
   CircularProgress,
-  Checkbox,
-  Tooltip,
-  Typography,
 } from '@material-ui/core';
-import { Edit } from '@material-ui/icons';
 import { TableStyled } from './index.style';
-import EditCommentDialog from './EditCommentDialog';
+import ReviewTableRow from './ReviewTableRow';
+import { PAGINATION } from '../../constants';
 
 const tableTitle = [
   'no',
   'userSay',
+  'duplicateNumber',
+  'contributorIntent',
   'botIntent',
-  'editIntent',
   'status',
   'comment',
 ];
@@ -28,31 +26,20 @@ export default function ReviewTable({
   userSays,
   onSetUserSays,
   isLoading,
-  pagination,
+  page,
+  allIntents,
+  campaignId,
 }) {
-  const [editComment, setEditComment] = useState(null);
-
   const { t } = useTranslation();
 
-  const handleEditComment = (comment) => {
-    // TODO: call api edit comment
-    const usersayId = editComment && editComment.id;
-    if (usersayId && userSays[usersayId]) {
-      const tempUsersays = userSays;
-      tempUsersays[usersayId].comment = comment;
-      onSetUserSays({ ...tempUsersays });
-      setEditComment(null);
-    }
-  };
-
-  const handleReview = (userSayId, value) => {
-    if (userSays[userSayId]) {
-      // TODO: call api review intent
-      const tempUsersays = userSays;
-      tempUsersays[userSayId].status = value;
-      onSetUserSays({ ...tempUsersays });
-    }
-  };
+  const showUsersays = useMemo(
+    () =>
+      Object.values(userSays).slice(
+        page * PAGINATION.TABLE_REVIEW,
+        page * PAGINATION.TABLE_REVIEW + PAGINATION.TABLE_REVIEW,
+      ),
+    [userSays, page],
+  );
 
   return (
     <TableStyled>
@@ -68,49 +55,17 @@ export default function ReviewTable({
           </TableRow>
         </TableHead>
         <TableBody>
-          {Object.values(userSays).map((usersayItem, index) => (
-            <TableRow
-              className="bodyRow"
+          {showUsersays.map((usersayItem, index) => (
+            <ReviewTableRow
+              usersay={usersayItem}
               key={usersayItem.id}
-              onClick={() => handleReview(usersayItem.id, !usersayItem.status)}
-            >
-              <TableCell align="center" className="bodyCell">
-                {(pagination.page - 1) * pagination.limit + index + 1}
-              </TableCell>
-              <TableCell align="left" className="bodyCell">
-                {usersayItem.usersay}
-              </TableCell>
-              <TableCell align="left" className="bodyCell">
-                {usersayItem.botIntent}
-              </TableCell>
-              <TableCell align="center" className="bodyCell">
-                {usersayItem.editIntent}
-              </TableCell>
-              <TableCell className="bodyCell checkboxCell">
-                <Checkbox
-                  color="primary"
-                  checked={usersayItem.status}
-                  onChange={() => handleReview(usersayItem.id, true)}
-                />
-                <Checkbox
-                  className="checkbox noPass"
-                  checked={!usersayItem.status}
-                  onChange={() => handleReview(usersayItem.id, false)}
-                />
-              </TableCell>
-              <TableCell align="center" className="bodyCell reviewComment">
-                <Typography className="textComment">
-                  {usersayItem.comment}
-                </Typography>
-                <Tooltip title={t('edit')} placement="top">
-                  <Edit
-                    color="primary"
-                    className="editButton"
-                    onClick={() => setEditComment(usersayItem)}
-                  />
-                </Tooltip>
-              </TableCell>
-            </TableRow>
+              index={index}
+              allIntents={allIntents}
+              page={page}
+              campaignId={campaignId}
+              userSays={userSays}
+              onSetUserSays={onSetUserSays}
+            />
           ))}
           {isLoading && (
             <TableRow>
@@ -121,12 +76,6 @@ export default function ReviewTable({
           )}
         </TableBody>
       </Table>
-      <EditCommentDialog
-        open={!!editComment}
-        handleClose={() => setEditComment(null)}
-        onHandleEdit={handleEditComment}
-        editComment={editComment}
-      />
     </TableStyled>
   );
 }

@@ -44,7 +44,7 @@ export default function ReviewSearch({
             />
           )}
           value={reviewSearch.intentIds}
-          onChange={handleAutocompleteSearch('intentIds')}
+          onChange={handleAutocompleteSearch}
         />
       </div>
       <FormControl variant="outlined" className="search-information">

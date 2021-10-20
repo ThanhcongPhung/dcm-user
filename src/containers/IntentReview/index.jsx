@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
-import { Paper, Typography } from '@material-ui/core';
-import Pagination from '@material-ui/lab/Pagination';
+import { Paper, Typography, Link, TablePagination } from '@material-ui/core';
 import DateTimeRangePicker from '../../components/DateTimeRangePicker';
 import ReviewSearch from './ReviewSearch';
 import ReviewTable from './ReviewTable';
@@ -19,20 +18,17 @@ const week = [
 export default function IntentReview() {
   const { campaignId } = useParams();
   const [range, setRange] = useState(week);
+  const [allIntents, setAllIntents] = useState([]);
   const [intents, setIntents] = useState([]);
   const [userSays, setUserSays] = useState({});
   const [campaign, setCampaign] = useState();
   const [reviewSearch, setReviewSearch] = useState({
     userSay: '',
-    intentIds: [],
+    intentNames: [],
     status: 'total',
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [pagination, setPagination] = useState({
-    page: 1,
-    limit: PAGINATION.TABLE_REVIEW,
-    totalPages: 1,
-  });
+  const [page, setPage] = useState(0);
 
   const { t } = useTranslation();
 
@@ -40,16 +36,15 @@ export default function IntentReview() {
 
   const fetchUserSays = async (fields) => {
     setIsLoading(true);
-    const { offset, userSaySearch, intentId, status } = fields;
-    const { data } = await api.chatbotReview.getUerSays({
-      offset,
+    const { userSaySearch, status, intentNames } = fields;
+    const { data } = await api.chatbotReview.getUserSays({
       search: userSaySearch,
       campaignId,
-      intentId: intentId && intentId !== 'total' ? intentId : '',
+      intentNames,
       status: status && status !== 'total' ? status : '',
       range,
-      limit: pagination.limit,
       sort: 'createdAt_desc',
+      type: 'FILTER',
     });
     setIsLoading(false);
     if (data.status) {
@@ -61,10 +56,6 @@ export default function IntentReview() {
         })),
       );
       setUserSays(objectUsersays);
-      setPagination((prev) => ({
-        ...prev,
-        totalPages: Math.ceil(data.result.metadata.total / pagination.limit),
-      }));
     }
   };
 
@@ -78,27 +69,30 @@ export default function IntentReview() {
     if (data.status) setIntents(data.result);
   };
 
-  const handleChangePagination = (e, value) =>
-    setPagination((prev) => ({ ...prev, page: value }));
+  const fetchCampaignAllIntents = async () => {
+    const { data } = await api.campaign.getIntents(campaignId);
+    if (data.status) setAllIntents(data.result.intents);
+  };
 
   const onSetDateTimeRange = (changeRange) => setRange(changeRange);
 
   const onHandleKeyNameSearch = (searchValue) => {
     setReviewSearch((prev) => ({ ...prev, userSay: searchValue }));
     fetchUserSays({ userSaySearch: searchValue });
-    setPagination((prev) => ({ ...prev, page: 1 }));
+    setPage(0);
   };
 
-  const handleAutocompleteSearch = (name) => (event, values) => {
-    setReviewSearch((prev) => ({ ...prev, [name]: values }));
-    fetchUserSays({ ...reviewSearch, [name]: values });
-    setPagination((prev) => ({ ...prev, page: 1 }));
+  const handleAutocompleteSearch = (event, values) => {
+    const intentNames = values.map((item) => item.name);
+    setReviewSearch((prev) => ({ ...prev, intentNames }));
+    fetchUserSays({ ...reviewSearch, intentNames: values });
+    setPage(0);
   };
 
   const handleSelectSearch = (e) => {
     setReviewSearch((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     fetchUserSays({ ...reviewSearch, [e.target.name]: e.target.value });
-    setPagination((prev) => ({ ...prev, page: 1 }));
+    setPage(0);
   };
 
   useEffect(() => {
@@ -106,6 +100,7 @@ export default function IntentReview() {
       fetchCampaign();
       fetchIntents();
       fetchUserSays(reviewSearch);
+      fetchCampaignAllIntents();
     }
   }, []);
 
@@ -114,7 +109,14 @@ export default function IntentReview() {
       <Paper className="container">
         <div className="header">
           <Typography variant="h5" className="headTitle">
-            {`${t('campaignReview')}: `} {campaign && campaign.name}
+            {`${t('campaignReview')}: `}
+            <Link
+              href={`/campaigns/${campaignId}`}
+              color="inherit"
+              underline="none"
+            >
+              {campaign && campaign.name}
+            </Link>
           </Typography>
           <DateTimeRangePicker
             defaultValue={range}
@@ -135,16 +137,21 @@ export default function IntentReview() {
             userSays={userSays}
             onSetUserSays={onSetUserSays}
             isLoading={isLoading}
-            pagination={pagination}
-            intents={intents}
+            page={page}
+            allIntents={allIntents}
+            campaignId={campaignId}
           />
         </div>
         <div className="pagination">
-          <Pagination
-            page={pagination.page}
-            count={pagination.totalPages}
-            onChange={handleChangePagination}
-          />
+          {Object.keys(userSays).length > PAGINATION.TABLE_REVIEW && (
+            <TablePagination
+              rowsPerPageOptions={[]}
+              count={Object.keys(userSays).length}
+              rowsPerPage={PAGINATION.TABLE_REVIEW}
+              page={page}
+              onPageChange={(event, newPage) => setPage(newPage)}
+            />
+          )}
         </div>
       </Paper>
     </IntentReviewStyled>

@@ -79,12 +79,12 @@
   "monthAgo": "Month Ago",
   "campaignReview": "campaign Review",
   "botIntent": "Intent By Bot",
-  "editIntent": "Edit Intent",
+  "contributorIntent": "Contributor Intent",
   "action": "Action",
   "userSaySearch": "Keyword of usersay",
   "NOT_REVIEW": "Not review",
   "PASS": "Pass",
-  "NOT_PASS": "Not pass",
+  "REJECT": "Not pass",
   "chooseIntents": "Choose Intents",
   "intentReview": "Intent Review",
   "sessionReview": "Session Review",
@@ -95,5 +95,7 @@
   "note": "Note",
   "usecaseCampaign": "Users will contribute data related to a bot's scenario through different chat sessions.",
   "sessionReviewCorrect": "After users make data contributions, you will be the one to approve those data according to chat usecases. A chat session is considered valid if the script flow is acceptable.",
-  "noteSessionReview": "You can pull the user's chat blocks up and down; You can edit some incorrect chat sentences or delete chat sentences in the session to suit the usecase."
+  "noteSessionReview": "You can pull the user's chat blocks up and down; You can edit some incorrect chat sentences or delete chat sentences in the session to suit the usecase.",
+  "duplicateNumber": "Duplicate Number",
+  "close": "Close"
 }
