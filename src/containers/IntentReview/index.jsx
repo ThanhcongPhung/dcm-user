@@ -11,7 +11,7 @@ import { PAGINATION } from '../../constants';
 import { IntentReviewStyled } from './index.style';
 
 const week = [
-  moment().startOf('day').subtract(1, 'week').add(1, 'day'),
+  moment().startOf('day').subtract(1, 'month'),
   moment().endOf('day'),
 ];
 
@@ -36,13 +36,13 @@ export default function IntentReview() {
 
   const fetchUserSays = async (fields) => {
     setIsLoading(true);
-    const { userSaySearch, status, intentNames } = fields;
+    const { userSaySearch, status, intentNames, dateRange } = fields;
     const { data } = await api.chatbotReview.getUserSays({
       search: userSaySearch,
       campaignId,
       intentNames,
       status: status && status !== 'total' ? status : '',
-      range,
+      range: dateRange || range,
       sort: 'createdAt_desc',
       type: 'FILTER',
     });
@@ -55,7 +55,7 @@ export default function IntentReview() {
           [usersayItem.id]: usersayItem,
         })),
       );
-      setUserSays(objectUsersays);
+      setUserSays({ ...objectUsersays });
     }
   };
 
@@ -74,7 +74,10 @@ export default function IntentReview() {
     if (data.status) setAllIntents(data.result.intents);
   };
 
-  const onSetDateTimeRange = (changeRange) => setRange(changeRange);
+  const onSetDateTimeRange = (changeRange) => {
+    setRange(changeRange);
+    fetchUserSays({ dateRange: changeRange });
+  };
 
   const onHandleKeyNameSearch = (searchValue) => {
     setReviewSearch((prev) => ({ ...prev, userSay: searchValue }));
@@ -84,8 +87,8 @@ export default function IntentReview() {
 
   const handleAutocompleteSearch = (event, values) => {
     const intentNames = values.map((item) => item.name);
-    setReviewSearch((prev) => ({ ...prev, intentNames }));
-    fetchUserSays({ ...reviewSearch, intentNames: values });
+    setReviewSearch((prev) => ({ ...prev, values }));
+    fetchUserSays({ ...reviewSearch, intentNames });
     setPage(0);
   };
 

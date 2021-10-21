@@ -9,6 +9,7 @@ import {
   Button,
   List,
   ListItem,
+  TextField,
 } from '@material-ui/core';
 import api from '../../apis';
 import messageTypes from '../../enums/messageTypes';
@@ -21,29 +22,30 @@ export default function DetailUsersayDialog({
   chooseUsersayId,
   handleClose,
   campaignId,
-  senderId,
 }) {
   const { t } = useTranslation();
+  const [limit, setLimit] = useState(4);
   const [messages, setMessages] = useState([]);
   const [standardMessages, setStandardMessages] = useState([]);
 
-  const fetchRelationMessages = async () => {
+  const fetchRelationMessages = async (fields) => {
     const { data } = await api.message.getRelationMessages({
       campaignId,
       msgId: chooseUsersayId,
-      userId: senderId,
+      limit: (fields && fields.limit) || limit,
     });
-    if (data.status) setMessages(data.result.messages);
+    if (data.status) setMessages(data.result);
+  };
+
+  const handleChangeLimit = (e) => {
+    fetchRelationMessages({ limit: e.target.value });
+    setLimit(e.target.value);
   };
 
   useEffect(() => {
-    if (chooseUsersayId && campaignId && senderId)
-      fetchRelationMessages({
-        campaignId,
-        msgId: chooseUsersayId,
-        userId: senderId,
-      });
-  }, [chooseUsersayId, campaignId, senderId]);
+    if (chooseUsersayId && campaignId)
+      fetchRelationMessages({ campaignId, msgId: chooseUsersayId });
+  }, [chooseUsersayId, campaignId]);
 
   useEffect(() => {
     if (messages.length) {
@@ -167,7 +169,23 @@ export default function DetailUsersayDialog({
   return (
     <Dialog open={open} onClose={handleClose} fullWidth>
       <DetailUsersayStyled>
-        <DialogTitle>{t('detailUsersay')}</DialogTitle>
+        <div className="header">
+          <DialogTitle classes={{ root: 'title' }}>
+            {t('detailUsersay')}
+          </DialogTitle>
+          <DialogActions>
+            <TextField
+              fullWidth
+              label={t('limit')}
+              type="number"
+              value={limit}
+              onChange={handleChangeLimit}
+              name="search"
+              variant="outlined"
+              InputProps={{ inputProps: { min: 1, max: 10 } }}
+            />
+          </DialogActions>
+        </div>
         <DialogContent>
           <List className="list">
             {standardMessages.map((message, index) =>

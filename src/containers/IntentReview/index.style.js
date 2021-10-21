@@ -54,6 +54,10 @@ const TableStyled = styled.div`
     &.chooseTableRow {
       background-color: ${FEATURE_COLOR.backgroundMenu};
     }
+    .checkboxWrapper {
+      display: flex;
+      justify-content: center;
+    }
   }
   .bodyCell {
     padding: 8px;
@@ -112,6 +116,12 @@ const EditCommentStyled = styled.div`
 `;
 
 const DetailUsersayStyled = styled.div`
+  .header {
+    display: flex;
+    .title {
+      flex: 1;
+    }
+  }
   .MuiAvatar-root {
     width: 30px;
     height: 30px;

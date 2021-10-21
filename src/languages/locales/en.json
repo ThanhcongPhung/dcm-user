@@ -107,5 +107,6 @@
   "confirm": "Confirm",
   "agree": "Agree",
   "confirmEndChat": "Are you sure end the chat session?",
-  "confirmConvertUsecase": "When you switch to the new usecase, the chat session will change. If you are in a chat session you will have to end the chat session. Are you sure you want to transfer the usecase?"
+  "confirmConvertUsecase": "When you switch to the new usecase, the chat session will change. If you are in a chat session you will have to end the chat session. Are you sure you want to transfer the usecase?",
+  "limit": "limit"
 }
