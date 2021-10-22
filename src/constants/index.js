@@ -19,6 +19,7 @@ const CAMPAIGN_TYPE = {
   FAQ: 'FAQ',
   SLU: 'SLU',
   ASR: 'ASR',
+  NLU: 'NLU',
 };
 
 const CAMPAIGN_ROLE = {
