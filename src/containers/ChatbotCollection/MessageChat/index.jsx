@@ -24,7 +24,7 @@ const MessageChat = () => {
     onSetMessages,
     setIsTopScroll,
     setEndScroll,
-    handleEndChat,
+    handleConfirmEndChat,
   } = useContext(MessageContext);
   const limit = 20;
 
@@ -92,7 +92,7 @@ const MessageChat = () => {
       <MessageHeader
         campaign={campaign}
         campaignId={campaign && campaign.id}
-        handleEndChat={handleEndChat}
+        handleConfirmEndChat={handleConfirmEndChat}
       />
       <Divider />
       <MessageContent

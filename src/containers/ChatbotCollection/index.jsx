@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { Grid } from '@material-ui/core';
 import MessageChat from './MessageChat';
 import ChatbotInfo from './ChatbotInfo';
+import ConfirmDialog from '../../components/Dialog/ConfirmDialog';
 import api from '../../apis';
 import { WS_LIVECHAT_URL } from '../../configs';
 import { chatTypes } from '../../constants/websocket';
@@ -26,6 +27,7 @@ export default function ChatBotCollection() {
   const [usecase, setUsecase] = useState({});
   const [intents, setIntents] = useState([]);
   const [isChangeResult, setIsChangeResult] = useState(false);
+  const [isEndChat, setIsEndChat] = useState(false);
   const { user } = useSelector((state) => state.auth);
 
   const rws = useRef(null);
@@ -113,7 +115,10 @@ export default function ChatBotCollection() {
   const handleEndChat = () => {
     const msg = { type: chatTypes.END_SESSION };
     rws.current.send(JSON.stringify(msg));
+    setIsEndChat(false);
   };
+
+  const handleConfirmEndChat = () => setIsEndChat(true);
 
   useEffect(() => {
     if (isChangeResult) fetchResultChat();
@@ -225,7 +230,7 @@ export default function ChatBotCollection() {
     setIsTopScroll,
     endScroll,
     setEndScroll,
-    handleEndChat,
+    handleConfirmEndChat,
     campaignId,
     usecaseId: currentUsecase.current && currentUsecase.current.id,
     setIsChangeResult,
@@ -245,9 +250,17 @@ export default function ChatBotCollection() {
             intents={intents}
             onSetUsecase={onSetUsecase}
             onSetIntents={onSetIntents}
+            handleEndChat={handleEndChat}
           />
         </Grid>
       </MessageContext.Provider>
+      <ConfirmDialog
+        open={isEndChat}
+        title={t('confirm')}
+        content={t('confirmEndChat')}
+        handleClose={() => setIsEndChat(false)}
+        handleConfirm={handleEndChat}
+      />
     </ChatbotCollectionStyled>
   );
 }
