@@ -6,6 +6,7 @@ import {
   CAMPAIGN_ROLE,
   CAMPAIGN_STATUS,
   PARTICIPATION_STATUS,
+  CAMPAIGN_TYPE,
 } from '../../constants';
 import { ShowButtonStyled } from './index.style';
 
@@ -21,7 +22,15 @@ export default function ShowButton({
   const history = useHistory();
   const { t } = useTranslation();
 
-  const handleShowProgress = () => history.push(`/${campaignId}/result`);
+  const handleShowProgress = () => {
+    switch (campaignType) {
+      case CAMPAIGN_TYPE.CHATBOT_USECASE:
+      case CAMPAIGN_TYPE.CHATBOT_INTENT:
+        history.push(`campaigns/${campaignId}/chatbot/contribution`);
+        break;
+      default:
+    }
+  };
 
   const CollectionButton = () => {
     return (
