@@ -63,7 +63,11 @@ export default function MessageHeader({ campaignId, campaign, handleEndChat }) {
         onClose={handleClose}
       >
         <MenuItem>
-          <Link href={`/${campaignId}/result`} color="inherit" underline="none">
+          <Link
+            href={`/campaigns/${campaignId}/chatbot/contribution`}
+            color="inherit"
+            underline="none"
+          >
             {t('viewProgress')}
           </Link>
         </MenuItem>

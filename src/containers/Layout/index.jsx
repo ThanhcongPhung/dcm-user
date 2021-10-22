@@ -7,7 +7,11 @@ import Content from './Content';
 import routes from '../../constants/route';
 import { LayoutStyled } from './index.style';
 
-const hideSideBarRoute = [routes.CHATBOT_REVIEW, routes.CHATBOT_INTENT_REVIEW];
+const hideSideBarRoute = [
+  routes.CHATBOT_REVIEW,
+  routes.CHATBOT_INTENT_REVIEW,
+  routes.CHATBOT_CONTRIBUTION_RESULT,
+];
 
 export default function Layout({ children }) {
   const location = useLocation();

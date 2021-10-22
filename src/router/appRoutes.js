@@ -4,6 +4,7 @@ import CampaignDetail from '../pages/CampaignDetail';
 import Chatbot from '../pages/Chatbot';
 import IntentReview from '../pages/IntentReview';
 import ChatbotReview from '../pages/ChatbotReview';
+import ChatbotContributionResult from '../pages/ChatbotContributionResult';
 
 const appRoutes = {
   campaigns: {
@@ -41,6 +42,11 @@ const appRoutes = {
   chatbotReview: {
     url: routes.CHATBOT_REVIEW,
     component: ChatbotReview,
+    private: true,
+  },
+  chatbotContributionResult: {
+    url: routes.CHATBOT_CONTRIBUTION_RESULT,
+    component: ChatbotContributionResult,
     private: true,
   },
 };
