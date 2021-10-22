@@ -9,13 +9,14 @@ export async function getUserSays({
   intentNames,
   range,
   type,
+  senderId,
 }) {
   try {
     const response = await api({
       method: 'POST',
       url: `${CHATBOT_URL}/api/chatbot/v1/usersays`,
       headers: { 'campaign-id': campaignId },
-      data: { search, status, intentNames, range, sort, type },
+      data: { search, status, intentNames, range, sort, type, senderId },
     });
     return response;
   } catch (error) {

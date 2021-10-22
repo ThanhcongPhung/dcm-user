@@ -47,6 +47,11 @@ const RESULT_STATUS = {
   DONE: 'DONE',
 };
 
+const CHATBOT_RESULT_PAGE_TYPE = {
+  MANAGE: 'manage',
+  CONTRIBUTION: 'contribution',
+};
+
 export {
   CAMPAIGN_STATUS,
   CAMPAIGN_TYPE,
@@ -58,4 +63,5 @@ export {
   RESULT_STATUS,
   PAGINATION,
   REVIEW_RESULT_STATUS,
+  CHATBOT_RESULT_PAGE_TYPE,
 };

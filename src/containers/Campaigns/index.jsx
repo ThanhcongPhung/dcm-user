@@ -114,7 +114,7 @@ export default function CampaignList() {
         if (role === CAMPAIGN_ROLE.REVIEWER) {
           history.push(`/campaigns/${campaignId}/chatbot/review`);
         } else if (role === CAMPAIGN_ROLE.MANAGER) {
-          history.push(`/campaigns/${campaignId}/chatbot/manage`);
+          history.push(`/campaigns/${campaignId}/chatbot/result/manage`);
         } else {
           history.push(`/campaigns/${campaignId}/chatbot`);
         }

@@ -26,7 +26,7 @@ export default function ShowButton({
     switch (campaignType) {
       case CAMPAIGN_TYPE.CHATBOT_USECASE:
       case CAMPAIGN_TYPE.CHATBOT_INTENT:
-        history.push(`campaigns/${campaignId}/chatbot/contribution`);
+        history.push(`campaigns/${campaignId}/chatbot/result/contribution`);
         break;
       default:
     }

@@ -23,7 +23,8 @@ const ResultSearchStyled = styled.div`
   display: flex;
   margin: 8px 0;
   .search-information {
-    width: calc(100% / 3 - 10px);
+    width: ${(props) =>
+      props.manageType ? 'calc(100% / 4 - 10px)' : 'calc(100% / 3 - 10px)'};
     margin-right: 10px;
   }
 `;

@@ -101,6 +101,8 @@
   "dataApproval": "Phê duyệt dữ liệu",
   "viewCollectionResult": "Xem kết qủa thu thập",
   "detailUsersay": "Chi tiết câu chat",
-  "contributionResult": "Kết quả đóng góp"
+  "contributionResult": "Kết quả đóng góp",
+  "campaignCollectionResult": "Kết quả thu thập của chiến dịch",
+  "contributor": "Người đóng góp dữ liệu"
 }
 

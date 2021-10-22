@@ -1,23 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import moment from 'moment';
 import { Paper, Typography, Link, TablePagination } from '@material-ui/core';
 import ResultSearch from './ResultSearch';
 import ResultTable from './ResultTable';
+import DateTimeRangePicker from '../../components/DateTimeRangePicker';
 import api from '../../apis';
-import { PAGINATION } from '../../constants';
+import {
+  PAGINATION,
+  CAMPAIGN_ROLE,
+  CHATBOT_RESULT_PAGE_TYPE,
+  PARTICIPATION_STATUS,
+} from '../../constants';
 import { ContributionResultStyled } from './index.style';
 
-export default function ChatbotContributorResult() {
-  const { campaignId } = useParams();
+const month = [
+  moment().startOf('day').subtract(1, 'month').add(1, 'day'),
+  moment().endOf('day'),
+];
+
+export default function ChatbotResult() {
+  const { campaignId, type } = useParams();
+  const [range, setRange] = useState(month);
   const [allIntents, setAllIntents] = useState([]);
   const [intents, setIntents] = useState([]);
   const [userSays, setUserSays] = useState({});
   const [campaign, setCampaign] = useState();
+  const [participants, setParticipants] = useState([]);
   const [reviewSearch, setReviewSearch] = useState({
     userSay: '',
     intentNames: [],
     status: 'total',
+    senderId: '',
   });
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(0);
@@ -28,14 +43,16 @@ export default function ChatbotContributorResult() {
 
   const fetchUserSays = async (fields) => {
     setIsLoading(true);
-    const { userSaySearch, status, intentNames } = fields;
+    const { userSaySearch, status, intentNames, senderId, dateRange } = fields;
     const { data } = await api.chatbotReview.getUserSays({
       search: userSaySearch,
       campaignId,
       intentNames,
+      range: dateRange || range,
       status: status && status !== 'total' ? status : '',
       sort: 'createdAt_desc',
       type: 'FILTER',
+      senderId: senderId && senderId !== 'total' ? senderId : '',
     });
     setIsLoading(false);
     if (data.status) {
@@ -46,13 +63,15 @@ export default function ChatbotContributorResult() {
           [usersayItem.id]: usersayItem,
         })),
       );
-      setUserSays(objectUsersays);
+      setUserSays({ ...objectUsersays });
     }
   };
 
   const fetchCampaign = async () => {
     const { data } = await api.campaign.getCampaign(campaignId);
-    if (data.status) setCampaign(data.result);
+    if (data.status) {
+      setCampaign(data.result);
+    }
   };
 
   const fetchIntents = async () => {
@@ -63,6 +82,23 @@ export default function ChatbotContributorResult() {
   const fetchCampaignAllIntents = async () => {
     const { data } = await api.campaign.getIntents(campaignId);
     if (data.status) setAllIntents(data.result.intents);
+  };
+
+  const fetchParticipantCampaign = async () => {
+    const { data } = await api.campaign.getParticipants(campaignId);
+    if (data.status) {
+      const contributors = data.result.filter(
+        (item) =>
+          item.role === CAMPAIGN_ROLE.CONTRIBUTOR &&
+          item.status === PARTICIPATION_STATUS.JOINED,
+      );
+      setParticipants(contributors);
+    }
+  };
+
+  const onSetDateTimeRange = (changeRange) => {
+    setRange(changeRange);
+    fetchUserSays({ dateRange: changeRange });
   };
 
   const onHandleKeyNameSearch = (searchValue) => {
@@ -90,6 +126,7 @@ export default function ChatbotContributorResult() {
       fetchIntents();
       fetchUserSays(reviewSearch);
       fetchCampaignAllIntents();
+      if (type === CHATBOT_RESULT_PAGE_TYPE.MANAGE) fetchParticipantCampaign();
     }
   }, []);
 
@@ -98,7 +135,10 @@ export default function ChatbotContributorResult() {
       <Paper className="container">
         <div className="header">
           <Typography variant="h5" className="headTitle">
-            {`${t('contributionResult')}: `}
+            {type === CHATBOT_RESULT_PAGE_TYPE.CONTRIBUTION &&
+              `${t('contributionResult')}: `}
+            {type === CHATBOT_RESULT_PAGE_TYPE.MANAGE &&
+              `${t('campaignCollectionResult')}: `}
             <Link
               href={`/campaigns/${campaignId}`}
               color="inherit"
@@ -107,6 +147,10 @@ export default function ChatbotContributorResult() {
               {campaign && campaign.name}
             </Link>
           </Typography>
+          <DateTimeRangePicker
+            defaultValue={range}
+            cbChangeRange={onSetDateTimeRange}
+          />
         </div>
         <div className="userSearch">
           <ResultSearch
@@ -115,6 +159,8 @@ export default function ChatbotContributorResult() {
             handleAutocompleteSearch={handleAutocompleteSearch}
             handleSelectSearch={handleSelectSearch}
             reviewSearch={reviewSearch}
+            participants={participants}
+            type={type}
           />
         </div>
         <div className="userTable">

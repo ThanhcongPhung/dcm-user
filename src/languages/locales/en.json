@@ -101,5 +101,7 @@
   "dataApproval": "Data Approval",
   "viewCollectionResult": "View Collection Result",
   "detailUsersay": "Detail Usersay",
-  "contributionResult": "Contribution Result"
+  "contributionResult": "Contribution Result",
+  "campaignCollectionResult": "Collected Result of the Campaign",
+  "contributor": "Contributor"
 }

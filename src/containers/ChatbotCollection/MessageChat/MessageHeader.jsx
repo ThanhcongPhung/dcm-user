@@ -64,7 +64,7 @@ export default function MessageHeader({ campaignId, campaign, handleEndChat }) {
       >
         <MenuItem>
           <Link
-            href={`/campaigns/${campaignId}/chatbot/contribution`}
+            href={`/campaigns/${campaignId}/chatbot/result/contribution`}
             color="inherit"
             underline="none"
           >
