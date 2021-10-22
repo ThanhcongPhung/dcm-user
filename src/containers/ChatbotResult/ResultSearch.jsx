@@ -9,7 +9,10 @@ import {
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import SearchInput from '../../components/SearchInput';
-import { REVIEW_RESULT_STATUS } from '../../constants';
+import {
+  CHATBOT_RESULT_PAGE_TYPE,
+  REVIEW_RESULT_STATUS,
+} from '../../constants';
 import { ResultSearchStyled } from './index.style';
 
 export default function ResultSearch({
@@ -18,11 +21,31 @@ export default function ResultSearch({
   reviewSearch,
   handleAutocompleteSearch,
   handleSelectSearch,
+  type,
+  participants,
 }) {
   const { t } = useTranslation();
 
   return (
-    <ResultSearchStyled>
+    <ResultSearchStyled manageType={type === CHATBOT_RESULT_PAGE_TYPE.MANAGE}>
+      {type === CHATBOT_RESULT_PAGE_TYPE.MANAGE && (
+        <FormControl variant="outlined" className="search-information">
+          <InputLabel>{t('contributor')}</InputLabel>
+          <Select
+            value={reviewSearch.senderId}
+            name="senderId"
+            onChange={handleSelectSearch}
+          >
+            <MenuItem value="total">{t('total')}</MenuItem>
+            {participants &&
+              participants.map((item) => (
+                <MenuItem value={item.userId} key={item.userId}>
+                  {t(item.name)}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
+      )}
       <div className="search-information">
         <SearchInput
           variant="outlined"
@@ -47,6 +70,7 @@ export default function ResultSearch({
           onChange={handleAutocompleteSearch}
         />
       </div>
+
       <FormControl variant="outlined" className="search-information">
         <InputLabel>{t('status')}</InputLabel>
         <Select
