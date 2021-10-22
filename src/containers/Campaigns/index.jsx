@@ -22,6 +22,7 @@ import {
   CAMPAIGN_STATUS,
   PAGINATION_LIMIT,
   CAMPAIGN_TYPE,
+  CAMPAIGN_ROLE,
 } from '../../constants';
 import ShowButton from './ShowButton';
 import SearchCampaign from './SearchCampaign';
@@ -99,7 +100,7 @@ export default function CampaignList() {
     return null;
   };
 
-  const handleCollectData = ({ campaignId, campaignType, status }) => {
+  const handleCollectData = ({ campaignId, campaignType, status, role }) => {
     if (status === CAMPAIGN_STATUS.WAITING) {
       fetchCampaigns({
         offset: (pagination.page - 1) * pagination.limit,
@@ -110,7 +111,13 @@ export default function CampaignList() {
     switch (campaignType) {
       case CAMPAIGN_TYPE.CHATBOT_USECASE:
       case CAMPAIGN_TYPE.CHATBOT_INTENT:
-        history.push(`/campaigns/${campaignId}/chatbot`);
+        if (role === CAMPAIGN_ROLE.REVIEWER) {
+          history.push(`/campaigns/${campaignId}/chatbot/review`);
+        } else if (role === CAMPAIGN_ROLE.MANAGER) {
+          history.push(`/campaigns/${campaignId}/chatbot/manage`);
+        } else {
+          history.push(`/campaigns/${campaignId}/chatbot`);
+        }
         break;
       default:
     }
@@ -125,10 +132,15 @@ export default function CampaignList() {
     return enqueueSnackbar(t('joinCampaignFailure'), { variant: 'error' });
   };
 
-  const handleAcceptInvitation = async (campaignId, campaignType, status) => {
+  const handleAcceptInvitation = async ({
+    campaignId,
+    campaignType,
+    status,
+    role,
+  }) => {
     const { data } = await api.campaign.acceptInvitationCampaign(campaignId);
     if (data.status) {
-      handleCollectData({ campaignId, campaignType, status });
+      handleCollectData({ campaignId, campaignType, status, role });
       return enqueueSnackbar(t('acceptInvitationSuccess'), {
         variant: 'success',
       });

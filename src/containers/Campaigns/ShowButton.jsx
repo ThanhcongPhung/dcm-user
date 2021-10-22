@@ -2,7 +2,11 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Typography, Button } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import { CAMPAIGN_STATUS, PARTICIPATION_STATUS } from '../../constants';
+import {
+  CAMPAIGN_ROLE,
+  CAMPAIGN_STATUS,
+  PARTICIPATION_STATUS,
+} from '../../constants';
 import { ShowButtonStyled } from './index.style';
 
 export default function ShowButton({
@@ -16,48 +20,8 @@ export default function ShowButton({
   const { id: campaignId, status, participants, campaignType } = campaign;
   const history = useHistory();
   const { t } = useTranslation();
-  const participantStatus = participants.find((item) => item.userId === userId);
 
   const handleShowProgress = () => history.push(`/${campaignId}/result`);
-
-  const isShowParticipateButton = () => {
-    const campaignStatus = [CAMPAIGN_STATUS.WAITING, CAMPAIGN_STATUS.RUNNING];
-    return !participantStatus && campaignStatus.includes(status);
-  };
-
-  const isShowAcceptInvitationButton = () =>
-    participantStatus &&
-    participantStatus.status === PARTICIPATION_STATUS.INVITED;
-
-  const isShowCollectionButton = () =>
-    participantStatus &&
-    participantStatus.status === PARTICIPATION_STATUS.JOINED;
-
-  const ParticipateButton = () => (
-    <Button
-      variant="contained"
-      color="primary"
-      onClick={() => handleJoinCampaign(campaignId, campaignType, status)}
-    >
-      {t('participate')}
-    </Button>
-  );
-
-  const AcceptInvitationButton = () => {
-    return (
-      <ShowButtonStyled>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() =>
-            handleAcceptInvitation(campaignId, campaignType, status)
-          }
-        >
-          {t('acceptInvitation')}
-        </Button>
-      </ShowButtonStyled>
-    );
-  };
 
   const CollectionButton = () => {
     return (
@@ -98,11 +62,91 @@ export default function ShowButton({
     );
   };
 
+  const validParticipant = participants.find((item) => item.userId === userId);
+  const validContributor = participants.find(
+    (item) =>
+      item.userId === userId &&
+      item.role === CAMPAIGN_ROLE.CONTRIBUTOR &&
+      item.status === PARTICIPATION_STATUS.JOINED,
+  );
+  const validReviewer = participants.find(
+    (item) =>
+      item.userId === userId &&
+      item.role === CAMPAIGN_ROLE.REVIEWER &&
+      item.status === PARTICIPATION_STATUS.JOINED,
+  );
+  const validManager = participants.find(
+    (item) =>
+      item.userId === userId &&
+      item.role === CAMPAIGN_ROLE.MANAGER &&
+      item.status === PARTICIPATION_STATUS.JOINED,
+  );
+  const isShowParticipateButton = () => {
+    const campaignStatus = [CAMPAIGN_STATUS.WAITING, CAMPAIGN_STATUS.RUNNING];
+    return !validParticipant && campaignStatus.includes(status);
+  };
+
   return (
-    <>
-      {isShowCollectionButton() && <CollectionButton />}
-      {isShowParticipateButton() && <ParticipateButton />}
-      {isShowAcceptInvitationButton() && <AcceptInvitationButton />}
-    </>
+    <ShowButtonStyled>
+      {validReviewer && (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() =>
+            handleCollectData({
+              campaignId,
+              campaignType,
+              status,
+              role: CAMPAIGN_ROLE.REVIEWER,
+            })
+          }
+        >
+          {t('dataApproval')}
+        </Button>
+      )}
+      {validManager && (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() =>
+            handleCollectData({
+              campaignId,
+              campaignType,
+              status,
+              role: CAMPAIGN_ROLE.MANAGER,
+            })
+          }
+        >
+          {t('viewCollectionResult')}
+        </Button>
+      )}
+      {validParticipant &&
+        validParticipant.status === PARTICIPATION_STATUS.INVITED && (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() =>
+              handleAcceptInvitation({
+                campaignId,
+                campaignType,
+                status,
+                role: validParticipant && validParticipant.role,
+              })
+            }
+          >
+            {t('acceptInvitation')}
+          </Button>
+        )}
+      {validContributor && <CollectionButton />}
+      {isShowParticipateButton() && (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleJoinCampaign(campaignId, campaignType, status)}
+        >
+          {t('participate')}
+        </Button>
+      )}
+    </ShowButtonStyled>
   );
 }

@@ -22,7 +22,7 @@ const languages = [
   { value: 'vi', label: 'Vietnamese' },
 ];
 
-export default function Header({ handleDrawerToggle }) {
+export default function Header({ handleDrawerToggle, isShowSideBar }) {
   const [isOpenLanguage, setIsOpenLanguage] = useState(null);
   const [isOpenAccount, setIsOpenAccount] = useState(null);
   const { accessToken, user } = useSelector((state) => state.auth);
@@ -47,7 +47,7 @@ export default function Header({ handleDrawerToggle }) {
   return (
     <AppBarStyle position="fixed">
       <Toolbar>
-        <Hidden mdUp implementation="css">
+        <Hidden mdUp={isShowSideBar} implementation="css">
           <IconButton
             color="inherit"
             aria-label="open drawer"
