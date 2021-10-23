@@ -15,7 +15,11 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import { MessageHeaderStyled } from './index.style';
 
-export default function MessageHeader({ campaignId, campaign, handleEndChat }) {
+export default function MessageHeader({
+  campaignId,
+  campaign,
+  handleConfirmEndChat,
+}) {
   const history = useHistory();
   const [anchorEl, setAnchorEl] = useState(null);
   const { t } = useTranslation();
@@ -23,9 +27,9 @@ export default function MessageHeader({ campaignId, campaign, handleEndChat }) {
   const handleClick = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
-  const handleConfirmEndChat = () => {
+  const handleEndChat = () => {
     setAnchorEl(null);
-    handleEndChat();
+    handleConfirmEndChat();
   };
 
   return (
@@ -71,7 +75,7 @@ export default function MessageHeader({ campaignId, campaign, handleEndChat }) {
             {t('viewProgress')}
           </Link>
         </MenuItem>
-        <MenuItem onClick={handleConfirmEndChat}>{t('endSession')}</MenuItem>
+        <MenuItem onClick={handleEndChat}>{t('endSession')}</MenuItem>
       </Menu>
     </MessageHeaderStyled>
   );

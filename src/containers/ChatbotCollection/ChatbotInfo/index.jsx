@@ -14,6 +14,7 @@ import {
 import Card from '../../../components/Card';
 import Usecase from './Usecase';
 import Intent from './Intent';
+import ConfirmDialog from '../../../components/Dialog/ConfirmDialog';
 import { CAMPAIGN_TYPE } from '../../../constants';
 import api from '../../../apis';
 
@@ -40,10 +41,12 @@ export default function ChatbotInfo({
   intents,
   onSetUsecase,
   onSetIntents,
+  handleEndChat,
 }) {
   const [tabValue, setTabValue] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [usecaseList, setUsecaseList] = useState([]);
+  const [convertUsecaseId, setConvertUsecaseId] = useState(null);
   const { t } = useTranslation();
 
   const fetchUsecases = async () => {
@@ -61,9 +64,18 @@ export default function ChatbotInfo({
     }
   };
 
-  const handleConvertUsecase = (usecaseId) => {
+  const handleConfirmConvertUsecase = (usecaseId) =>
+    setConvertUsecaseId(usecaseId);
+
+  const handleCancelConvertUsecase = () => {
+    setConvertUsecaseId(null);
     setAnchorEl(null);
-    fetchUsecase(usecaseId);
+  };
+
+  const handleConvertUsecase = () => {
+    handleEndChat();
+    fetchUsecase(convertUsecaseId);
+    handleCancelConvertUsecase();
   };
 
   useEffect(() => {
@@ -113,7 +125,7 @@ export default function ChatbotInfo({
                   <MenuItem
                     key={usecaseItem.id}
                     value={usecaseItem.id}
-                    onClick={() => handleConvertUsecase(usecaseItem.id)}
+                    onClick={() => handleConfirmConvertUsecase(usecaseItem.id)}
                   >
                     {usecaseItem.name}
                   </MenuItem>
@@ -134,6 +146,13 @@ export default function ChatbotInfo({
       <TabPanel value={tabValue} index={1}>
         <div>Progress</div>
       </TabPanel>
+      <ConfirmDialog
+        open={!!convertUsecaseId}
+        title={t('confirm')}
+        content={t('confirmConvertUsecase')}
+        handleClose={handleCancelConvertUsecase}
+        handleConfirm={handleConvertUsecase}
+      />
     </Card>
   );
 }
