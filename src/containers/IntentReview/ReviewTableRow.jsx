@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import {
@@ -42,6 +42,7 @@ export default function ReviewTableRow({
   const [editComment, setEditComment] = useState(null);
   const [openCollapse, setOpenCollapse] = useState(null);
   const [subPage, setSubPage] = useState(0);
+  const [isReject, setIsReject] = useState(false);
 
   const { t } = useTranslation();
 
@@ -95,6 +96,7 @@ export default function ReviewTableRow({
       }));
       tempUsersays[usersayId].subUsersays = newSubUsersays;
       onSetUserSays({ ...tempUsersays });
+      setIsReject(!value);
     }
   };
 
@@ -170,14 +172,22 @@ export default function ReviewTableRow({
     }
   };
 
+  const checkIsReject = (status) => {
+    if (status === undefined) return;
+    setIsReject(!status);
+  };
+
+  useEffect(() => {
+    if (usersay && usersay.review) {
+      checkIsReject(usersay.review.status);
+    }
+  }, [usersay]);
+
   return (
     <>
       <TableRow
         className={clsx('bodyRow', {
-          notPass:
-            usersay.review &&
-            usersay.review.status &&
-            usersay.review.status === false,
+          notPass: isReject,
           chooseTableRow: openCollapse,
         })}
         key={usersay.id}
@@ -203,7 +213,9 @@ export default function ReviewTableRow({
           padding="checkbox"
           onClick={(e) => e.stopPropagation()}
         >
-          <ShowCheckBox />
+          <div className="checkboxWrapper">
+            <ShowCheckBox />
+          </div>
         </TableCell>
         <TableCell align="center" className="bodyCell reviewComment">
           <Typography className="textComment">
@@ -248,12 +260,7 @@ export default function ReviewTableRow({
                     .map((item, subIndex) => {
                       return (
                         <TableRow
-                          className={clsx('bodyRow', {
-                            notPass:
-                              item.review &&
-                              item.review.status &&
-                              item.review.status === false,
-                          })}
+                          className="bodyRow"
                           key={item.id}
                           onClick={() => setChooseUsersay(usersay)}
                         >
@@ -332,9 +339,6 @@ export default function ReviewTableRow({
       <DetailUsersayDialog
         open={!!chooseUsersay}
         chooseUsersayId={chooseUsersay && chooseUsersay.id}
-        senderId={
-          chooseUsersay && chooseUsersay.sender && chooseUsersay.sender.user
-        }
         handleClose={() => setChooseUsersay(null)}
         campaignId={campaignId}
       />

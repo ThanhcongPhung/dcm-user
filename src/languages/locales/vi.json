@@ -107,6 +107,7 @@
   "confirm": "Xác nhận",
   "agree": "Đồng ý",
   "confirmEndChat": "Bạn chắc chắn muốn kết thúc phiên chat hiện tại?",
-  "confirmConvertUsecase": "Khi bạn chuyển sang kịch bản mới, phiên chat sẽ thay đổi. Nếu đang trong một phiên chat bạn sẽ phải kết thúc phiên chat đó. Bạn có chắc chắn muốn chuyển kịch bản?"
+  "confirmConvertUsecase": "Khi bạn chuyển sang kịch bản mới, phiên chat sẽ thay đổi. Nếu đang trong một phiên chat bạn sẽ phải kết thúc phiên chat đó. Bạn có chắc chắn muốn chuyển kịch bản?",
+  "limit": "Giới hạn"
 }
 
