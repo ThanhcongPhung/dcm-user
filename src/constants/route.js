@@ -7,4 +7,5 @@ export default {
   CHATBOT_INTENT_REVIEW: '/campaigns/:campaignId/chatbot/review/intent',
   CHATBOT_REVIEW: '/campaigns/:campaignId/chatbot/review',
   CHATBOT_COLLECT_RESULT: '/campaigns/:campaignId/chatbot/result/:type',
+  NLU_COLLECT: '/campaigns/:campaignId/nlu',
 };

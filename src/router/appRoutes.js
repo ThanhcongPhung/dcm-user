@@ -5,6 +5,7 @@ import Chatbot from '../pages/Chatbot';
 import IntentReview from '../pages/IntentReview';
 import ChatbotReview from '../pages/ChatbotReview';
 import ChatbotResult from '../pages/ChatbotResult';
+import NLU from '../pages/NLU';
 
 const appRoutes = {
   campaigns: {
@@ -47,6 +48,11 @@ const appRoutes = {
   chatbotManage: {
     url: routes.CHATBOT_COLLECT_RESULT,
     component: ChatbotResult,
+    private: true,
+  },
+  NLU: {
+    url: routes.NLU_COLLECT,
+    component: NLU,
     private: true,
   },
 };
