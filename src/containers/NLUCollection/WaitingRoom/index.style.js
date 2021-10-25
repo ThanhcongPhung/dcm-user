@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const FindPartnerStyled = styled.div`
+const WaitingRoomStyled = styled.div`
   flex-grow: 1;
   .content {
     padding: 20px 0;
@@ -10,4 +10,4 @@ const FindPartnerStyled = styled.div`
   }
 `;
 
-export { FindPartnerStyled };
+export { WaitingRoomStyled };
