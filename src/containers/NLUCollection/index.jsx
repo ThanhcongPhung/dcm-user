@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import FindPartner from './FindPartner';
+import WaitingRoom from './WaitingRoom';
 import { NLUCollectionStyled } from './index.style';
 import api from '../../apis';
 
@@ -20,7 +20,7 @@ export default function NLUCollection() {
 
   return (
     <NLUCollectionStyled>
-      <FindPartner campaign={campaign} />
+      <WaitingRoom campaign={campaign} />
     </NLUCollectionStyled>
   );
 }
