@@ -120,5 +120,12 @@
   "next": "Tiếp theo",
   "atLeastOneSentenceValid": "Cần ít nhất một câu đúng",
   "sentence": "câu",
-  "youHaveContributedMore": "Bạn đã đóng góp thêm"
+  "youHaveContributedMore": "Bạn đã đóng góp thêm",
+  "accountConnectedCampaign": "Hiện tại bạn đã đang kết nối với chiến dịch này",
+  "partnerDeclineJoinRoom": "Đối tác từ chối vào phòng, bạn sẽ được đưa về hàng chờ",
+  "limitConfirmJoinRoomTime": "Thời gian xác nhận đã hết",
+  "waitingPartnerConfirm": "Đợi đối tác...",
+  "joinRoom": "Tham gia phòng",
+  "confirmJoinRoom": "Đã tìm thấy phòng, ấn Chấp thuận để vào phòng",
+  "timeConfirm": "Thời gian xác nhận còn lại"
 }

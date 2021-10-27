@@ -120,5 +120,12 @@
   "next": "Next",
   "atLeastOneSentenceValid": "At least one sentence valid",
   "sentence": "Sentence",
-  "youHaveContributedMore": "You have contributed more"
+  "youHaveContributedMore": "You have contributed more",
+  "accountConnectedCampaign": "You are currently connected to this campaign",
+  "partnerDeclineJoinRoom": "Partner decline join room, you will be brought back to the queue",
+  "limitConfirmJoinRoomTime": "Confirmation timeout",
+  "waitingPartnerConfirm": "Waiting for partner...",
+  "joinRoom": "Join Room",
+  "confirmJoinRoom": "Room found, click Accept to enter the room",
+  "timeConfirm": "Remaining confirmation time"
 }

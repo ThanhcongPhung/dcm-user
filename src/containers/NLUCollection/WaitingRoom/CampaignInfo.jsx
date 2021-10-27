@@ -9,8 +9,8 @@ import {
   Tooltip,
   Link,
 } from '@material-ui/core';
-import ShowActions from '../../../../components/ShowActions';
-import api from '../../../../apis';
+import ShowActions from '../../../components/ShowActions';
+import api from '../../../apis';
 import { CampaignInfoStyled } from './index.style';
 
 export default function CampaignInfo({ campaign }) {
