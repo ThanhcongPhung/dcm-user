@@ -8,4 +8,5 @@ export default {
   CHATBOT_REVIEW: '/campaigns/:campaignId/chatbot/review',
   CHATBOT_COLLECT_RESULT: '/campaigns/:campaignId/chatbot/result/:type',
   NLU_COLLECT: '/campaigns/:campaignId/nlu',
+  FAQ_TEXT_COLLECT: '/campaigns/:campaignId/faq/contribute/text',
 };

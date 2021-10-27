@@ -6,6 +6,7 @@ import IntentReview from '../pages/IntentReview';
 import ChatbotReview from '../pages/ChatbotReview';
 import ChatbotResult from '../pages/ChatbotResult';
 import NLU from '../pages/NLU';
+import FAQTextCollection from '../pages/FAQTextCollection';
 
 const appRoutes = {
   campaigns: {
@@ -53,6 +54,11 @@ const appRoutes = {
   NLU: {
     url: routes.NLU_COLLECT,
     component: NLU,
+    private: true,
+  },
+  FAQTextCollection: {
+    url: routes.FAQ_TEXT_COLLECT,
+    component: FAQTextCollection,
     private: true,
   },
 };
