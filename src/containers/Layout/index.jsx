@@ -12,6 +12,7 @@ const hideSideBarRoute = [
   routes.CHATBOT_INTENT_REVIEW,
   routes.CHATBOT_COLLECT_RESULT,
   routes.CHATBOT_COLLECT,
+  routes.FAQ_TEXT_COLLECT,
 ];
 
 export default function Layout({ children }) {

@@ -113,5 +113,12 @@
   "guide": "Hướng dẫn",
   "start": "Bắt đầu",
   "client": "Khách hàng",
-  "agent": "Tư vấn viên"
+  "agent": "Tư vấn viên",
+  "sentenceSimilar": "Đóng góp câu tương đồng",
+  "enterSentenceSimilar": "Nhập câu tương tự với câu trên",
+  "sameOriginalSentence": "Bạn đang nhập trùng với câu gốc",
+  "next": "Tiếp theo",
+  "atLeastOneSentenceValid": "Cần ít nhất một câu đúng",
+  "sentence": "câu",
+  "youHaveContributedMore": "Bạn đã đóng góp thêm"
 }

@@ -113,5 +113,12 @@
   "guide": " Guide",
   "start": "Start",
   "client": "Client",
-  "agent": "Agent"
+  "agent": "Agent",
+  "sentenceSimilar": "Sentence Similar",
+  "enterSentenceSimilar": "Enter a sentence similar to the one above",
+  "sameOriginalSentence": "Same with the original sentence",
+  "next": "Next",
+  "atLeastOneSentenceValid": "At least one sentence valid",
+  "sentence": "Sentence",
+  "youHaveContributedMore": "You have contributed more"
 }
