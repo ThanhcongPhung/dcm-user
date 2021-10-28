@@ -7,6 +7,8 @@ import ChatbotReview from '../pages/ChatbotReview';
 import ChatbotResult from '../pages/ChatbotResult';
 import NLU from '../pages/NLU';
 import FAQTextCollection from '../pages/FAQTextCollection';
+import ValidAudioCampaign from '../pages/ValidAudioCampaign';
+import ValidAudioRoom from '../pages/ValidAudioRoom';
 
 const appRoutes = {
   campaigns: {
@@ -59,6 +61,16 @@ const appRoutes = {
   FAQTextCollection: {
     url: routes.FAQ_TEXT_COLLECT,
     component: FAQTextCollection,
+    private: true,
+  },
+  validAudioCampaign: {
+    url: routes.VALID_AUDIO_CAMPAIGN,
+    component: ValidAudioCampaign,
+    private: true,
+  },
+  validAudioRoom: {
+    url: routes.VALID_AUDIO_ROOM,
+    component: ValidAudioRoom,
     private: true,
   },
 };

@@ -6,6 +6,7 @@ import * as chatbot from './chatbot';
 import * as chatbotReview from './chatbotReview';
 import * as faqIntent from './faqIntent';
 import * as faqCampaign from './faqCampaign';
+import * as validAudio from './validAudio';
 
 export default {
   auth,
@@ -16,4 +17,5 @@ export default {
   chatbotReview,
   faqIntent,
   faqCampaign,
+  validAudio
 };
