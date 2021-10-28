@@ -19,7 +19,7 @@ import {
 } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
 import { GuideModalStyled } from './index.style';
-import { nluGuide as nluGuideData } from '../../../../data';
+import { nluGuide as nluGuideData } from '../../../data';
 
 function GuideList({ title, guides, key }) {
   const { t } = useTranslation();
