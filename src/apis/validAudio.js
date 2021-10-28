@@ -5,7 +5,7 @@ export async function getValidAudio(campaignId) {
   try {
     const response = await api({
       method: 'GET',
-      url: `${ASR_URL}/api/v1/valid-campaign`,
+      url: `${ASR_URL}/api/v1/valid-campaigns`,
       headers: { 'campaign-id': campaignId },
     });
     return response;
@@ -18,7 +18,7 @@ export async function joinValidRoom(roomId, userId) {
   try {
     const response = await api({
       method: 'PUT',
-      url: `${ASR_URL}/api/v1/valid-room/join`,
+      url: `${ASR_URL}/api/v1/valid-rooms/join`,
       data: {
         roomId,
         userId,
@@ -34,8 +34,7 @@ export async function getValidRoom(roomId) {
   try {
     const response = await api({
       method: 'GET',
-      url: `${ASR_URL}/api/v1/valid-room`,
-      headers: { 'room-id': roomId },
+      url: `${ASR_URL}/api/v1/valid-rooms/${roomId}`,
     });
     return response;
   } catch (error) {
