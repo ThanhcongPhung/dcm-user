@@ -119,6 +119,12 @@ export default function CampaignList() {
           history.push(`/campaigns/${campaignId}/chatbot`);
         }
         break;
+      case CAMPAIGN_TYPE.ASR_VALIDATION:
+        history.push(`/campaigns/${campaignId}/valid-audio`);
+        break;
+      case CAMPAIGN_TYPE.ASR_COLLECTION:
+        console.log('thu thap am thanh');
+        break;
       default:
     }
   };

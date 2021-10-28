@@ -127,5 +127,17 @@
   "waitingPartnerConfirm": "Waiting for partner...",
   "joinRoom": "Join Room",
   "confirmJoinRoom": "Room found, click Accept to enter the room",
-  "timeConfirm": "Remaining confirmation time"
+  "timeConfirm": "Remaining confirmation time",
+  "joinValidRoomSuccess": "Join Valid Room Success",
+  "joinValidRoomFailure": "Join Valid Room Failure",
+  "validRoomList": "Validate Room List",
+  "empty": "Empty",
+  "validating": "Validating",
+  "join": "Join",
+  "roomName": "Room Name",
+  "participant": "Participant",
+  "numberValidatedAudio": "Number of Validated Audio",
+  "selection": "Selection",
+  "audioScript": "Audio Script",
+  "back": "Back"
 }

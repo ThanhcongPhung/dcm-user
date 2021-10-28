@@ -127,5 +127,17 @@
   "waitingPartnerConfirm": "Đợi đối tác...",
   "joinRoom": "Tham gia phòng",
   "confirmJoinRoom": "Đã tìm thấy phòng, ấn Chấp thuận để vào phòng",
-  "timeConfirm": "Thời gian xác nhận còn lại"
+  "timeConfirm": "Thời gian xác nhận còn lại",
+  "joinValidRoomSuccess": "Tham gia phòng xác thực thành công",
+  "joinValidRoomFailure": "Tham gia phòng xác thực thành thất bại",
+  "validRoomList": "Danh sách phòng xác thực âm thanh",
+  "empty": "Trống",
+  "validating": "Đang xác thực",
+  "join": "Tham gia",
+  "roomName": "Tên phòng",
+  "participant": "Người tham gia",
+  "numberValidatedAudio": "Audio đã được xác thực",
+  "selection": "Lựa chọn",
+  "audioScript": "Nội dung",
+  "back": "Quay lại"
 }
