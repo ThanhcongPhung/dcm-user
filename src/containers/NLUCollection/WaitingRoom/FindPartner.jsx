@@ -62,7 +62,9 @@ export default function FindPartner() {
   const handleAcceptJoinRoom = () => {
     setTimer(0);
     handleCloseConfirm();
-    dispatch(actions.nlu.updateUserStatus(null));
+    dispatch(
+      actions.nlu.updateUserStatus(USER_STATUS.OUTSIDE_ROOM_SERVER_HANDLING),
+    );
     const data = JSON.stringify({
       type: SOCKET_EVENT.USER_ACCEPT_JOIN_ROOM,
       data: { promptId },
