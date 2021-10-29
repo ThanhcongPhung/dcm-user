@@ -23,6 +23,8 @@ const FEATURE_COLOR = {
   backgroundMenu: '#eee',
   borderColor: '#c4c4c4',
   checkboxSecondary: '#c41a1a',
+  voteNo: '#ff4f5e',
+  voteYes: '#59cbb7',
 };
 
 const AVATAR_COLORS = [

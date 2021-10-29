@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { Paper } from '@material-ui/core';
 import { v4 as uuidV4 } from 'uuid';
 import AudioPlayList from './AudioPlayList';
+import ValidAudioPanel from './ValidAudioPanel';
 import api from '../../../apis';
 import { ValidAudioRoomStyled } from './index.style';
 
@@ -60,6 +61,19 @@ export default function ValidAudioRoom() {
             ))}
           </div>
         </div>
+        <ValidAudioPanel
+          history={history}
+          campaignId={campaignId}
+          audioLink={audioLink}
+          radioValue={radioValue}
+          currentChat={currentChat}
+          setRadioValue={setRadioValue}
+          setSelectedIndex={setSelectedIndex}
+          setCurrentChat={setCurrentChat}
+          selectedIndex={selectedIndex}
+          audioList={audioList}
+          roomName={roomName}
+        />
       </Paper>
     </ValidAudioRoomStyled>
   );
