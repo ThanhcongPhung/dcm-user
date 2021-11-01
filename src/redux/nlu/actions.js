@@ -4,6 +4,7 @@ export const actionTypes = {
   UPDATE_ROOM: 'UPDATE_ROOM',
   UPDATE_INTENTS: 'UPDATE_INTENTS',
   REMOVE_ALL: 'REMOVE_ALL',
+  ADD_NEW_MESSAGE: 'ADD_NEW_MESSAGE',
 };
 
 export function updateSocket(socket) {
@@ -39,5 +40,12 @@ export function updateIntents(intents) {
 export function removeAll() {
   return {
     type: actionTypes.REMOVE_ALL,
+  };
+}
+
+export function addNewMessage(message) {
+  return {
+    type: actionTypes.ADD_NEW_MESSAGE,
+    message,
   };
 }

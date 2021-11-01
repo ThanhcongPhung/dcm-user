@@ -48,6 +48,15 @@ export default function authReducer(state = initialState, action) {
         intents,
       };
     }
+    case actionTypes.ADD_NEW_MESSAGE: {
+      const { message } = action;
+      const { room } = state;
+      return {
+        ...state,
+        status: USER_STATUS.IN_ROOM,
+        room: { ...room, messages: [...room.messages, message] },
+      };
+    }
     case actionTypes.REMOVE_ALL: {
       return {
         socket: null,

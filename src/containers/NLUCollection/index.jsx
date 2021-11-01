@@ -74,6 +74,11 @@ export default function NLUCollection() {
             dispatch(actions.nlu.updateUserStatus(USER_STATUS.CONNECTED));
             break;
           }
+          case SOCKET_EVENT.SERVER_SEND_MESSAGE_FROM_USER: {
+            const { message: newMsg } = data;
+            dispatch(actions.nlu.addNewMessage(newMsg));
+            break;
+          }
           default:
         }
       };
@@ -93,20 +98,30 @@ export default function NLUCollection() {
     };
   }, []);
 
-  if (!campaign || !socket) {
+  if (
+    !campaign ||
+    !socket ||
+    status === USER_STATUS.OUTSIDE_ROOM_SERVER_HANDLING
+  ) {
     return <CircularProgress />;
   }
 
-  const validInsideRoom = room && status && status.indexOf('[INSIDE_ROOM]') >= 0;
+  const validInsideRoom =
+    room && status && status.indexOf('[INSIDE_ROOM]') >= 0;
+
   return (
     <NLUCollectionStyled>
-       {status === USER_STATUS.CONNECTED && (
+      {status === USER_STATUS.CONNECTED && (
         <Typography variant="h6" className="text">
           {t('accountConnectedCampaign')}
         </Typography>
       )}
-      {status !== USER_STATUS.CONNECTED && validInsideRoom && <ChatRoom />}
-      {status !== USER_STATUS.CONNECTED && !validInsideRoom && <WaitingRoom campaign={campaign} />}
+      {status !== USER_STATUS.CONNECTED && validInsideRoom && (
+        <ChatRoom campaign={campaign} />
+      )}
+      {status !== USER_STATUS.CONNECTED && !validInsideRoom && (
+        <WaitingRoom campaign={campaign} />
+      )}
     </NLUCollectionStyled>
   );
 }
