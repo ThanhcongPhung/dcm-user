@@ -149,5 +149,13 @@
   "userFounded": "Đã tìm thấy người tham gia",
   "waitingConfirm": "Đang chờ xác nhận...",
   "missed": "bạn đã bỏ lỡ...",
-  "countdown": "Đếm ngược"
+  "countdown": "Đếm ngược",
+  "requirementFAQvoice": "Nhấn nút và nói một câu có cùng ý định với câu dưới đây",
+  "voiceContribute": "Đóng góp voice",
+  "listenAgainAndSendAudio": "Nghe lại bản thu âm và gửi",
+  "campaignCollection": "Thu thập dữ liệu cho chiến dịch",
+  "textCollection": "Thu thập câu tương đồng",
+  "voiceCollection": "Thu thập âm thanh",
+  "textReview": "Phê duyệt câu tương đồng",
+  "voiceReview": "Phê duyệt âm thanh"
 }

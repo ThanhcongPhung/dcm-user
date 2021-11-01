@@ -149,5 +149,13 @@
   "userFounded": "User Founded",
   "waitingConfirm": "Waiting Conformation...",
   "missed": "You missed...",
-  "countdown": "Countdown"
+  "countdown": "Countdown",
+  "requirementFAQvoice": "Press the button and say a sentence that has the same intention as the one below",
+  "voiceContribute": "Voice contribute",
+  "listenAgainAndSendAudio": "Listen to the recording again and send",
+  "campaignCollection": "Campaign Collection",
+  "textCollection": "Text Collection",
+  "voiceCollection": "Voice Collection",
+  "textReview": "Text Review",
+  "voiceReview": "Voice Review"
 }

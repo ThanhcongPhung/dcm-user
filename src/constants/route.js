@@ -12,4 +12,6 @@ export default {
   VALID_AUDIO_CAMPAIGN: '/campaigns/:campaignId/valid-audio',
   COLLECT_ASR_CAMPAIGN: '/campaigns/:campaignId/collect-audio',
   VALID_AUDIO_ROOM: '/campaigns/:campaignId/valid-audio/:roomId',
+  FAQ_COLLECTION: '/campaigns/:campaignId/faq/contribute',
+  FAQ_REVIEW: '/campaigns/:campaignId/faq/review',
 };
