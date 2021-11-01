@@ -139,5 +139,15 @@
   "numberValidatedAudio": "Number of Validated Audio",
   "selection": "Selection",
   "audioScript": "Audio Script",
-  "back": "Back"
+  "back": "Back",
+  "record": "Record",
+  "conversationChatVoiceWithScenario": "Conversation chat voice with scenario",
+  "asrCollectCampaignDescription": "This is a campaign to collect speech data from two users based on a real scenario",
+  "findingOthers": "Finding others: ",
+  "room": "Room",
+  "ignore": "Ignore",
+  "userFounded": "User Founded",
+  "waitingConfirm": "Waiting Conformation...",
+  "missed": "You missed...",
+  "countdown": "Countdown"
 }

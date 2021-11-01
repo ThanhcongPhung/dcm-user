@@ -9,6 +9,7 @@ import NLU from '../pages/NLU';
 import FAQTextCollection from '../pages/FAQTextCollection';
 import ValidAudioCampaign from '../pages/ValidAudioCampaign';
 import ValidAudioRoom from '../pages/ValidAudioRoom';
+import CollectASRCampaign from '../pages/CollectASRCampaign';
 
 const appRoutes = {
   campaigns: {
@@ -66,6 +67,11 @@ const appRoutes = {
   validAudioCampaign: {
     url: routes.VALID_AUDIO_CAMPAIGN,
     component: ValidAudioCampaign,
+    private: true,
+  },
+  collectASRCampaign: {
+    url: routes.COLLECT_ASR_CAMPAIGN,
+    component: CollectASRCampaign,
     private: true,
   },
   validAudioRoom: {

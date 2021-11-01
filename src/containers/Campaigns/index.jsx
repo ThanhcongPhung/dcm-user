@@ -123,6 +123,7 @@ export default function CampaignList() {
         history.push(`/campaigns/${campaignId}/valid-audio`);
         break;
       case CAMPAIGN_TYPE.ASR_COLLECTION:
+        history.push(`/campaigns/${campaignId}/collect-audio`);
         break;
       default:
     }
