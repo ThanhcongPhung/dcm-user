@@ -139,5 +139,15 @@
   "numberValidatedAudio": "Audio đã được xác thực",
   "selection": "Lựa chọn",
   "audioScript": "Nội dung",
-  "back": "Quay lại"
+  "back": "Quay lại",
+  "record": "Thu âm",
+  "conversationChatVoiceWithScenario": "Hội thoại âm thanh với kịch bản",
+  "asrCollectCampaignDescription": "Đây là chiến dịch thu thập tiếng nói từ hai người dùng theo kịch bản thực tế.",
+  "findingOthers": "Đang tìm người khác: ",
+  "room": "Phòng",
+  "ignore": "Từ chối",
+  "userFounded": "Đã tìm thấy người tham gia",
+  "waitingConfirm": "Đang chờ xác nhận...",
+  "missed": "bạn đã bỏ lỡ...",
+  "countdown": "Đếm ngược"
 }

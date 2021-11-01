@@ -13,9 +13,9 @@ import routes from '../constants/route';
 import { ASR_URL } from '../configs';
 
 let socketASR;
-const redirectSocket = (privateRoute, socketASRReady) => {
+const redirectSocket = (privateRoute) => {
   const path = appRoutes[privateRoute].url;
-  if (path === routes.COLLECT_ASR_CAMPAIGN && socketASRReady) {
+  if (path === routes.COLLECT_ASR_CAMPAIGN && socketASR) {
     return (
       <PrivateRoute
         socket={socketASR}
@@ -77,10 +77,8 @@ export default function () {
   };
 
   useEffect(() => {
-    if (!socketASRReady) {
-      setupSocketASR();
-    }
-  }, [socketASRReady]);
+    if (user.userId && !socketASRReady) setupSocketASR();
+  }, [user, socketASRReady]);
 
   useEffect(() => {
     const hashString = window.location.hash;
@@ -127,7 +125,7 @@ export default function () {
             key={appRoutes[publicRoute].url}
           />
         ))}
-        <PrivateRoute component={PrivateApp(socketASRReady)} />
+        <PrivateRoute component={() => PrivateApp(socketASRReady)} />
       </Switch>
     </BrowserRouter>
   );
