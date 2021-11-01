@@ -23,12 +23,14 @@ export default function IntentReview() {
   const [userSays, setUserSays] = useState({});
   const [campaign, setCampaign] = useState();
   const [reviewSearch, setReviewSearch] = useState({
+    usecaseId: 'total',
     userSay: '',
     intentNames: [],
     status: 'total',
   });
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(0);
+  const [usecases, setUsecases] = useState([]);
 
   const { t } = useTranslation();
 
@@ -36,7 +38,7 @@ export default function IntentReview() {
 
   const fetchUserSays = async (fields) => {
     setIsLoading(true);
-    const { userSaySearch, status, intentNames, dateRange } = fields;
+    const { userSaySearch, status, intentNames, dateRange, usecaseId } = fields;
     const { data } = await api.chatbotReview.getUserSays({
       search: userSaySearch,
       campaignId,
@@ -45,6 +47,7 @@ export default function IntentReview() {
       range: dateRange || range,
       sort: 'createdAt_desc',
       type: 'FILTER',
+      usecaseId: usecaseId && usecaseId !== 'total' ? usecaseId : '',
     });
     setIsLoading(false);
     if (data.status) {
@@ -64,8 +67,13 @@ export default function IntentReview() {
     if (data.status) setCampaign(data.result);
   };
 
-  const fetchIntents = async () => {
-    const { data } = await api.chatbot.getIntents(campaignId);
+  const fetchUsecases = async () => {
+    const { data } = await api.chatbot.getUsecases(campaignId);
+    if (data.status) setUsecases(data.result);
+  };
+
+  const fetchIntents = async (usecaseId) => {
+    const { data } = await api.chatbot.getIntents(campaignId, usecaseId);
     if (data.status) setIntents(data.result);
   };
 
@@ -98,10 +106,21 @@ export default function IntentReview() {
     setPage(0);
   };
 
+  const handleUsecaseSearch = (e) => {
+    setReviewSearch((prev) => ({ ...prev, usecaseId: e.target.value }));
+    fetchUserSays({ ...reviewSearch, usecaseId: e.target.value });
+    if (e.target.value === 'total') {
+      setIntents([]);
+    } else {
+      fetchIntents(e.target.value);
+    }
+    setPage(0);
+  };
+
   useEffect(() => {
     if (campaignId) {
       fetchCampaign();
-      fetchIntents();
+      fetchUsecases();
       fetchUserSays(reviewSearch);
       fetchCampaignAllIntents();
     }
@@ -133,6 +152,9 @@ export default function IntentReview() {
             handleAutocompleteSearch={handleAutocompleteSearch}
             handleSelectSearch={handleSelectSearch}
             reviewSearch={reviewSearch}
+            campaignType={campaign && campaign.campaignType}
+            usecases={usecases}
+            handleUsecaseSearch={handleUsecaseSearch}
           />
         </div>
         <div className="userTable">
