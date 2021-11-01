@@ -102,10 +102,11 @@ export default function ReviewTableRow({
 
   const handleClickSubUsersay = (subUsersayId) => async (e) => {
     const usersayId = usersay.id;
-    if (!userSays[usersayId] || subUsersayId) return;
+    if (!userSays[usersayId] || !subUsersayId) return;
+    const statusCheck = e.target.checked;
     const { data } = await apis.chatbotReview.updateReview({
       messageIds: [subUsersayId],
-      status: e.target.checked,
+      status: statusCheck,
       campaignId,
     });
     if (data.status) {
@@ -113,7 +114,7 @@ export default function ReviewTableRow({
       const tempUsersays = userSays;
       const newSubUsersays = subUsersays.map((item) =>
         item.id === subUsersayId
-          ? { ...item, review: { ...item.review, status: e.target.checked } }
+          ? { ...item, review: { ...item.review, status: statusCheck } }
           : item,
       );
       tempUsersays[usersayId].subUsersays = newSubUsersays;

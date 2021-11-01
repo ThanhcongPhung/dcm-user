@@ -10,13 +10,23 @@ export async function getUserSays({
   range,
   type,
   senderId,
+  usecaseId,
 }) {
   try {
     const response = await api({
       method: 'POST',
       url: `${CHATBOT_URL}/api/chatbot/v1/usersays`,
       headers: { 'campaign-id': campaignId },
-      data: { search, status, intentNames, range, sort, type, senderId },
+      data: {
+        search,
+        status,
+        intentNames,
+        range,
+        sort,
+        type,
+        senderId,
+        usecaseId,
+      },
     });
     return response;
   } catch (error) {

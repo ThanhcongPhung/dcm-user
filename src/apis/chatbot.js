@@ -54,12 +54,13 @@ export async function getUsecase(campaignId, usecaseId) {
   }
 }
 
-export async function getIntents(campaignId) {
+export async function getIntents(campaignId, usecaseId) {
   try {
     const response = await api({
       method: 'GET',
       url: `${CHATBOT_URL}/api/chatbot/v1/intents`,
       headers: { 'campaign-id': campaignId },
+      params: { usecaseId },
     });
     return response;
   } catch (error) {

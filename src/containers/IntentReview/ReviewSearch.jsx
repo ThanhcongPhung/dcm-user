@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import SearchInput from '../../components/SearchInput';
-import { REVIEW_RESULT_STATUS } from '../../constants';
+import { CAMPAIGN_TYPE, REVIEW_RESULT_STATUS } from '../../constants';
 import { ReviewSearchStyled } from './index.style';
 
 export default function ReviewSearch({
@@ -18,11 +18,30 @@ export default function ReviewSearch({
   reviewSearch,
   handleAutocompleteSearch,
   handleSelectSearch,
+  usecases,
+  campaignType,
+  handleUsecaseSearch,
 }) {
   const { t } = useTranslation();
 
   return (
-    <ReviewSearchStyled>
+    <ReviewSearchStyled
+      isChatbotUsecase={campaignType === CAMPAIGN_TYPE.CHATBOT_USECASE}
+    >
+      {campaignType === CAMPAIGN_TYPE.CHATBOT_USECASE && (
+        <FormControl variant="outlined" className="search-information">
+          <InputLabel>{t('usecase')}</InputLabel>
+          <Select value={reviewSearch.usecaseId} onChange={handleUsecaseSearch}>
+            <MenuItem value="total">{t('total')}</MenuItem>
+            {usecases &&
+              usecases.map((item) => (
+                <MenuItem value={item.id} key={item.id}>
+                  {t(item.name)}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
+      )}
       <div className="search-information">
         <SearchInput
           variant="outlined"
