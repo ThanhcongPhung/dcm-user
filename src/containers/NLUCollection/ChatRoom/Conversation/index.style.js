@@ -115,10 +115,22 @@ const MessageInputStyle = styled.div`
   }
 `;
 
+const ConfirmClientMsgStyled = styled.div`
+  width: 100%;
+  .button {
+    margin-right: 16px;
+  }
+  .instructions {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+`;
+
 export {
   ContainerStyled,
   MessageHeaderStyled,
   MessageContentStyle,
   ListItemStyled,
   MessageInputStyle,
+  ConfirmClientMsgStyled,
 };

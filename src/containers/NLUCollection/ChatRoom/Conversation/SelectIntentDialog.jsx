@@ -51,9 +51,8 @@ const SelectIntentDialog = ({
       content: { text },
     } = message;
     const error = {};
-    if (!text || !text.trim()) error.text = 'emptyText';
-    if (!intent) error.intent = 'emptyIntent';
-
+    if (!text || !text.trim()) error.text = 'requiredField';
+    if (!intent) error.intent = 'requiredField';
     if (error && Object.keys(error).length > 0) {
       setErrorMessage({ ...error });
       return false;
@@ -104,7 +103,6 @@ const SelectIntentDialog = ({
         </Box>
         <Box mb={2}>
           <Autocomplete
-            id="combo-box-demo"
             size="small"
             options={intents}
             getOptionLabel={(option) => option.name}
@@ -127,11 +125,10 @@ const SelectIntentDialog = ({
         </Box>
         <Box>
           <Autocomplete
+            size="small"
             multiple
-            id="checkboxes-tags-demo"
             options={(message && message.intent && message.intent.slots) || []}
-            disableCloseOnSelect
-            getOptionLabel={(option) => option.slot.name}
+            getOptionLabel={(option) => option.name}
             onChange={(e, newValue) => {
               handleChange({ name: 'slots', value: newValue });
             }}
@@ -143,7 +140,7 @@ const SelectIntentDialog = ({
                   style={{ marginRight: 8 }}
                   checked={selected}
                 />
-                {option.slot.name}
+                {option.name}
               </>
             )}
             renderInput={(params) => (

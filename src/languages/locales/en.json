@@ -157,5 +157,6 @@
   "textCollection": "Text Collection",
   "voiceCollection": "Voice Collection",
   "textReview": "Text Review",
-  "voiceReview": "Voice Review"
+  "voiceReview": "Voice Review",
+  "slotSelectedNote": "The collected information will be ticked"
 }

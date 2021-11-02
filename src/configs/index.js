@@ -6,3 +6,4 @@ export const WS_LIVECHAT_URL = process.env.REACT_APP_WS_LIVECHAT_URL;
 export const CHATBOT_URL = process.env.REACT_APP_CHATBOT_URL;
 export const FAQ_URL = process.env.REACT_APP_FAQ_URL;
 export const WS_NLU_URL = process.env.REACT_APP_WS_NLU_URL;
+export const NLU_URL = process.env.REACT_APP_NLU_URL;

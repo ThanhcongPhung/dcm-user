@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { v4 as uuidV4 } from 'uuid';
 import { useSelector, useDispatch } from 'react-redux';
-import { Divider } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
+import { Divider, Box, Typography } from '@material-ui/core';
 import MessageContent from './MessageContent';
 import MessageHeader from './MessageHeader';
 import MessageInput from './MessageInput';
 import SelectIntentDialog from './SelectIntentDialog';
+import ConfirmClientMsg from './ConfirmClientMsg';
 import {
   SOCKET_EVENT,
   USER_ROLE,
@@ -14,12 +16,14 @@ import {
 import actions from '../../../../redux/actions';
 import { ContainerStyled } from './index.style';
 
-const ChatRoom = ({ campaign }) => {
+const Conversation = ({ campaign }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [currentMsg, setCurrentMsg] = useState('');
   const [openConfirmIntent, setOpenConfirmIntent] = useState(false);
   const { user } = useSelector((state) => state.auth);
-  const { intents, room, socket, role } = useSelector((state) => state.nlu);
+  const { intents, room, socket, role, status, currentMessage, error } =
+    useSelector((state) => state.nlu);
 
   const handleCloseConfirmIntent = () => {
     setOpenConfirmIntent(false);
@@ -71,7 +75,17 @@ const ChatRoom = ({ campaign }) => {
       <MessageHeader campaign={campaign} />
       <Divider />
       <MessageContent messages={room && room.messages} role={role} />
-      <MessageInput sendMessage={handleClickSendIcon} />
+      {status === USER_STATUS.WAITING_CONFIRM_MESSAGE && (
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <Typography variant="body1" gutterBottom>
+            {t('agentConfirmingMsg')}
+          </Typography>
+        </Box>
+      )}
+      {status !== USER_STATUS.WAITING_CONFIRM_MESSAGE && (
+        <MessageInput sendMessage={handleClickSendIcon} />
+      )}
+
       {openConfirmIntent && (
         <SelectIntentDialog
           open={openConfirmIntent}
@@ -82,8 +96,19 @@ const ChatRoom = ({ campaign }) => {
           campaign={campaign}
         />
       )}
+      {role === USER_ROLE.AGENT && status.indexOf('[CONFIRM_MSG]') >= 0 && (
+        <ConfirmClientMsg
+          open
+          room={room}
+          message={currentMessage}
+          intents={intents}
+          error={error}
+          status={status}
+          socket={socket}
+        />
+      )}
     </ContainerStyled>
   );
 };
 
-export default ChatRoom;
+export default Conversation;

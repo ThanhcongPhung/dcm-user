@@ -157,5 +157,6 @@
   "textCollection": "Thu thập câu tương đồng",
   "voiceCollection": "Thu thập âm thanh",
   "textReview": "Phê duyệt câu tương đồng",
-  "voiceReview": "Phê duyệt âm thanh"
+  "voiceReview": "Phê duyệt âm thanh",
+  "slotSelectedNote": "Các thông tin thu thập được sẽ được đánh dấu tích"
 }

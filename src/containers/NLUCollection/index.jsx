@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useSnackbar } from 'notistack';
 import { CircularProgress, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import WaitingRoom from './WaitingRoom';
@@ -14,6 +15,7 @@ import { NLUCollectionStyled } from './index.style';
 
 export default function NLUCollection() {
   const { t } = useTranslation();
+  const { enqueueSnackbar } = useSnackbar();
   const { campaignId } = useParams();
   const dispatch = useDispatch();
   const [campaign, setCampaign] = useState();
@@ -77,6 +79,70 @@ export default function NLUCollection() {
           case SOCKET_EVENT.SERVER_SEND_MESSAGE_FROM_USER: {
             const { message: newMsg } = data;
             dispatch(actions.nlu.addNewMessage(newMsg));
+            break;
+          }
+          case SOCKET_EVENT.SERVER_SEND_CONFIRM_INTENT_MSG: {
+            const { message: newMsg, countError, error } = data;
+            if (error) {
+              enqueueSnackbar(t(error), { variant: 'error' });
+            }
+            dispatch(
+              actions.nlu.confirmIntentNewMessage({
+                message: newMsg,
+                countError,
+                error,
+              }),
+            );
+            break;
+          }
+          case SOCKET_EVENT.SERVER_SEND_CONFIRM_SLOT_MSG: {
+            const { countError, error } = data;
+            if (error) {
+              enqueueSnackbar(t(error), { variant: 'error' });
+            }
+            dispatch(actions.nlu.confirmSlotNewMessage({ countError, error }));
+            break;
+          }
+          case SOCKET_EVENT.SERVER_SEND_REMOVE_CURRENT_MSG: {
+            const { error } = data;
+            if (error) {
+              enqueueSnackbar(t(error), { variant: 'error' });
+            }
+            dispatch(actions.nlu.removeCurrentMessage({ error }));
+            break;
+          }
+          case SOCKET_EVENT.SERVER_SEND_UPDATE_SLOTS_MAIN_INTENT: {
+            const { slots, intentId } = data;
+            dispatch(actions.nlu.updateSlotsMainIntent(slots, intentId));
+            break;
+          }
+          case SOCKET_EVENT.SERVER_SEND_UPDATE_SLOTS_OTHER_INTENT: {
+            const { slots, intentId } = data;
+            dispatch(actions.nlu.updateSlotsOtherIntent(slots, intentId));
+            break;
+          }
+          case SOCKET_EVENT.SERVER_SEND_ADD_OTHER_INTENT: {
+            const { intent } = data;
+            dispatch(actions.nlu.addOtherIntent(intent));
+            break;
+          }
+          case SOCKET_EVENT.SERVER_SEND_MISSION_COMPLETE: {
+            dispatch(actions.nlu.missionComplete());
+            break;
+          }
+          case SOCKET_EVENT.USER_DISCONNECT: {
+            enqueueSnackbar(t('userDisconnect'), { variant: 'error' });
+            dispatch(actions.nlu.userDisconnect());
+            break;
+          }
+          case SOCKET_EVENT.USER_LEAVE_ROOM: {
+            enqueueSnackbar(t('userLeaveRoom'), { variant: 'error' });
+            dispatch(actions.nlu.userDisconnect());
+            break;
+          }
+          case SOCKET_EVENT.SERVER_SEND_MESSAGE_CONFIRM_COMPLETE: {
+            enqueueSnackbar(t('agentConfirmComplete'), { variant: 'success' });
+            dispatch(actions.nlu.updateUserStatus(USER_STATUS.IN_ROOM));
             break;
           }
           default:
