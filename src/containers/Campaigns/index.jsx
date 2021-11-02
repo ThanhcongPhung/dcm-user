@@ -125,6 +125,14 @@ export default function CampaignList() {
       case CAMPAIGN_TYPE.ASR_COLLECTION:
         history.push(`/campaigns/${campaignId}/collect-audio`);
         break;
+      case CAMPAIGN_TYPE.FAQ:
+        if (role === CAMPAIGN_ROLE.REVIEWER) {
+          history.push(`/campaigns/${campaignId}/faq/review`);
+        } else if (role === CAMPAIGN_ROLE.CONTRIBUTOR) {
+          history.push(`/campaigns/${campaignId}/faq/contribute`);
+        }
+
+        break;
       default:
     }
   };

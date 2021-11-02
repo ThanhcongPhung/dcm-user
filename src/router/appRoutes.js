@@ -10,6 +10,8 @@ import FAQTextCollection from '../pages/FAQTextCollection';
 import ValidAudioCampaign from '../pages/ValidAudioCampaign';
 import ValidAudioRoom from '../pages/ValidAudioRoom';
 import CollectASRCampaign from '../pages/CollectASRCampaign';
+import FAQCollection from '../pages/FAQCollection';
+import FAQReview from '../pages/FAQReview';
 
 const appRoutes = {
   campaigns: {
@@ -77,6 +79,16 @@ const appRoutes = {
   validAudioRoom: {
     url: routes.VALID_AUDIO_ROOM,
     component: ValidAudioRoom,
+    private: true,
+  },
+  faqCollection: {
+    url: routes.FAQ_COLLECTION,
+    component: FAQCollection,
+    private: true,
+  },
+  faqReview: {
+    url: routes.FAQ_REVIEW,
+    component: FAQReview,
     private: true,
   },
 };

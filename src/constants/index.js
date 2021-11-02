@@ -67,6 +67,7 @@ const MESSAGE_TYPES = {
   CSR: 'CSR',
   FORWARD_TO_AGENT: 'FORWARD_TO_AGENT',
 };
+const FAQ_ACTION = { TEXT: 'text', VOICE: 'voice' };
 
 export {
   CAMPAIGN_STATUS,
@@ -81,4 +82,5 @@ export {
   REVIEW_RESULT_STATUS,
   CHATBOT_RESULT_PAGE_TYPE,
   MESSAGE_TYPES,
+  FAQ_ACTION,
 };
