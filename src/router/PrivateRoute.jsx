@@ -16,7 +16,8 @@ export default function PrivateRoute({ component: Component, path, ...rest }) {
             <Component
               {...props}
               socket={
-                rest.computedMatch.path === routes.COLLECT_ASR_CAMPAIGN
+                rest.computedMatch.path === routes.COLLECT_ASR_CAMPAIGN ||
+                routes.COLLECT_ASR_ROOM
                   ? rest.socket
                   : null
               }
