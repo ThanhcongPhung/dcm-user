@@ -12,6 +12,7 @@ import ValidAudioRoom from '../pages/ValidAudioRoom';
 import CollectASRCampaign from '../pages/CollectASRCampaign';
 import FAQCollection from '../pages/FAQCollection';
 import FAQReview from '../pages/FAQReview';
+import CollectAudioRoom from '../containers/CollectASRCampaign/CollectAudioRoom';
 
 const appRoutes = {
   campaigns: {
@@ -79,6 +80,11 @@ const appRoutes = {
   validAudioRoom: {
     url: routes.VALID_AUDIO_ROOM,
     component: ValidAudioRoom,
+    private: true,
+  },
+  collectASRRoom: {
+    url: routes.COLLECT_ASR_ROOM,
+    component: CollectAudioRoom,
     private: true,
   },
   faqCollection: {

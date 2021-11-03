@@ -1,15 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import ConfirmModal from './Section/ConfirmModal';
 import ReadyButton from './Section/ReadyButton';
 import OpenChatSound from './Asset/goes-without-saying-608.mp3';
 import { CollectASRStyled } from './index.style';
+import api from '../../apis';
 
-export default function ValidAudioCampaign({ socket }) {
+export default function CollectASRCampaign({ socket }) {
+  const { campaignId } = useParams();
   const { user } = useSelector((state) => state.auth);
   const [roomLink, setRoomLink] = useState('');
   const [redirect, setRedirect] = useState(false);
@@ -18,7 +20,7 @@ export default function ValidAudioCampaign({ socket }) {
   const [matchFound, setMatchFound] = useState(false);
   const [readyStatus, setReadyStatus] = useState(false);
   const [inputType, setInputType] = useState('audio');
-
+  const [collectCamp, setCollectCamp] = useState();
   const contentType = useRef('');
   const role = useRef('');
 
@@ -26,11 +28,26 @@ export default function ValidAudioCampaign({ socket }) {
 
   const openChatSound = new Audio(OpenChatSound);
 
+  const fetchCollectASRCamp = async () => {
+    const { data } = await api.collectASR.getCollectRoom(campaignId);
+    if (data.status) setCollectCamp(data.result);
+  };
+
   const handleConfirmPromptModal = () => {
     const userID = user.userId;
     const username = user.name;
     const socketID = socket.id;
-    socket.emit('confirm prompt', { socketID, userID, username, inputType });
+
+    if (collectCamp) {
+      socket.emit('confirm prompt', {
+        socketID,
+        userID,
+        username,
+        inputType,
+        collectCamp,
+      });
+    }
+
   };
 
   const handleDenyPromptModal = () => {
@@ -84,6 +101,31 @@ export default function ValidAudioCampaign({ socket }) {
       }
     };
   });
+  useEffect(() => {
+    if (socket) {
+      socket.on('prompt successful', ({ roomID }) => {
+        const link = `/campaigns/${campaignId}/collect-audio/${roomID}`;
+        setMatchFound(false);
+        setReadyStatus(false);
+        setRoomLink(link);
+        setRedirect(true);
+      });
+    }
+  });
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('requeue', () => {
+        setMatchFound(false);
+        setPromptStatus(0);
+        setPromptDuration(10);
+      });
+    }
+  });
+
+  useEffect(() => {
+    if (campaignId) fetchCollectASRCamp();
+  }, []);
 
   return (
     <CollectASRStyled>

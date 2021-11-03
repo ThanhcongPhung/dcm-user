@@ -15,7 +15,10 @@ import { ASR_URL } from '../configs';
 let socketASR;
 const redirectSocket = (privateRoute) => {
   const path = appRoutes[privateRoute].url;
-  if (path === routes.COLLECT_ASR_CAMPAIGN && socketASR) {
+  if (
+    (path === routes.COLLECT_ASR_CAMPAIGN || routes.COLLECT_ASR_ROOM) &&
+    socketASR
+  ) {
     return (
       <PrivateRoute
         socket={socketASR}
