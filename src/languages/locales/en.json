@@ -184,5 +184,12 @@
   "emptyData": "No data",
   "requiredFieldNote": "Fields marked with * are required ",
   "confirmClientMsg": "Confirm Intent",
-  "selectIntentConfirmMsg": "Please choose the intent that corresponds to the sentence below "
+  "selectIntentConfirmMsg": "Please choose the intent that corresponds to the sentence below ",
+  "leaveRoom": "Leave Room",
+  "noteLeaveRoom": "Leave the room when recording at least five audio",
+  "click": "Click ",
+  "confirmAndClick": " to confirm correct script / Click ",
+  "editScript": " to edit script",
+  "listenAudioAgain": "Listen audio again",
+  "reRecord": "ReRecord"
 }
