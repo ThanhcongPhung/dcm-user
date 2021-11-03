@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react/no-danger */
@@ -16,10 +17,6 @@ import {
   StepLabel,
   Stepper,
   TextField,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Menu,
   MenuItem,
   TableContainer,
@@ -31,10 +28,13 @@ import {
   TableBody,
   Typography,
   CircularProgress,
+  Divider,
+  Tooltip,
+  IconButton,
 } from '@material-ui/core';
 import {
   FormatQuote as FormatQuoteIcon,
-  DeleteOutlineOutlined as DeleteOutlineOutlinedIcon,
+  Delete as DeleteIcon,
 } from '@material-ui/icons';
 import { Autocomplete } from '@material-ui/lab';
 import { SOCKET_EVENT, USER_STATUS } from '../../../../constants/nlu';
@@ -42,21 +42,60 @@ import actions from '../../../../redux/actions';
 import { renderHighlightText } from '../../../../utils/highlightText';
 import { ConfirmClientMsgStyled } from './index.style';
 
+const MenuSlots = ({
+  currentTextSelect,
+  setCurrentTextSelect,
+  slots,
+  slotsSelect,
+  handleClickSlot,
+}) => {
+  return (
+    <Menu
+      keepMounted
+      open={Boolean(currentTextSelect)}
+      anchorReference="anchorPosition"
+      anchorPosition={{
+        top: currentTextSelect && currentTextSelect.y,
+        left: currentTextSelect && currentTextSelect.x,
+      }}
+      onClose={() => {
+        setCurrentTextSelect(null);
+      }}
+    >
+      {slots &&
+        Array.isArray(slots) &&
+        slots
+          .filter((el) => !slotsSelect.find((ele) => ele.slot.tag === el.tag))
+          .map((el) => (
+            <MenuItem onClick={() => handleClickSlot(el)}>{el.name}</MenuItem>
+          ))}
+    </Menu>
+  );
+};
+
+const TextChatPaper = ({ title, content }) => {
+  return (
+    <>
+      <Typography variant="body1" gutterBottom>
+        {title}
+      </Typography>
+      <Paper className="textChatPaper">
+        <FormatQuoteIcon className="quoteIcon" />
+        <div>{content} </div>
+      </Paper>
+    </>
+  );
+};
+
 const ConfirmIntentStep = ({ message, intents, setIntent, intent }) => {
   const { t } = useTranslation();
   return (
     <div>
       <Box mb={2}>
-        <List dense>
-          <ListItem>
-            <ListItemIcon>
-              <FormatQuoteIcon />
-            </ListItemIcon>
-            <ListItemText
-              primary={message && message.content && message.content.text}
-            />
-          </ListItem>
-        </List>
+        <TextChatPaper
+          title={t('selectIntentConfirmMsg')}
+          content={message && message.content && message.content.text}
+        />
       </Box>
       <Box mb={2}>
         <Autocomplete
@@ -81,6 +120,7 @@ const ConfirmIntentStep = ({ message, intents, setIntent, intent }) => {
   );
 };
 
+const tableTitle = ['no', 'slotName', 'value', 'action'];
 const SelectSlotStep = ({ message, slots, setSlotsSelect, slotsSelect }) => {
   const { t } = useTranslation();
   const [currentTextSelect, setCurrentTextSelect] = useState(null);
@@ -115,7 +155,6 @@ const SelectSlotStep = ({ message, slots, setSlotsSelect, slotsSelect }) => {
     const newSlotsSelect = slotsSelect.filter(
       (el) => !checkMutualChar([start, end], [el.start, el.end]),
     );
-
     newSlotsSelect.push({ ...selectText });
     setSlotsSelect([...newSlotsSelect]);
     setCurrentTextSelect(null);
@@ -128,92 +167,78 @@ const SelectSlotStep = ({ message, slots, setSlotsSelect, slotsSelect }) => {
   };
 
   return (
-    <>
+    <div className="confirmSlot">
       <Box mb={2}>
-        <Box
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          alignItems="center"
-          mb={2}
-        >
+        <Paper className="gif">
           <img
             src={`${process.env.PUBLIC_URL}/images/highlightText.gif`}
             alt={t('confirmSlot')}
           />
-        </Box>
-        <Box ml={2}>
-          <Typography variant="body1" gutterBottom>
-            {t('highlightTextConfirmMsg')}
-          </Typography>
-        </Box>
-        <List dense>
-          <ListItem>
-            <ListItemIcon>
-              <FormatQuoteIcon />
-            </ListItemIcon>
-            <ListItemText>
-              <div
-                onMouseUp={(e) => handleSelectText(e)}
-                dangerouslySetInnerHTML={{
-                  __html:
-                    renderHighlightText(
-                      slotsSelect,
-                      message && message.content && message.content.text,
-                    ) || '',
-                }}
-              />
-            </ListItemText>
-          </ListItem>
-        </List>
+        </Paper>
+        <TextChatPaper
+          title={t('highlightTextConfirmMsg')}
+          content={
+            <div
+              onMouseUp={(e) => handleSelectText(e)}
+              dangerouslySetInnerHTML={{
+                __html:
+                  renderHighlightText(
+                    slotsSelect,
+                    message && message.content && message.content.text,
+                  ) || '',
+              }}
+            />
+          }
+        />
       </Box>
-      <Menu
-        keepMounted
-        open={Boolean(currentTextSelect)}
-        anchorReference="anchorPosition"
-        anchorPosition={{
-          top: currentTextSelect && currentTextSelect.y,
-          left: currentTextSelect && currentTextSelect.x,
-        }}
-        onClose={() => {
-          setCurrentTextSelect(null);
-        }}
-      >
-        {slots &&
-          Array.isArray(slots) &&
-          slots
-            .filter((el) => !slotsSelect.find((ele) => ele.slot.tag === el.tag))
-            .map((el) => (
-              <MenuItem onClick={() => handleClickSlot(el)}>{el.name}</MenuItem>
-            ))}
-      </Menu>
+      <MenuSlots
+        currentTextSelect={currentTextSelect}
+        setCurrentTextSelect={setCurrentTextSelect}
+        slots={slots}
+        slotsSelect={slotsSelect}
+        handleClickSlot={handleClickSlot}
+      />
       <TableContainer elevation={0} component={Paper}>
-        <Table>
+        <Table className="table">
           <TableHead>
             <TableRow>
-              <TableCell align="left">{t('slotName')}</TableCell>
-              <TableCell align="left">{t('value')}</TableCell>
-              <TableCell />
+              {tableTitle.map((item) => (
+                <TableCell
+                  key={item}
+                  align="center"
+                  variant="head"
+                  className="headerCell"
+                >
+                  {t(item)}
+                </TableCell>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>
+            {!slotsSelect.length && <Typography>{t('emptyData')}</Typography>}
             {slotsSelect.map((item, index) => (
-              <TableRow key={index}>
-                <TableCell align="left">{item.slot.name}</TableCell>
-                <TableCell align="left">{item.value}</TableCell>
-                <TableCell align="left">
-                  <DeleteOutlineOutlinedIcon
-                    onClick={() => {
-                      handleDeleteSlotsSelect(index);
-                    }}
-                  />
+              <TableRow key={item} className="bodyRow">
+                <TableCell align="center">{index + 1}</TableCell>
+                <TableCell align="center">{item.slot.name}</TableCell>
+                <TableCell align="center">{item.value}</TableCell>
+                <TableCell align="center">
+                  <Tooltip title={t('deleteIntent')}>
+                    <IconButton
+                      className="iconButton"
+                      onClick={() => {
+                        handleDeleteSlotsSelect(index);
+                      }}
+                    >
+                      <DeleteIcon className="deleteIcon" />
+                    </IconButton>
+                  </Tooltip>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-    </>
+    </div>
   );
 };
 
@@ -231,7 +256,7 @@ const Steps = ({
   const { t } = useTranslation();
 
   return (
-    <div>
+    <div className="stepContainer">
       <Stepper activeStep={step}>
         {steps.map((el, index) => (
           <Step key={index}>
@@ -239,6 +264,7 @@ const Steps = ({
           </Step>
         ))}
       </Stepper>
+      <Divider className="divider" />
       {step === 0 ? (
         <ConfirmIntentStep
           message={message}
@@ -358,8 +384,10 @@ export default function ConfirmClientMsg({
                 setSlotsSelect={setSlotsSelect}
               />
             </DialogContent>
-            <DialogActions>
-              <Button onClick={handleSend}>{t('send')}</Button>
+            <DialogActions className="dialogActions">
+              <Button variant="contained" color="primary" onClick={handleSend}>
+                {t('send')}
+              </Button>
             </DialogActions>
           </>
         )}

@@ -36,16 +36,16 @@ function Hints({ hints }) {
 
 function IntentCard() {
   const { t } = useTranslation();
-  const [answerHints, setAnswerHints] = useState();
-  const [answerHintSelect, setAnswerHintSelect] = useState();
+  const [answerHints, setAnswerHints] = useState([]);
+  const [answerHintSelect, setAnswerHintSelect] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
 
   const handleToggle = () => {
     setIsVisible((prev) => !prev);
   };
 
-  const fetchAnswerHints = async () => {
-    setAnswerHints([]);
+  const fetchAnswerHints = () => {
+    // TODO
   };
 
   useEffect(() => {

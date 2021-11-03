@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { CircularProgress, Typography } from '@material-ui/core';
+import { CircularProgress, Typography, Divider } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import IntentCard from './IntentCard';
 import { USER_ROLE } from '../../../../constants/nlu';
@@ -21,7 +21,7 @@ export default function MainIntent() {
           ? room.domain.agentScript
           : room.domain.clientScript}
       </Typography>
-
+      <Divider />
       <Typography variant="body2" gutterBottom className="note">
         *{t('slotSelectedNote')}
       </Typography>

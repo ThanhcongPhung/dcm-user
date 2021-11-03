@@ -124,6 +124,59 @@ const ConfirmClientMsgStyled = styled.div`
     margin-top: 16px;
     margin-bottom: 16px;
   }
+  .dialogActions {
+    margin: 0px 24px 24px 24px;
+    padding: 0;
+  }
+  .divider {
+    margin-bottom: 24px;
+  }
+  .quoteIcon {
+    margin-right: 10px;
+  }
+  .textChatPaper {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .confirmSlot {
+    .gif {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .table {
+      margin-bottom: 10px;
+    }
+    .headerCell {
+      background: ${FEATURE_COLOR.havelockBlue};
+      color: ${FEATURE_COLOR.white};
+      padding: 13px 8px;
+    }
+    .bodyRow {
+      cursor: pointer;
+      &:hover {
+        background-color: ${FEATURE_COLOR.backgroundMenu};
+      }
+    }
+    .bodyCell {
+      cursor: pointer;
+      padding: 8px;
+      &.nameBodyCell {
+        min-width: 140px;
+      }
+    }
+  }
+`;
+
+const SelectIntentDialogStyled = styled.div`
+  .noteText {
+    font-size: 14px;
+  }
 `;
 
 export {
@@ -133,4 +186,5 @@ export {
   ListItemStyled,
   MessageInputStyle,
   ConfirmClientMsgStyled,
+  SelectIntentDialogStyled,
 };

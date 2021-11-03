@@ -7,16 +7,21 @@ import { OtherIntentsStyled } from './index.style';
 
 export default function OtherIntents() {
   const { t } = useTranslation();
-
   const { room, role } = useSelector((state) => state.nlu);
+
+  const isValidOtherIntents =
+    room &&
+    room.otherIntents &&
+    Array.isArray(room.otherIntents) &&
+    room.otherIntents.length;
   return (
     <OtherIntentsStyled>
-      <Typography variant="h6" gutterBottom className="primaryText">
-        {t('otherIntent')}
-      </Typography>
-      {room &&
-        room.otherIntents &&
-        Array.isArray(room.otherIntents) &&
+      {!isValidOtherIntents && (
+        <Typography variant="h6" gutterBottom className="primaryText">
+          {t('emptyData')}
+        </Typography>
+      )}
+      {isValidOtherIntents &&
         room.otherIntents.map((el) => {
           return (
             <Paper className="card">
