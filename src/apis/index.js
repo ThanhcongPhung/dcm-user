@@ -19,5 +19,5 @@ export default {
   faqIntent,
   faqCampaign,
   validAudio,
-  collectASR
+  collectASR,
 };

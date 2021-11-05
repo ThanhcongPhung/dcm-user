@@ -131,7 +131,9 @@ export default function CampaignList() {
         } else if (role === CAMPAIGN_ROLE.CONTRIBUTOR) {
           history.push(`/campaigns/${campaignId}/faq/contribute`);
         }
-
+        break;
+      case CAMPAIGN_TYPE.NLU:
+        history.push(`/campaigns/${campaignId}/nlu`);
         break;
       default:
     }
