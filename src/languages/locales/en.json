@@ -191,5 +191,9 @@
   "confirmAndClick": " to confirm correct script / Click ",
   "editScript": " to edit script",
   "listenAudioAgain": "Listen audio again",
-  "reRecord": "ReRecord"
+  "reRecord": "ReRecord",
+  "fieldCannotEmpty": "This field cannot be empty",
+  "content": "Content",
+  "confirmAudioScript": "Confirm Audio Script",
+  "send": "Send"
 }

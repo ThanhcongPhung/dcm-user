@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import RecorderJS from 'recorder-js';
 import Button from '@material-ui/core/Button';
 import { Mic, Stop } from '@material-ui/icons';
-import { getAudioStream, exportBuffer } from './audio';
+import { getAudioStream, exportBuffer } from './Audio';
 
-export default function RecorderEdit(props) {
+export default function Recorder(props) {
   const {
     roomID,
     socket,

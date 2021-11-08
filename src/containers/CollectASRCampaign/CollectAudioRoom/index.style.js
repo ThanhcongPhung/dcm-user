@@ -158,6 +158,38 @@ const CollectAudioRoomStyled = styled.div`
     height: calc(100vh - 119px);
     overflow-y: scroll;
   }
+  button.ASR_buttons {
+    display: flex;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    letter-spacing: 1px;
+    z-index: 2;
+    border: none;
+    outline: none;
+    border-radius: 50px;
+    width: 178px;
+    height: 57px;
+    color: white;
+    background: #708fc1;
+    text-transform: uppercase;
+    font-family: Open Sans, sans-serif;
+    font-weight: 600;
+  }
+  button.ASR_buttons:disabled,
+  button.ASR_buttons[disabled] {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+  }
+  .scriptConfirmGrid {
+    justify-content: center;
+    align-items: center;
+  }
+  .buttonConfirm {
+    display: flex;
+    flex-direction: row;
+  }
   @media screen and (max-width: 600px) {
     .instruction {
       font-size: 11px;

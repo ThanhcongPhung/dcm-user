@@ -4,9 +4,10 @@ import { PlayArrow, Refresh, Stop } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
 import Wave from './Wave';
 import Recorder from './Speaker/Recorder';
+import SendButton from './SendButton';
 
 export default function AudioRecordScreen(props) {
-  const { socket, canvasRef, chatroomID, username } = props;
+  const { socket, canvasRef, chatroomID, username, user, audioName } = props;
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audio, setAudio] = useState(null);
@@ -16,7 +17,7 @@ export default function AudioRecordScreen(props) {
   const [disabled, setDisabled] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [value, setValue] = useState('');
-
+  const userID = user.userId;
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -62,6 +63,24 @@ export default function AudioRecordScreen(props) {
     if (socket) {
       socket.emit('Re record', { chatroomID, username });
     }
+  };
+
+  const sendAudioSignal = (link, transcript, audioID) => {
+    if (socket) {
+      const sender = username;
+      const ava = 'https://picsum.photos/200/300?random=2';
+      socket.emit('chatroomAudio', {
+        chatroomID,
+        sender,
+        ava,
+        link,
+        transcript,
+        audioID,
+        userID,
+      });
+    }
+    setValue(null);
+    setAudio(null);
   };
 
   const renderAudio = (linkAudio) => {
@@ -124,6 +143,21 @@ export default function AudioRecordScreen(props) {
               username={username}
               disabled={disabled}
               setDisable={setDisabled}
+            />
+            <SendButton
+              username={username}
+              audioLink={audioLink}
+              audioName={audioName}
+              audioDuration={duration}
+              audio={audio}
+              blob={blob}
+              sendAudioSignal={sendAudioSignal}
+              userID={userID}
+              roomID={chatroomID}
+              value={value}
+              socket={socket}
+              setDisable={setDisabled}
+              disabled={disabled}
             />
           </div>
         </div>

@@ -194,5 +194,8 @@
   "confirmAndClick": "để xác nhận nội dung đúng / Nhấp",
   "editScript": "để chỉnh sửa lại nội dung",
   "listenAudioAgain": "Nghe lại audio",
-  "reRecord": "Thu âm lại"
+  "reRecord": "Thu âm lại",
+  "fieldCannotEmpty": "Không được bỏ trống trường này",
+  "content": "Nội dung",
+  "confirmAudioScript": "Xác nhận lại nội dung tiếng nói"
 }
