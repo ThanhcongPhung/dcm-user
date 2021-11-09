@@ -47,7 +47,6 @@ export default function CollectASRCampaign({ socket }) {
         collectCamp,
       });
     }
-
   };
 
   const handleDenyPromptModal = () => {

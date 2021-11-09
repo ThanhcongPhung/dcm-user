@@ -187,5 +187,12 @@
   "emptyData": "Không có dữ liệu nào",
   "requiredFieldNote": "Các trường có dấu * là bắt buộc",
   "confirmClientMsg": "Xác định ý định trong câu chat",
-  "selectIntentConfirmMsg": "Bạn hãy chọn ý định ứng với câu bên dưới"
+  "selectIntentConfirmMsg": "Bạn hãy chọn ý định ứng với câu bên dưới",
+  "leaveRoom": "Rời phòng",
+  "noteLeaveRoom": "Rời phòng khi thu âm ít nhất 5 audio",
+  "click": "Nhấp",
+  "confirmAndClick": "để xác nhận nội dung đúng / Nhấp",
+  "editScript": "để chỉnh sửa lại nội dung",
+  "listenAudioAgain": "Nghe lại audio",
+  "reRecord": "Thu âm lại"
 }
