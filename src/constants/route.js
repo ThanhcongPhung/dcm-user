@@ -15,4 +15,5 @@ export default {
   VALID_AUDIO_ROOM: '/campaigns/:campaignId/valid-audio/:roomId',
   FAQ_COLLECTION: '/campaigns/:campaignId/faq/contribute',
   FAQ_REVIEW: '/campaigns/:campaignId/faq/review',
+  TEST: '/test',
 };

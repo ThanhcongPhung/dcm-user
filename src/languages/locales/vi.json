@@ -197,5 +197,9 @@
   "reRecord": "Thu âm lại",
   "fieldCannotEmpty": "Không được bỏ trống trường này",
   "content": "Nội dung",
-  "confirmAudioScript": "Xác nhận lại nội dung tiếng nói"
+  "confirmAudioScript": "Xác nhận lại nội dung tiếng nói",
+  "sendingMessage": "đang gửi tin nhắn",
+  "finishRecordAndSend": "đã thu âm xong và chuẩn bị gửi",
+  "recording": "đang thu âm",
+  "deletedRecording": "đã xóa đoạn thu âm"
 }

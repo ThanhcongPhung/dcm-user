@@ -195,5 +195,9 @@
   "fieldCannotEmpty": "This field cannot be empty",
   "content": "Content",
   "confirmAudioScript": "Confirm Audio Script",
-  "send": "Send"
+  "send": "Send",
+  "sendingMessage": "is sending message",
+  "finishRecordAndSend": "has finished recording and ready to send",
+  "recording": "is recording",
+  "deletedRecording": "is deleted recording"
 }

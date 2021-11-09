@@ -27,6 +27,174 @@ const CollectAudioRoomStyled = styled.div`
     overflow: auto;
     flex: auto;
   }
+  .messageContainer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 5%;
+    margin-top: 3px;
+  }
+  .justifyStart {
+    justify-content: flex-start;
+  }
+  .justifyEnd {
+    justify-content: flex-end;
+  }
+  .text-username {
+    display: flex;
+    flex-direction: column;
+  }
+  .message-area {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    width: 100%;
+  }
+  .audio-text {
+    display: flex;
+    flex-direction: column;
+  }
+  .text-checkButton {
+    display: flex;
+  }
+  .text-checkButton1 {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .check-button {
+    //display: none;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+  }
+  .check-button1 {
+    //display: none;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+  }
+
+  button.check svg path {
+    fill: black;
+  }
+  //.message-area:hover {
+  //  --c: #3e4042;
+  //}
+  //.message-area > .check-button > button.check svg path {
+  //  fill: var(--c);
+  //}
+  .double-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+  .edit-text {
+    width: 400px;
+    letter-spacing: 0;
+    float: left;
+    font-size: 15px;
+    word-wrap: break-word;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    overflow: visible;
+  }
+  .messageBox {
+    display: flex;
+    flex-direction: row;
+    background: #f3f3f3;
+    border-radius: 20px;
+    padding: 10px;
+    color: white;
+    max-width: 100%;
+  }
+  .backgroundBlue {
+    background: #f1f1f1;
+    width: 100%;
+  }
+  .backgroundBlue-loading {
+    background: #f1f1f1;
+    width: 100%;
+    height: 25px;
+    justify-content: center;
+    align-items: center;
+  }
+  .backgroundLight {
+    background: #edd1d1;
+    width: 100%;
+  }
+  .messageText {
+    width: 100%;
+    letter-spacing: 0;
+    float: left;
+    font-size: 15px;
+    word-wrap: break-word;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .messageText img {
+    vertical-align: middle;
+  }
+  .colorWhite {
+    color: black;
+  }
+  .useName {
+    color: #b0b3b8;
+    font-size: 0.6875rem;
+  }
+  .iconFontSize {
+    font-size: 20px;
+  }
+  .textFieldStyle {
+    color: black;
+    font-size: 15px;
+    overflow: visible;
+  }
+  .dotWrapper {
+    display: flex;
+    align-items: flex-end;
+  }
+  @keyframes bounceAnimation {
+    0% {
+      margin-bottom: 0;
+    }
+    50% {
+      margin-bottom: 5px;
+    }
+    100% {
+      margin-bottom: 0;
+    }
+  }
+  .dot0s {
+    background-color: black;
+    border-radius: 50%;
+    width: 6px;
+    height: 6px;
+    margin: 0 5px;
+    animation: bounceAnimation 0.5s linear infinite;
+    animation-delay: 0s;
+  }
+  .dot01s {
+    background-color: black;
+    border-radius: 50%;
+    width: 6px;
+    height: 6px;
+    margin: 0 5px;
+    animation: bounceAnimation 0.5s linear infinite;
+    animation-delay: 0.1s;
+  }
+  .dot02s {
+    background-color: black;
+    border-radius: 50%;
+    width: 6px;
+    height: 6px;
+    margin: 0 5px;
+    animation: bounceAnimation 0.5s linear infinite;
+    animation-delay: 0.2s;
+  }
   .roomName {
     color: white;
   }

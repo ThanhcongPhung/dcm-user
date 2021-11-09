@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
@@ -11,10 +10,15 @@ import {
   Tooltip,
 } from '@material-ui/core';
 import { ExitToApp, MoreVert, ThumbDown, ThumbUp } from '@material-ui/icons';
+import { v4 as uuidV4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
+import { Loading } from 'react-loading-dot';
 import api from '../../../apis';
-import { CollectAudioRoomStyled } from './index.style';
+import NewMessage from '../Asset/to-the-point-568.mp3';
+import ChatCard from './Section/ChatCard';
 import AudioRecordScreen from './Section/AudioRecordScreen';
+import { CollectAudioRoomStyled } from './index.style';
+import LoadingDots from './Section/LoadingDots';
 
 export default function CollectAudioRoom({ socket }) {
   const { roomId } = useParams();
@@ -22,9 +26,10 @@ export default function CollectAudioRoom({ socket }) {
   const { user } = useSelector((state) => state.auth);
   const [recordRoom, setRecordRoom] = useState();
   const [userRole, setUserRole] = useState('');
+  const [sendLoading, setSendLoading] = useState(false);
   const [audioHistory, setAudioHistory] = useState([]);
   const [message, setMessage] = useState('');
-  const [joinLeave, setJointLeave] = useState('');
+  const [joinLeave] = useState('');
   const [roomName, setRoomName] = useState('');
   const [state, setState] = useState({
     open: false,
@@ -32,6 +37,8 @@ export default function CollectAudioRoom({ socket }) {
     horizontal: 'center',
   });
   const { vertical, horizontal, open } = state;
+  const newMessage = new Audio(NewMessage);
+  const userName = user.name;
 
   const { t } = useTranslation();
 
@@ -47,9 +54,9 @@ export default function CollectAudioRoom({ socket }) {
       audios.map((audio) => {
         const audioObj = {
           userID: audio.userId,
-          sender: audio.username,
+          sender: audio.speakerName,
           audioLink: audio.audioLink,
-          transcript: audio.transcript,
+          transcript: audio.transcript.manualTranscript[0].newScript,
           audioID: audio.id,
           isLike: audio.isLike,
         };
@@ -64,6 +71,92 @@ export default function CollectAudioRoom({ socket }) {
   const handleClose = () => {
     setState({ ...state, open: false });
   };
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('user recording', ({ username }) => {
+        if (user !== null) {
+          if (username !== user.name) {
+            setMessage(`${username} ${t('recording')}`);
+          }
+        }
+      });
+
+      socket.on('user done recording', ({ username }) => {
+        if (user !== null) {
+          if (username !== user.name) {
+            setMessage(`${username} ${t('finishRecordAndSend')}`);
+          }
+        }
+      });
+      socket.on('getting transcript', ({ username }) => {
+        if (user !== null) {
+          if (username !== userName) {
+            setMessage(`${username} ${t('sendingMessage')}`);
+            setSendLoading(true);
+          }
+        }
+      });
+
+      socket.on('repeat', ({ username }) => {
+        if (user !== null) {
+          if (username !== user.name) {
+            setMessage(`${username} ${t('deletedRecording')}`);
+          }
+        }
+      });
+    }
+
+    return () => {
+      if (socket) {
+        socket.off('user recording');
+        socket.off('user done recording');
+        socket.off('getting transcript');
+        socket.off('repeat');
+      }
+    };
+  });
+
+  useEffect(() => {
+    if (socket) {
+      socket.emit('joinRoom', { roomId, userName });
+    }
+
+    return () => {
+      if (socket && user !== null) {
+        socket.emit('leaveRoom', { roomId, userName });
+      }
+    };
+  }, [socket, roomId, userName]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('newAudioURL', (data) => {
+        newMessage.play();
+        const newHistory = [...audioHistory];
+        newHistory.push(data);
+        setAudioHistory(newHistory);
+        setMessage('');
+        setSendLoading(false);
+      });
+    }
+    return () => {
+      if (socket) socket.off('newAudioURL');
+    };
+  });
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('change like state', ({ username, isLike, index }) => {
+        setAudioHistory(
+          audioHistory.map((item, id) => {
+            if (id === index) return { ...item, isLike, fixBy: username };
+            return item;
+          }),
+        );
+      });
+    }
+  }, [audioHistory, socket]);
 
   useEffect(() => {
     if (roomId) fetchRecordRoom();
@@ -118,13 +211,40 @@ export default function CollectAudioRoom({ socket }) {
             <AudioRecordScreen
               audioName={`vi${roomId}_${user.userId}_${Date.now()}.wav`}
               canvasRef={canvasRef}
-              username={user.name}
+              username={userName}
               socket={socket}
               user={user}
               chatroomID={roomId}
             />
             <div className="infinite-container" id="fill">
-              <div className="messages" />
+              <div className="messages">
+                {audioHistory.map((audioHis, index) => (
+                  <ChatCard
+                    key={uuidV4()}
+                    username={userName}
+                    listAudio={audioHistory}
+                    setListAudio={setAudioHistory}
+                    audioIndex={index}
+                    socket={socket}
+                    chatroomID={roomId}
+                  />
+                ))}
+                {sendLoading && (
+                  <div className="messageContainer justifyStart" id="c">
+                    <div className="message-area">
+                      <div className="text-username">
+                        <div className="audio-text">
+                          <div className="text-checkButton">
+                            <div className="messageBox backgroundBlue-loading">
+                              <LoadingDots />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </Grid>
           <Grid item xs={12} sm={12} md={4} className="gridStyleRight">

@@ -12,7 +12,6 @@ export default function AudioRecordScreen(props) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [audio, setAudio] = useState(null);
   const [blob, setBlob] = useState(null);
-  const [audioLink, setAudioLink] = useState('');
   const [duration, setDuration] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
@@ -146,7 +145,6 @@ export default function AudioRecordScreen(props) {
             />
             <SendButton
               username={username}
-              audioLink={audioLink}
               audioName={audioName}
               audioDuration={duration}
               audio={audio}

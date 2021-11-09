@@ -5,7 +5,7 @@ export async function getCollectRoom(campaignId) {
   try {
     const response = await api({
       method: 'GET',
-      url: `${ASR_URL}/api/v1/collect-camps/${campaignId}`,
+      url: `${ASR_URL}/api/v1/campaigns/${campaignId}`,
     });
     return response;
   } catch (error) {
@@ -61,6 +61,32 @@ export async function createAudio(audioInfo) {
     const response = await api({
       method: 'POST',
       url: `${ASR_URL}/api/v1/audios`,
+      data: { audioInfo },
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}
+
+export async function updateTranscript(audioInfo) {
+  try {
+    const response = await api({
+      method: 'PUT',
+      url: `${ASR_URL}/api/v1/audios/transcript`,
+      data: { audioInfo },
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}
+
+export async function updateUserLike(audioInfo) {
+  try {
+    const response = await api({
+      method: 'PUT',
+      url: `${ASR_URL}/api/v1/audios/like`,
       data: { audioInfo },
     });
     return response;

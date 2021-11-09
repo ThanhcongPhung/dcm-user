@@ -14,7 +14,6 @@ export default function SendButton(props) {
     userID,
     roomID,
     audioName,
-    audioLink,
     username,
     audioDuration,
     disabled,
@@ -31,12 +30,11 @@ export default function SendButton(props) {
     setDisable(true);
     if (socket) socket.emit('Get transcript', { roomID, username });
     setLoading(true);
-    const file = new File([blob], `test.wav`, { type: 'audio/wav' });
+    const file = new File([blob], `${audioName}`, { type: 'audio/wav' });
     const destination = `asr/dev/${roomID}`;
     const formData = new FormData();
     formData.append('destination', destination);
-    // formData.append('name', audioName.split('.')[0]);
-    formData.append('name', 'test');
+    formData.append('name', audioName.split('.')[0]);
     formData.append('file', file);
     const { data } = await apis.collectASR.uploadFile(formData);
     if (data.status) {
@@ -61,12 +59,14 @@ export default function SendButton(props) {
     const audioBody = {
       userID,
       roomID,
-      username,
+      speakerName: username,
       duration: audioDuration,
-      audio_link: audioInfo.audioLink,
+      audioLink: audioInfo.audioLink,
       manualTranscript: audioInfo.manualTranscript,
       botTranscript: audioInfo.botTranscript,
       speakerId,
+      audioStyle: 'conversation',
+      recordDevice: 'laptop',
     };
     const { data } = await apis.collectASR.createAudio(audioBody);
     if (data.status) {
@@ -74,6 +74,9 @@ export default function SendButton(props) {
       setAudioForEdit(null);
       resetForm();
       setDisable(false);
+      const { id, audioLink } = data.result;
+      const editedScript = data.result.transcript.manualTranscript[0].newScript;
+      sendAudioSignal(audioLink, editedScript, id);
     }
   };
 
