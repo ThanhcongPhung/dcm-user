@@ -358,6 +358,51 @@ const CollectAudioRoomStyled = styled.div`
     display: flex;
     flex-direction: row;
   }
+  .scenario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: none;
+  }
+  .scenarioText {
+    padding-right: 20px;
+    padding-left: 20px;
+    font-size: 16px;
+    float: left;
+    overflow-y: auto;
+    position: relative;
+  }
+  .scenarioText1 {
+    padding-right: 20px;
+    padding-left: 20px;
+    font-size: 16px;
+    float: left;
+    overflow-y: auto;
+    position: relative;
+  }
+  h3.scenario-subtitle {
+    display: flex;
+    justify-content: center;
+  }
+  .styleAutoComplete {
+    width: 300px;
+    margin-top: 10px;
+  }
+  .modalDisplay {
+    top: 40%;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    background-color: white;
+    padding: 20px 40px 30px;
+  }
+  .buttonLeave {
+    margin-left: 10px;
+    background-color: #90caf9;
+    color: #585d5e;
+  }
   @media screen and (max-width: 600px) {
     .instruction {
       font-size: 11px;

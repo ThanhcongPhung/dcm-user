@@ -1,27 +1,30 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
   Button,
   Card,
   Grid,
   IconButton,
+  Modal,
   Snackbar,
   Tooltip,
 } from '@material-ui/core';
 import { ExitToApp, MoreVert, ThumbDown, ThumbUp } from '@material-ui/icons';
 import { v4 as uuidV4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
-import { Loading } from 'react-loading-dot';
+import { useSnackbar } from 'notistack';
 import api from '../../../apis';
 import NewMessage from '../Asset/to-the-point-568.mp3';
 import ChatCard from './Section/ChatCard';
 import AudioRecordScreen from './Section/AudioRecordScreen';
 import { CollectAudioRoomStyled } from './index.style';
 import LoadingDots from './Section/LoadingDots';
+import Scenario from './Section/Scenario';
 
 export default function CollectAudioRoom({ socket }) {
-  const { roomId } = useParams();
+  const { campaignId, roomId } = useParams();
+  const history = useHistory();
   const canvasRef = useRef(null);
   const { user } = useSelector((state) => state.auth);
   const [recordRoom, setRecordRoom] = useState();
@@ -31,11 +34,13 @@ export default function CollectAudioRoom({ socket }) {
   const [message, setMessage] = useState('');
   const [joinLeave] = useState('');
   const [roomName, setRoomName] = useState('');
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [state, setState] = useState({
     open: false,
     vertical: 'top',
     horizontal: 'center',
   });
+  const { enqueueSnackbar } = useSnackbar();
   const { vertical, horizontal, open } = state;
   const newMessage = new Audio(NewMessage);
   const userName = user.name;
@@ -47,6 +52,7 @@ export default function CollectAudioRoom({ socket }) {
     if (data.status) {
       const { userId } = user;
       const roomFound = data.result;
+      console.log(roomFound);
       const audios = roomFound.audioList;
       if (userId === roomFound.userId1) setUserRole('client');
       if (userId === roomFound.userId2) setUserRole('servant');
@@ -71,7 +77,14 @@ export default function CollectAudioRoom({ socket }) {
   const handleClose = () => {
     setState({ ...state, open: false });
   };
+  const handleOk = () => {
+    setIsModalVisible(false);
+    history.push(`/campaigns/${campaignId}/collect-audio`);
+  };
 
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
   useEffect(() => {
     if (socket) {
       socket.on('user recording', ({ username }) => {
@@ -123,7 +136,7 @@ export default function CollectAudioRoom({ socket }) {
     }
 
     return () => {
-      if (socket && user !== null) {
+      if (socket) {
         socket.emit('leaveRoom', { roomId, userName });
       }
     };
@@ -142,6 +155,36 @@ export default function CollectAudioRoom({ socket }) {
     }
     return () => {
       if (socket) socket.off('newAudioURL');
+    };
+  });
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('joinRoom announce', (data) => {
+        if (user !== null) {
+          if (data.userName !== user.name) {
+            enqueueSnackbar(`${data.userName} ${t('joinedRoom')}`, {
+              variant: 'success',
+            });
+          }
+        }
+      });
+
+      socket.on('leaveRoom announce', (data) => {
+        if (user !== null) {
+          if (data.userName !== user.name) {
+            enqueueSnackbar(`${data.userName} ${t('leftRoom')}`, {
+              variant: 'warning',
+            });
+          }
+        }
+      });
+    }
+    return () => {
+      if (socket) {
+        socket.off('joinRoom announce');
+        socket.off('leaveRoom announce');
+      }
     };
   });
 
@@ -168,7 +211,10 @@ export default function CollectAudioRoom({ socket }) {
         <Grid container>
           <Grid item xs={12} sm={12} md={8}>
             <Card className="header-chat-audio">
-              <Button>
+              <Button
+                onClick={() => setIsModalVisible(true)}
+                disabled={audioHistory.length <= 5}
+              >
                 <Tooltip title={t('leaveRoom')} placement="right">
                   {audioHistory.length < 5 ? (
                     <ExitToApp className="fillIconBlue" />
@@ -250,16 +296,26 @@ export default function CollectAudioRoom({ socket }) {
           <Grid item xs={12} sm={12} md={4} className="gridStyleRight">
             <div className="scenarioStyle">
               <Grid container className="gridStyleScenario">
-                {/* TODO */}
-              </Grid>
-            </div>
-            <div>
-              <Grid container>
-                <Grid item xs={12} />
+                <Scenario recordRoom={recordRoom} userRole={userRole} />
               </Grid>
             </div>
           </Grid>
         </Grid>
+        <Modal disableBackdropClick open={isModalVisible}>
+          <div className="modalDisplay">
+            <p>{t('confirmLeaveThisRoom')}</p>
+            <Button variant="contained" color="default" onClick={handleCancel}>
+              {t('stayRoom')}
+            </Button>
+            <Button
+              variant="contained"
+              className="buttonLeave"
+              onClick={handleOk}
+            >
+              {t('leaveRoom')}
+            </Button>
+          </div>
+        </Modal>
       </div>
     </CollectAudioRoomStyled>
   );

@@ -199,5 +199,15 @@
   "sendingMessage": "is sending message",
   "finishRecordAndSend": "has finished recording and ready to send",
   "recording": "is recording",
-  "deletedRecording": "is deleted recording"
+  "deletedRecording": "is deleted recording",
+  "scenario": "Scenario:",
+  "yourRoleIs": "Your role is",
+  "describeRoleUser": "Describe for role:",
+  "slot": "Slot:",
+  "slotValue": "Slot Value:",
+  "seeAnswerHere": "See answer here",
+  "confirmLeaveThisRoom": "Do you want leave this room?",
+  "stayRoom": "Stay Room",
+  "joinedRoom": "joined room",
+  "leftRoom": "left room"
 }

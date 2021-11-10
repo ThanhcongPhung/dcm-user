@@ -201,5 +201,15 @@
   "sendingMessage": "đang gửi tin nhắn",
   "finishRecordAndSend": "đã thu âm xong và chuẩn bị gửi",
   "recording": "đang thu âm",
-  "deletedRecording": "đã xóa đoạn thu âm"
+  "deletedRecording": "đã xóa đoạn thu âm",
+  "scenario": "Kịch bản:",
+  "yourRoleIs": "Vai trò của bạn là",
+  "describeRoleUser": ". Mô tả tình huống:",
+  "slot": "Loại:",
+  "slotValue": "Giá trị:",
+  "seeAnswerHere": "Xem hướng dẫn trả lời tại đây",
+  "confirmLeaveThisRoom": "Bạn có chắc chắn muốn rời khỏi phòng?",
+  "stayRoom": "Ở lại phòng",
+  "joinedRoom": "đã tham gia phòng",
+  "leftRoom": "đã rời phòng"
 }
